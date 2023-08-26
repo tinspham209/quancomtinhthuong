@@ -21,7 +21,7 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="en" className={font.className}>
-			<body className="min-h-screen">
+			<body className="min-h-screen" suppressHydrationWarning={true}>
 				<QueryProvider>
 					<ModalProvider />
 					<Toaster />
