@@ -1,6 +1,9 @@
 import { CreateStorePayload } from "@/lib/validators";
+import { LoginPayload, SignupPayload } from "@/lib/validators/auth";
 import axios, { AxiosError } from "axios";
 import { toast } from "react-hot-toast";
+import TokenServices from "../token";
+import apisauce, { CancelToken } from "apisauce";
 
 const AXIOS_CONFIG = {
 	CONNECTION_TIMEOUT: 30000,
@@ -8,23 +11,35 @@ const AXIOS_CONFIG = {
 
 axios.defaults.withCredentials = true;
 
+export function newCancelToken(timeout = 30000) {
+	const source = CancelToken.source();
+	setTimeout(() => {
+		source.cancel();
+	}, timeout);
+
+	return { cancelToken: source.token };
+}
+
 const create = (baseURL = "/api") => {
-	const api = axios.create({
+	const api = apisauce.create({
 		baseURL,
 		headers: {
 			"Cache-Control": "no-cache",
 			Pragma: "no-cache",
 			Expires: 0,
 			Accept: "application/json",
+			"Content-Type": "application/json",
 		},
 		timeout: AXIOS_CONFIG.CONNECTION_TIMEOUT,
 	});
 
-	api.interceptors.request.use((config) => {
+	api.axiosInstance.interceptors.request.use((config) => {
+		const token = TokenServices.getToken();
+		config.headers.Authorization = `Bearer ${token}`;
 		return Promise.resolve(config);
 	});
 
-	api.interceptors.response.use(
+	api.axiosInstance.interceptors.response.use(
 		(response) => {
 			return response;
 		},
@@ -51,12 +66,30 @@ const create = (baseURL = "/api") => {
 		return api.delete(`/stores/${payload.storeId}`);
 	};
 
+	// Auth
+	const login = (payload: LoginPayload) => {
+		return api.post(`/app/auth/login`, payload, newCancelToken());
+	};
+
+	const signUp = (payload: SignupPayload) => {
+		return api.post(`/app/user/sign-up`, payload, newCancelToken());
+	};
+
+	const getMyProfile = () => {
+		return api.get(`/app/auth/profile`, {}, newCancelToken());
+	};
+
 	return {
 		getRoot,
 
 		// Store
 		createStore,
 		deleteStore,
+
+		// Auth
+		login,
+		signUp,
+		getMyProfile,
 	};
 };
 

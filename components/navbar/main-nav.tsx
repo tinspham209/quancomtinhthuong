@@ -16,15 +16,10 @@ const MainNav = ({
 
 	const routes = [
 		{
-			href: `/dashboard/${storeId}`,
-			label: "Overview",
-			active: pathname === `/dashboard/${storeId}`,
+			href: `/dashboard`,
+			label: "Dashboard",
+			active: pathname === `/dashboard/`,
 		},
-		// {
-		// 	href: `/dashboard/${storeId}/billboards`,
-		// 	label: "Billboards",
-		// 	active: pathname === `/dashboard/${storeId}/billboards`,
-		// },
 		{
 			href: `/dashboard/${storeId}/settings`,
 			label: "Settings",

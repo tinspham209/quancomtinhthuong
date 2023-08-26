@@ -1,6 +1,5 @@
 import "./globals.css";
 import { Roboto } from "next/font/google";
-import { ClerkProvider } from "@clerk/nextjs";
 import ModalProvider from "@/providers/modal-provider";
 import { Toaster } from "react-hot-toast";
 import QueryProvider from "@/providers/query-provider";
@@ -21,17 +20,15 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<ClerkProvider>
-			<html lang="en" className={font.className}>
-				<body className="min-h-screen">
-					<QueryProvider>
-						<ModalProvider />
-						<Toaster />
-						<Navbar />
-						<main className="">{children}</main>
-					</QueryProvider>
-				</body>
-			</html>
-		</ClerkProvider>
+		<html lang="en" className={font.className}>
+			<body className="min-h-screen">
+				<QueryProvider>
+					<ModalProvider />
+					<Toaster />
+					<Navbar />
+					<main className="">{children}</main>
+				</QueryProvider>
+			</body>
+		</html>
 	);
 }
