@@ -110,7 +110,7 @@ const CreateStore: React.FC<CreateStoreProps> = ({ onClose }) => {
 							</FormItem>
 						)}
 					/>
-					<FormField
+					{/* <FormField
 						control={form.control}
 						name="slackWebhookUrl"
 						render={({ field }) => (
@@ -125,7 +125,7 @@ const CreateStore: React.FC<CreateStoreProps> = ({ onClose }) => {
 								<FormMessage />
 							</FormItem>
 						)}
-					/>
+					/> */}
 					<FormField
 						control={form.control}
 						name="imgUrl"
