@@ -34,13 +34,11 @@ const StoreSwitcher: React.FC<StoreSwitcherProps> = ({ className }) => {
 	const { storesByUserName, loading } = useGetStoresByUserName({
 		userName: profile?.userName || "",
 	});
-	console.log("storesByUserName: ", storesByUserName);
 
 	const stores = useMemo(() => {
 		if (!storesByUserName) return [];
 		return storesByUserName;
 	}, [storesByUserName]);
-	console.log("stores: ", stores);
 
 	const formattedItems = React.useMemo(() => {
 		if (!stores) return [];

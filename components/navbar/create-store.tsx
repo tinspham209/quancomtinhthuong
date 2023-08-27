@@ -51,13 +51,15 @@ const CreateStore: React.FC<CreateStoreProps> = ({ onClose }) => {
 	const { createStore, isLoading } = useCreateStore({
 		onSuccess(data) {
 			handleInvalidateStoresByUserName();
-			getStoresByUserName();
 			onClose();
 			toast.success(`Create store (${data.name}) successfully.`);
 			router.push(`/dashboard/${data.id}`);
 		},
 		onError(error) {
 			toast.error(error.message);
+		},
+		onSettled() {
+			getStoresByUserName();
 		},
 	});
 

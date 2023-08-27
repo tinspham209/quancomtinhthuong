@@ -33,7 +33,7 @@ export function useGetStoresByUserName(
 		isSuccess,
 		isFetching,
 		refetch: getStoresByUserName,
-	} = useQuery<Store[], Error>([`/store/stores/userName`], {
+	} = useQuery<Store[], Error>([`/store/stores/${options?.userName}`], {
 		queryFn: handleGet,
 		refetchOnMount: false,
 		enabled: false,
@@ -63,8 +63,7 @@ export function useGetStoresByUserName(
 	const queryClient = useQueryClient();
 
 	const handleInvalidateStoresByUserName = () => {
-		queryClient.invalidateQueries([`/store/stores/userName`]);
-		getStoresByUserName();
+		queryClient.invalidateQueries([`/store/stores/${options?.userName}`]);
 	};
 
 	return {
@@ -136,7 +135,7 @@ export function useGetStoreById(
 		isSuccess,
 		isFetching,
 		refetch: getStoreById,
-	} = useQuery<Store, Error>([`/store/storeId`], {
+	} = useQuery<Store, Error>([`/store/${options?.storeId}`], {
 		queryFn: handleGet,
 		refetchOnMount: false,
 		enabled: true,
@@ -166,7 +165,7 @@ export function useGetStoreById(
 	const queryClient = useQueryClient();
 
 	const handleInvalidateStoreById = () =>
-		queryClient.invalidateQueries([`/store/storeId`]);
+		queryClient.invalidateQueries([`/store/${options?.storeId}`]);
 
 	return {
 		storeById: data,
