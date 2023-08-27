@@ -6,7 +6,6 @@ export type MyProfile = {
 	createdAt: string;
 	updatedAt: string;
 	roleId: number;
-	Stores: Store[];
 	role: Role;
 	iat: number;
 	exp: number;
@@ -21,16 +20,13 @@ export type Role = {
 };
 
 export type Store = {
-	userId: string;
-	storeId: string;
-	Store: {
-		description: string;
-		imgUrl: string;
-		name: string;
-		id: string;
-		createdAt: string;
-		updatedAt: string;
-	};
+	id: string;
+	name: string;
+	description: string;
+	imgUrl: string;
+	ruleDescription: string;
+	createdAt: string;
+	updatedAt: string;
 };
 
 export type Callback<T = any> = (..._args: T[]) => void;

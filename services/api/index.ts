@@ -1,9 +1,10 @@
-import { CreateStorePayload } from "@/lib/validators";
+import { CreateStorePayload, GetStoresByUserName } from "@/lib/validators";
 import { LoginPayload, SignupPayload } from "@/lib/validators/auth";
 import axios, { AxiosError } from "axios";
 import { toast } from "react-hot-toast";
 import TokenServices from "../token";
 import apisauce, { CancelToken } from "apisauce";
+import { Store } from "@/queries/auth/types";
 
 const AXIOS_CONFIG = {
 	CONNECTION_TIMEOUT: 30000,
@@ -58,8 +59,17 @@ const create = (baseURL = "/api") => {
 	const getRoot = () => api.get("");
 
 	// Store
+
+	const getStoresByUserName = (userName: GetStoresByUserName["userName"]) => {
+		return api.get(`/app/store/stores/${userName}`, {}, newCancelToken());
+	};
+
+	const getStoreById = (storeId: Store["id"]) => {
+		return api.get(`/app/store/${storeId}`, {}, newCancelToken());
+	};
+
 	const createStore = (payload: CreateStorePayload) => {
-		return api.post(`/stores`, { ...payload });
+		return api.post(`/app/store/store`, { ...payload }, newCancelToken());
 	};
 
 	const deleteStore = (payload: { storeId: string }) => {
@@ -83,8 +93,10 @@ const create = (baseURL = "/api") => {
 		getRoot,
 
 		// Store
+		getStoresByUserName,
 		createStore,
 		deleteStore,
+		getStoreById,
 
 		// Auth
 		login,

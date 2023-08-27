@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import React from "react";
+import StoreSwitcher from "./switcher-stores";
 
 const MainNav = ({
 	className,
@@ -29,6 +30,7 @@ const MainNav = ({
 
 	return (
 		<div className={cn("flex items-center space-x-4 lg:space-x-6", className)}>
+			<StoreSwitcher />
 			{routes.map((route, index) => (
 				<Link
 					key={route.href}

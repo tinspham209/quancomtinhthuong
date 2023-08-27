@@ -51,10 +51,13 @@ const Navbar = ({}: NavbarProps) => {
 	return (
 		<nav className="border-b">
 			<div className="h-16 flex items-center px-4">
-				<Link href="/">
-					<Icons.logo1 className="w-[230px] h-[56px] mr-4" />
-				</Link>
-				{!isEmpty(profile) && <MainNav className="mx-6 hidden sm:block" />}
+				{!isEmpty(profile) ? (
+					<MainNav className="mr-6" />
+				) : (
+					<Link href="/">
+						<Icons.logo1 className="w-[230px] h-[56px] mr-4" />
+					</Link>
+				)}
 				<div className="ml-auto flex items-center space-x-4">
 					{loading ? (
 						<Skeleton className="w-[40px] h-[40px] rounded-full" />

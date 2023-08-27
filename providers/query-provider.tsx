@@ -8,7 +8,16 @@ interface LayoutProps {
 }
 
 const QueryProvider: FC<LayoutProps> = ({ children }) => {
-	const queryClient = new QueryClient();
+	const queryClient = new QueryClient({
+		defaultOptions: {
+			queries: {
+				refetchOnWindowFocus: false,
+				refetchOnReconnect: false,
+				retry: false,
+				staleTime: 60 * 60 * 1000,
+			},
+		},
+	});
 
 	return (
 		<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
