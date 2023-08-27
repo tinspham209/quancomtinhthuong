@@ -119,7 +119,7 @@ export default function Page() {
 									</FormItem>
 								)}
 							/>
-							{/* <FormField
+							<FormField
 								control={form.control}
 								name="slackId"
 								render={({ field }) => (
@@ -131,7 +131,7 @@ export default function Page() {
 										<FormMessage />
 									</FormItem>
 								)}
-							/> */}
+							/>
 
 							<Button type="submit" disabled={isLoading} className="mt-2">
 								Sign Up
