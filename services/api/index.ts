@@ -5,6 +5,7 @@ import { toast } from "react-hot-toast";
 import TokenServices from "../token";
 import apisauce, { CancelToken } from "apisauce";
 import { Store } from "@/queries/auth/types";
+import { CreateRestaurantPayload } from "@/lib/validators/restaurants";
 
 const AXIOS_CONFIG = {
 	CONNECTION_TIMEOUT: 30000,
@@ -89,6 +90,27 @@ const create = (baseURL = "/api") => {
 		return api.get(`/app/auth/profile`, {}, newCancelToken());
 	};
 
+	// Restaurant
+	const getRestaurants = () => {
+		return api.get(`/app/restaurant/restaurants`, {}, newCancelToken());
+	};
+
+	const getRestaurantById = (restaurantId: string) => {
+		return api.get(`/app/restaurant/${restaurantId}`, {}, newCancelToken());
+	};
+
+	const createRestaurant = (payload: CreateRestaurantPayload) => {
+		return api.post(`/app/restaurant`, payload, newCancelToken());
+	};
+
+	const updateRestaurant = (payload: CreateRestaurantPayload) => {
+		return api.put(`/app/restaurant`, payload, newCancelToken());
+	};
+
+	const deleteRestaurantById = (restaurantId: string) => {
+		return api.delete(`/app/restaurant/${restaurantId}`, {}, newCancelToken());
+	};
+
 	return {
 		getRoot,
 
@@ -102,6 +124,13 @@ const create = (baseURL = "/api") => {
 		login,
 		signUp,
 		getMyProfile,
+
+		// Restaurant
+		getRestaurants,
+		getRestaurantById,
+		createRestaurant,
+		updateRestaurant,
+		deleteRestaurantById,
 	};
 };
 

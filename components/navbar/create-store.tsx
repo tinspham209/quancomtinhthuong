@@ -73,6 +73,7 @@ const CreateStore: React.FC<CreateStoreProps> = ({ onClose }) => {
 			userId: values.userId,
 		});
 	};
+
 	return (
 		<SheetContent>
 			<SheetHeader>
