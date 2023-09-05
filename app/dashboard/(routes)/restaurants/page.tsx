@@ -1,6 +1,6 @@
 "use client";
 
-import JsonView from "@/components/json-view";
+import { CreateRestaurant } from "@/components/sheet";
 import {
 	Button,
 	Card,
@@ -8,22 +8,43 @@ import {
 	CardFooter,
 	CardHeader,
 	CardTitle,
+	Sheet,
+	SheetTrigger,
 } from "@/components/ui";
 import { useGetRestaurants } from "@/queries/restaurants";
+import { PlusCircle } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import { FC, useState } from "react";
 
 interface Props {}
 
-const RestaurantsPage: React.FC<Props> = ({}) => {
+const RestaurantsPage: FC<Props> = ({}) => {
 	const { restaurants } = useGetRestaurants();
+	const [openCreateRestaurant, setOpenCreateRestaurant] = useState(false);
 	return (
 		<div className="p-4">
-			<div className="flex justify-start md:justify-between">
+			<div className="flex flex-col sm:flex-row md:justify-between">
 				<h3 className="text-3xl font-bold leading-none tracking-tight">
-					Nhà hàng
+					Restaurants
 				</h3>
-				<Button>Create Restaurant</Button>
+				<div className="mt-4 sm:mt-0">
+					<Sheet
+						open={openCreateRestaurant}
+						onOpenChange={setOpenCreateRestaurant}
+					>
+						<SheetTrigger asChild>
+							<Button>
+								<PlusCircle className="mr-2 h-5 w-5" />
+								Create Restaurant
+							</Button>
+						</SheetTrigger>
+						<CreateRestaurant
+							onClose={() => {
+								setOpenCreateRestaurant(false);
+							}}
+						/>
+					</Sheet>
+				</div>
 			</div>
 			<div className="mt-2">
 				<div className="justify-center gap-6 rounded-lg p-4 grid grid-cold-2 md:grid-cols-3 lg:grid-cols-4">
@@ -46,7 +67,7 @@ const RestaurantsPage: React.FC<Props> = ({}) => {
 							</CardHeader>
 							{/* <CardContent></CardContent> */}
 							<CardFooter className="flex justify-end">
-								<Link href={`/dashboard/${restaurant.id}`}>
+								<Link href={`/dashboard/restaurants/${restaurant.id}`}>
 									<Button>Go to detail</Button>
 								</Link>
 							</CardFooter>
@@ -54,8 +75,6 @@ const RestaurantsPage: React.FC<Props> = ({}) => {
 					))}
 				</div>
 			</div>
-
-			<JsonView src={restaurants} />
 		</div>
 	);
 };

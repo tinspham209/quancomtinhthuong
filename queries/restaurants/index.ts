@@ -79,7 +79,7 @@ export function useGetRestaurantById(
 	options?: UseQueryOptions<Restaurant, Error> & {
 		onSuccessCallback?: Callback;
 		onErrorCallback?: Callback;
-		restaurantId: string;
+		restaurantId?: string;
 	}
 ) {
 	const handleGet: QueryFunction<Restaurant> = () => {
@@ -194,7 +194,9 @@ export function useDeleteRestaurant(
 		{ restaurantId: string }
 	>({
 		mutationFn: async (payload: { restaurantId: string }) => {
-			return responseWrapper(apiClient.deleteRestaurantById, [payload]);
+			return responseWrapper(apiClient.deleteRestaurantById, [
+				payload.restaurantId,
+			]);
 		},
 		...options,
 	});

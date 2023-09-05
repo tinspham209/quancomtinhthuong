@@ -1,11 +1,11 @@
 import { CreateStorePayload, GetStoresByUserName } from "@/lib/validators";
 import { LoginPayload, SignupPayload } from "@/lib/validators/auth";
+import { CreateRestaurantPayload } from "@/lib/validators/restaurants";
+import { Store } from "@/queries/auth/types";
+import apisauce, { CancelToken } from "apisauce";
 import axios, { AxiosError } from "axios";
 import { toast } from "react-hot-toast";
 import TokenServices from "../token";
-import apisauce, { CancelToken } from "apisauce";
-import { Store } from "@/queries/auth/types";
-import { CreateRestaurantPayload } from "@/lib/validators/restaurants";
 
 const AXIOS_CONFIG = {
 	CONNECTION_TIMEOUT: 30000,
@@ -52,6 +52,10 @@ const create = (baseURL = "/api") => {
 						`This API doesn't exists, Please check the API route again.`
 					);
 				}
+				if (error.response?.status === 401) {
+					toast.error("Unauthorized, Please sign in");
+					window.location.reload();
+				}
 			}
 			return Promise.reject(error);
 		}
@@ -92,19 +96,33 @@ const create = (baseURL = "/api") => {
 
 	// Restaurant
 	const getRestaurants = () => {
-		return api.get(`/app/restaurant/restaurants`, {}, newCancelToken());
+		return api.get(`/app/restaurant/restaurants/false`, {}, newCancelToken());
 	};
 
 	const getRestaurantById = (restaurantId: string) => {
-		return api.get(`/app/restaurant/${restaurantId}`, {}, newCancelToken());
+		return api.get(
+			`/app/restaurant/${restaurantId}/cache/false`,
+			{},
+			newCancelToken()
+		);
 	};
 
 	const createRestaurant = (payload: CreateRestaurantPayload) => {
 		return api.post(`/app/restaurant`, payload, newCancelToken());
 	};
 
-	const updateRestaurant = (payload: CreateRestaurantPayload) => {
-		return api.put(`/app/restaurant`, payload, newCancelToken());
+	const updateRestaurant = (
+		payload: CreateRestaurantPayload & { restaurantId: string }
+	) => {
+		return api.put(
+			`/app/restaurant/${payload.restaurantId}`,
+			{
+				name: payload.name,
+				description: payload.description,
+				link: payload.link,
+			},
+			newCancelToken()
+		);
 	};
 
 	const deleteRestaurantById = (restaurantId: string) => {
