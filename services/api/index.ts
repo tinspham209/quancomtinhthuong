@@ -1,7 +1,12 @@
-import { CreateStorePayload, GetStoresByUserName } from "@/lib/validators";
+import {
+	CreateDishPayload,
+	CreateStorePayload,
+	GetStoresByUserName,
+} from "@/lib/validators";
 import { LoginPayload, SignupPayload } from "@/lib/validators/auth";
 import { CreateRestaurantPayload } from "@/lib/validators/restaurants";
 import { Store } from "@/queries/auth/types";
+import { Dish } from "@/queries/dishes/types";
 import apisauce, { CancelToken } from "apisauce";
 import axios, { AxiosError } from "axios";
 import { toast } from "react-hot-toast";
@@ -105,6 +110,8 @@ const create = (baseURL = "/api") => {
 	};
 
 	const getRestaurantById = (restaurantId: string) => {
+		if (!restaurantId) return new Promise((res, rej) => res(null));
+
 		return api.get(
 			`/app/restaurant/${restaurantId}/cache/true`,
 			{},
@@ -134,6 +141,48 @@ const create = (baseURL = "/api") => {
 		return api.delete(`/app/restaurant/${restaurantId}`, {}, newCancelToken());
 	};
 
+	// Dishes
+	const getDishesByRestaurantId = (restaurantId: string) => {
+		if (!restaurantId) return new Promise((res, rej) => res(null));
+		return api.get(
+			`/app/dish/restaurant/${restaurantId}/cache/true`,
+			{},
+			newCancelToken()
+		);
+	};
+
+	const getDishByDishId = (dishId: string) => {
+		if (!dishId) return new Promise((res, rej) => res(null));
+		return api.get(`/app/dish/${dishId}/cache/true`, {}, newCancelToken());
+	};
+
+	const createDishes = (payload: CreateDishPayload) => {
+		console.log("payload: ", payload);
+		return api.post(
+			`/app/dish/${payload.restaurantId}`,
+			payload.dishes,
+			newCancelToken()
+		);
+	};
+
+	const updateDish = (payload: Dish) => {
+		const dishId = payload.id;
+		const formattedPayload = {
+			...payload,
+		};
+		delete formattedPayload.id;
+
+		return api.put(
+			`/app/dish/${dishId}`,
+			{ ...formattedPayload },
+			newCancelToken()
+		);
+	};
+
+	const deleteDish = (dishId: string) => {
+		return api.delete(`/app/dish/${dishId}`, {}, newCancelToken());
+	};
+
 	return {
 		getRoot,
 
@@ -157,6 +206,13 @@ const create = (baseURL = "/api") => {
 		createRestaurant,
 		updateRestaurant,
 		deleteRestaurantById,
+
+		// Dishes
+		getDishesByRestaurantId,
+		getDishByDishId,
+		createDishes,
+		updateDish,
+		deleteDish,
 	};
 };
 

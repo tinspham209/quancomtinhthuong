@@ -5,7 +5,12 @@ export const CreateDishSchema = z.object({
 	description: z.string().min(1),
 	price: z.number().positive(),
 	imgUrl: z.string(),
-	restaurantId: z.string().min(1),
+	category: z.string(),
 });
 
-export type CreateDishPayload = z.infer<typeof CreateDishSchema>;
+export type DishPayload = z.infer<typeof CreateDishSchema>;
+
+export type CreateDishPayload = {
+	restaurantId: string;
+	dishes: DishPayload[];
+};
