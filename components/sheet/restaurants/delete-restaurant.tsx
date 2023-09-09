@@ -1,37 +1,13 @@
 "use client";
 
-import {
-	CreateRestaurantPayload,
-	CreateRestaurantSchema,
-} from "@/lib/validators/restaurants";
 import { Callback } from "@/queries/auth/types";
-import {
-	useCreateRestaurant,
-	useDeleteRestaurant,
-	useGetRestaurantById,
-	useGetRestaurants,
-} from "@/queries/restaurants";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import React from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
-import {
-	Button,
-	Form,
-	FormControl,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-	Input,
-	SheetContent,
-	SheetDescription,
-	SheetHeader,
-	SheetTitle,
-} from "../ui";
+import { useDeleteRestaurant, useGetRestaurants } from "@/queries/restaurants";
 import { Restaurant } from "@/queries/restaurants/types";
 import { Trash } from "lucide-react";
+import { useRouter } from "next/navigation";
+import React from "react";
+import { toast } from "react-hot-toast";
+import { Button, SheetContent, SheetHeader, SheetTitle } from "../../ui";
 
 interface Props {
 	onClose?: Callback;

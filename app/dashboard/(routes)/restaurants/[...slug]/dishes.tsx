@@ -1,6 +1,6 @@
 "use client";
 
-import CreateDishes from "@/components/sheet/dishes/create-dishes";
+import { CreateDishes, DeleteDish, UpdateDish } from "@/components/sheet";
 import {
 	Button,
 	Card,
@@ -21,6 +21,9 @@ interface Props {
 	dishes: Dish[] | undefined;
 	restaurantId: string;
 }
+
+const noImageUrl =
+	"https://t4.ftcdn.net/jpg/04/99/93/31/360_F_499933117_ZAUBfv3P1HEOsZDrnkbNCt4jc3AodArl.jpg";
 
 const DishesCtn: React.FC<Props> = ({ dishes, restaurantId }) => {
 	const [categories, setCategories] = useState<string[]>([]);
@@ -64,7 +67,7 @@ const DishesCtn: React.FC<Props> = ({ dishes, restaurantId }) => {
 							<SheetTrigger asChild>
 								<Button>
 									<PlusCircle className="mr-2 h-5 w-5" />
-									Create Dishes
+									Create Dish
 								</Button>
 							</SheetTrigger>
 							<CreateDishes
@@ -107,12 +110,10 @@ const DishesCtn: React.FC<Props> = ({ dishes, restaurantId }) => {
 											<div className="w-[100%] h-[150px] sm:h-[200px] md:h-[300px] relative ">
 												<Image
 													unoptimized
-													src={
-														dish.imgUrl ||
-														"https://t4.ftcdn.net/jpg/04/99/93/31/360_F_499933117_ZAUBfv3P1HEOsZDrnkbNCt4jc3AodArl.jpg"
-													}
+													src={dish.imgUrl || noImageUrl}
 													alt={`${dish.category}-${dish.name}`}
 													fill
+													priority
 													style={{ objectFit: "contain" }}
 												/>
 											</div>
@@ -122,9 +123,14 @@ const DishesCtn: React.FC<Props> = ({ dishes, restaurantId }) => {
 										</CardContent>
 										<CardFooter className="flex justify-end gap-2">
 											{/* TODO: edit dish */}
-											<Button>
-												<Pen className="h-4 w-4" />
-											</Button>
+											<Sheet>
+												<SheetTrigger asChild>
+													<Button>
+														<Pen className="h-4 w-4" />
+													</Button>
+												</SheetTrigger>
+												<UpdateDish dish={dish} />
+											</Sheet>
 											<div>
 												<Sheet>
 													<SheetTrigger asChild>
@@ -132,7 +138,7 @@ const DishesCtn: React.FC<Props> = ({ dishes, restaurantId }) => {
 															<Trash className="h-4 w-4" />
 														</Button>
 													</SheetTrigger>
-													{/* <DeleteRestaurant restaurant={restaurant} /> */}
+													<DeleteDish dish={dish} />
 												</Sheet>
 											</div>
 										</CardFooter>

@@ -29,7 +29,7 @@ import {
 	SheetContent,
 	SheetHeader,
 	SheetTitle,
-} from "../ui";
+} from "../../ui";
 
 interface CreateRestaurantProps {
 	onClose: Callback;

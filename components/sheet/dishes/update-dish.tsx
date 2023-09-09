@@ -3,9 +3,13 @@
 import { Callback } from "@/queries/auth/types";
 
 import { CreateDishSchema, DishPayload } from "@/lib/validators";
-import { useCreateDishes, useGetDishesByRestaurantId } from "@/queries/dishes";
+import {
+	useCreateDishes,
+	useGetDishesByRestaurantId,
+	useUpdateDish,
+} from "@/queries/dishes";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import {
@@ -21,18 +25,13 @@ import {
 	SheetHeader,
 	SheetTitle,
 } from "../../ui";
+import { Dish } from "@/queries/dishes/types";
 
 interface Props {
-	onClose: Callback;
-	restaurantId: string;
-	categories: string[];
+	dish: Dish;
 }
 
-const CreateDishes: React.FC<Props> = ({
-	onClose,
-	restaurantId,
-	categories,
-}) => {
+const UpdateDish: React.FC<Props> = ({ dish }) => {
 	const form = useForm<DishPayload>({
 		resolver: zodResolver(CreateDishSchema),
 		defaultValues: {
@@ -43,12 +42,25 @@ const CreateDishes: React.FC<Props> = ({
 			category: "No Category",
 		},
 	});
+
+	useEffect(() => {
+		if (dish) {
+			form.reset({
+				name: dish.name,
+				description: dish.description || "",
+				price: dish.price,
+				imgUrl: dish.imgUrl || "",
+				category: dish.category || "No Category",
+			});
+		}
+	}, [form, dish]);
+
 	const { handleInvalidateDishes } = useGetDishesByRestaurantId();
 
-	const { createDishes, isLoading: isLoadingCreate } = useCreateDishes({
+	const { updateDish, isLoading: isLoadingCreate } = useUpdateDish({
 		onSuccess(data) {
 			handleInvalidateDishes();
-			toast.success(`Create dishes successfully.`);
+			toast.success(`Update dish successfully.`);
 
 			setTimeout(() => {
 				window.location.reload();
@@ -60,24 +72,21 @@ const CreateDishes: React.FC<Props> = ({
 	});
 
 	const onSubmit = async (values: DishPayload) => {
-		createDishes({
-			restaurantId,
-			dishes: [
-				{
-					name: values.name.trim(),
-					description: values.description.trim(),
-					price: values.price,
-					imgUrl: values.imgUrl.trim(),
-					category: values.category.trim(),
-				},
-			],
+		updateDish({
+			id: dish.id,
+			name: values.name.trim(),
+			description: values.description.trim(),
+			price: +values.price,
+			imgUrl: values.imgUrl.trim(),
+			category: values.category.trim(),
+			restaurantId: dish.restaurantId,
 		});
 	};
 
 	return (
 		<SheetContent>
 			<SheetHeader>
-				<SheetTitle>Create Dish</SheetTitle>
+				<SheetTitle>Update Dish</SheetTitle>
 			</SheetHeader>
 
 			<Form {...form}>
@@ -91,7 +100,7 @@ const CreateDishes: React.FC<Props> = ({
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>Dish name *</FormLabel>
-								<FormControl>
+								<FormControl ref={field.ref}>
 									<Input placeholder="Dish name" {...field} />
 								</FormControl>
 								<FormMessage />
@@ -104,8 +113,8 @@ const CreateDishes: React.FC<Props> = ({
 						name="description"
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>Dish description *</FormLabel>
-								<FormControl>
+								<FormLabel>Dish description</FormLabel>
+								<FormControl ref={field.ref}>
 									<Input placeholder="Dish description" {...field} />
 								</FormControl>
 								<FormMessage />
@@ -119,7 +128,7 @@ const CreateDishes: React.FC<Props> = ({
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>Price *</FormLabel>
-								<FormControl>
+								<FormControl ref={field.ref}>
 									<Input placeholder="1000" type="number" {...field} />
 								</FormControl>
 								<FormMessage />
@@ -133,7 +142,7 @@ const CreateDishes: React.FC<Props> = ({
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>Category</FormLabel>
-								<FormControl>
+								<FormControl ref={field.ref}>
 									<Input placeholder="Select Category" {...field} />
 								</FormControl>
 								{/* <Select
@@ -165,7 +174,7 @@ const CreateDishes: React.FC<Props> = ({
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>Dish thumbnail</FormLabel>
-								<FormControl>
+								<FormControl ref={field.ref}>
 									<Input placeholder="Dish thumbnail" {...field} />
 								</FormControl>
 								<FormMessage />
@@ -173,7 +182,7 @@ const CreateDishes: React.FC<Props> = ({
 						)}
 					/>
 					<Button type="submit" disabled={isLoadingCreate}>
-						{"Create"}
+						{"Update"}
 					</Button>
 				</form>
 			</Form>
@@ -181,4 +190,4 @@ const CreateDishes: React.FC<Props> = ({
 	);
 };
 
-export default CreateDishes;
+export default UpdateDish;

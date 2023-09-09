@@ -166,6 +166,7 @@ const create = (baseURL = "/api") => {
 	};
 
 	const updateDish = (payload: Dish) => {
+		console.log("payload: ", payload);
 		const dishId = payload.id;
 		const formattedPayload = {
 			...payload,

@@ -3,7 +3,7 @@
 import { CreateRestaurant, DeleteRestaurant } from "@/components/sheet";
 import { Button, Sheet, SheetTrigger } from "@/components/ui";
 import { Restaurant } from "@/queries/restaurants/types";
-import { Trash } from "lucide-react";
+import { Pen, Trash } from "lucide-react";
 import React, { useState } from "react";
 
 interface Props {
@@ -32,7 +32,10 @@ const RestaurantHeader: React.FC<Props> = ({ restaurant }) => {
 						onOpenChange={setOpenUpdateRestaurant}
 					>
 						<SheetTrigger asChild>
-							<Button>Update Restaurant</Button>
+							<Button>
+								<Pen className="mr-2 h-4 w-4" />
+								Update Restaurant
+							</Button>
 						</SheetTrigger>
 						<CreateRestaurant
 							onClose={() => {
@@ -47,7 +50,7 @@ const RestaurantHeader: React.FC<Props> = ({ restaurant }) => {
 					<Sheet>
 						<SheetTrigger asChild>
 							<Button variant={"destructive"}>
-								<Trash className="mr-2 h-5 w-5" />
+								<Trash className="mr-2 h-4 w-4" />
 								Delete Restaurant
 							</Button>
 						</SheetTrigger>

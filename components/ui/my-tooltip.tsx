@@ -14,7 +14,7 @@ interface MyTooltipProps {
 const MyTooltip: React.FC<MyTooltipProps> = ({ children, title, ...props }) => {
 	return (
 		<TooltipProvider>
-			<Tooltip>
+			<Tooltip {...props}>
 				<TooltipTrigger>{children}</TooltipTrigger>
 				<TooltipContent>
 					<p>{title}</p>
