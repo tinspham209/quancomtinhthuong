@@ -11,9 +11,10 @@ import {
 	useGetRestaurants,
 	useUpdateRestaurant,
 } from "@/queries/restaurants";
+import { Restaurant } from "@/queries/restaurants/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import {
@@ -29,7 +30,6 @@ import {
 	SheetHeader,
 	SheetTitle,
 } from "../ui";
-import { Restaurant } from "@/queries/restaurants/types";
 
 interface CreateRestaurantProps {
 	onClose: Callback;

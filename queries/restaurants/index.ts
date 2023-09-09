@@ -14,6 +14,7 @@ import { responseWrapper } from "../auth/helpers";
 import apiClient from "../apiClient";
 import { useEffect } from "react";
 import { CreateRestaurantPayload } from "@/lib/validators/restaurants";
+import { useFetchCache } from "../cache";
 
 export function useGetRestaurants(
 	options?: UseQueryOptions<Restaurant[], Error> & {
@@ -61,7 +62,9 @@ export function useGetRestaurants(
 
 	const queryClient = useQueryClient();
 
+	const { fetchCache } = useFetchCache();
 	const handleInvalidateRestaurants = () => {
+		fetchCache();
 		queryClient.invalidateQueries([`/restaurants`]);
 	};
 
@@ -126,8 +129,12 @@ export function useGetRestaurantById(
 
 	const queryClient = useQueryClient();
 
-	const handleInvalidateRestaurantById = () =>
+	const { fetchCache } = useFetchCache();
+
+	const handleInvalidateRestaurantById = () => {
+		fetchCache();
 		queryClient.invalidateQueries([`/restaurant`]);
+	};
 
 	return {
 		restaurantById: data,

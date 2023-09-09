@@ -63,6 +63,11 @@ const create = (baseURL = "/api") => {
 
 	const getRoot = () => api.get("");
 
+	// Fetch Cache
+	const fetchCache = () => {
+		return api.get(`/app/cache/fetch`, {}, newCancelToken());
+	};
+
 	// Store
 
 	const getStoresByUserName = (userName: GetStoresByUserName["userName"]) => {
@@ -96,12 +101,12 @@ const create = (baseURL = "/api") => {
 
 	// Restaurant
 	const getRestaurants = () => {
-		return api.get(`/app/restaurant/restaurants/false`, {}, newCancelToken());
+		return api.get(`/app/restaurant/restaurants/true`, {}, newCancelToken());
 	};
 
 	const getRestaurantById = (restaurantId: string) => {
 		return api.get(
-			`/app/restaurant/${restaurantId}/cache/false`,
+			`/app/restaurant/${restaurantId}/cache/true`,
 			{},
 			newCancelToken()
 		);
@@ -131,6 +136,9 @@ const create = (baseURL = "/api") => {
 
 	return {
 		getRoot,
+
+		// Fetch Cache
+		fetchCache,
 
 		// Store
 		getStoresByUserName,
