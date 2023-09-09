@@ -20,7 +20,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Check, ChevronsUpDown, PlusCircle, StoreIcon } from "lucide-react";
 import { useProfileStore } from "@/hooks";
-import CreateStore from "./create-store";
+import { CreateStore } from "../sheet";
 import { useGetStoresByUserName } from "@/queries/stores";
 
 interface StoreSwitcherProps extends PopoverTriggerProps {}
@@ -73,10 +73,10 @@ const StoreSwitcher: React.FC<StoreSwitcherProps> = ({ className }) => {
 					role="combobox"
 					aria-expanded={openPopover}
 					aria-label="Select a store"
-					className={cn("w-[200px] justify-between", className)}
+					className={cn("w-[150px] sm:w-[200px] justify-between", className)}
 				>
 					<StoreIcon className="mr-2 h-4 w-4" />
-					{currentStore?.label}
+					<p className="whitespace-nowrap">{currentStore?.label}</p>
 					<ChevronsUpDown className="ml-auto h-4 w-4 shrink-0 opacity-50" />
 				</Button>
 			</PopoverTrigger>

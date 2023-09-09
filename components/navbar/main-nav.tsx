@@ -22,11 +22,6 @@ const MainNav = ({
 			active: pathname === "/dashboard",
 		},
 		{
-			href: `/dashboard/${storeId}/settings`,
-			label: "Settings",
-			active: pathname === `/dashboard/${storeId}/settings`,
-		},
-		{
 			href: `/dashboard/restaurants`,
 			label: "Restaurants",
 			active: pathname.includes("/restaurants"),

@@ -1,4 +1,12 @@
+import { useProfileStore } from "@/hooks";
+import { CreateStorePayload, CreateStoreSchema } from "@/lib/validators";
+import { Callback } from "@/queries/auth/types";
+import { useCreateStore, useGetStoresByUserName } from "@/queries/stores";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import React from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 import {
 	Button,
 	Form,
@@ -8,20 +16,10 @@ import {
 	FormLabel,
 	FormMessage,
 	Input,
-	SheetClose,
 	SheetContent,
 	SheetHeader,
 	SheetTitle,
-} from "../ui";
-import { toast } from "react-hot-toast";
-import { Callback } from "@/queries/auth/types";
-import { useForm } from "react-hook-form";
-import { CreateStorePayload, CreateStoreSchema } from "@/lib/validators";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useProfileStore } from "@/hooks";
-import { useCreateStore, useGetStoresByUserName } from "@/queries/stores";
-import { useRouter } from "next/navigation";
-import { useProfile } from "@/queries/auth";
+} from "../../ui";
 
 interface CreateStoreProps {
 	onClose: Callback;
