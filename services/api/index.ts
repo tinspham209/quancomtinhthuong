@@ -198,6 +198,17 @@ const create = (baseURL = "/api") => {
 		return api.delete(`/app/dish/${dishId}`, {}, newCancelToken());
 	};
 
+	// Group order
+	const getGroupOrdersListByStoreId = (storeId: string) => {
+		if (!storeId) return new Promise((res, rej) => res(null));
+
+		return api.get(
+			`/app/group-order/groupList/${storeId}`,
+			{},
+			newCancelToken()
+		);
+	};
+
 	return {
 		getRoot,
 
@@ -229,6 +240,9 @@ const create = (baseURL = "/api") => {
 		createDishes,
 		updateDish,
 		deleteDish,
+
+		// Group order
+		getGroupOrdersListByStoreId,
 	};
 };
 
