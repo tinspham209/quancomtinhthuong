@@ -19,6 +19,10 @@ export default function DashboardLayout({
 	const { profile: profileQuery, getMyProfile } = useProfile({
 		onSuccess(data) {
 			onSetProfile(data);
+			if (data.role.name !== "ADMIN") {
+				toast.error(`You don't have permission to access this page`);
+				router.push(`/sign-in?redirect_url=${pathname}`);
+			}
 		},
 		onErrorCallback: () => {
 			toast.error("Unauthorized, Please sign in");

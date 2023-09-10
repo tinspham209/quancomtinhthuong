@@ -20,8 +20,8 @@ import { useLogin, useProfile } from "@/queries/auth";
 import TokenServices from "@/services/token";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { redirect, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useLayoutEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useLayoutEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 
@@ -120,7 +120,9 @@ export default function Page() {
 				<CardFooter>
 					<p className="text-sm mr-2">No account? </p>
 					<Link
-						href={"/sign-up"}
+						href={`/sign-up?${
+							redirectUrl ? `redirect_url=${redirectUrl}` : ""
+						}`}
 						className="text-sm font-medium transition-colors hover:text-blue-500"
 					>
 						Signup

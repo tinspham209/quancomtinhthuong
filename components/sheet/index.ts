@@ -9,3 +9,4 @@ export { default as UpdateStore } from "./stores/update-store";
 export { default as CreateGroupOrder } from "./group-orders/create";
 export { default as UpdateGroupOrder } from "./group-orders/update";
 export { default as DeleteGroupOrder } from "./group-orders/delete";
+export { default as CreateOrder } from "./orders/create";

@@ -10,7 +10,7 @@ type SafeMetaData = {
 
 export const getMetaData = ({
 	title = "Quán Cơm Tình Thương",
-	description = "Quán Cơm Tình Thương",
+	description = "Nhanh tay đặt đồ ăn cùng nhau nào",
 	url = DOMAIN_PRODUCT,
 }: SafeMetaData): Metadata => {
 	return {

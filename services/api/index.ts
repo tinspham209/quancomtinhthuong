@@ -17,6 +17,7 @@ import apisauce, { CancelToken } from "apisauce";
 import axios, { AxiosError } from "axios";
 import { toast } from "react-hot-toast";
 import TokenServices from "../token";
+import { CreateOrderPayload } from "@/lib/validators/orders";
 
 const AXIOS_CONFIG = {
 	CONNECTION_TIMEOUT: 30000,
@@ -260,6 +261,10 @@ const create = (baseURL = "/api") => {
 		return api.get(`/app/order/orders/${groupOrderId}`, {}, newCancelToken());
 	};
 
+	const createOrder = (payload: CreateOrderPayload) => {
+		return api.post(`/app/order`, payload, newCancelToken());
+	};
+
 	return {
 		getRoot,
 
@@ -302,6 +307,7 @@ const create = (baseURL = "/api") => {
 
 		// Orders
 		getOrdersByGroupOrderId,
+		createOrder,
 	};
 };
 

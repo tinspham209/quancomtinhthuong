@@ -143,7 +143,7 @@ export function useGetStoreById(
 	} = useQuery<Store, Error>([`/store`, { storeId: options?.storeId }], {
 		queryFn: handleGet,
 		refetchOnMount: false,
-		enabled: true,
+		enabled: !!options?.storeId,
 		notifyOnChangeProps: ["data", "isFetching"],
 		select: (data) => data,
 		...options,

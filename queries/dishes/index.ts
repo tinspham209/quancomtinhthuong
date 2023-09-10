@@ -40,7 +40,7 @@ export function useGetDishesByRestaurantId(
 		{
 			queryFn: handleGet,
 			refetchOnMount: false,
-			enabled: true,
+			enabled: !!options?.restaurantId,
 			notifyOnChangeProps: ["data", "isFetching"],
 			select: (data) => data,
 			...options,

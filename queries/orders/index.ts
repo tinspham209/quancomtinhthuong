@@ -1,6 +1,8 @@
 import {
 	QueryFunction,
+	UseMutationOptions,
 	UseQueryOptions,
+	useMutation,
 	useQuery,
 	useQueryClient,
 } from "@tanstack/react-query";
@@ -9,6 +11,7 @@ import { Callback } from "../auth/types";
 import apiClient from "../apiClient";
 import { responseWrapper } from "../auth/helpers";
 import { useEffect } from "react";
+import { CreateOrderPayload } from "@/lib/validators/orders";
 
 export function useGetOrdersByGroupOrderId(
 	options?: UseQueryOptions<OrderDetail[], Error> & {
@@ -69,5 +72,25 @@ export function useGetOrdersByGroupOrderId(
 		loading: isFetching,
 		getOrders,
 		handleInvalidateOrders,
+	};
+}
+
+export function useCreateOrder(
+	options?: UseMutationOptions<OrderDetail, Error, CreateOrderPayload>
+) {
+	const { mutate: createOrder, isLoading } = useMutation<
+		OrderDetail,
+		Error,
+		CreateOrderPayload
+	>({
+		mutationFn: async (payload: CreateOrderPayload) => {
+			return responseWrapper(apiClient.createOrder, [payload]);
+		},
+		...options,
+	});
+
+	return {
+		createOrder,
+		isLoading,
 	};
 }

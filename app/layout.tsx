@@ -12,7 +12,9 @@ export const font = Roboto({
 	subsets: ["latin"],
 });
 
-export const metadata = getMetaData({});
+export const metadata = getMetaData({
+	title: "Đặt đồ ăn cùng bạn bè nay đã dễ dàng hơn với Đặt đơn nhóm",
+});
 
 export default function RootLayout({
 	children,

@@ -20,16 +20,18 @@ import {
 	SignupPayload,
 	SignupSchema,
 } from "@/lib/validators/auth";
-import { useLogin, useSignup } from "@/queries/auth";
+import { useSignup } from "@/queries/auth";
 import TokenServices from "@/services/token";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { redirect, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useLayoutEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 
 export default function Page() {
+	const searchParams = useSearchParams();
+	const redirectUrl = searchParams.get("redirect_url");
 	useLayoutEffect(() => {
 		TokenServices.clearToken();
 	}, []);
@@ -47,10 +49,12 @@ export default function Page() {
 	const route = useRouter();
 
 	const { signUp, isLoading } = useSignup({
-		onSuccess(data, variables, context) {
+		onSuccess() {
 			toast.success(`Sign up successfully.`);
 
-			route.push("/sign-in");
+			route.push(
+				`/sign-in?${redirectUrl ? `redirect_url=${redirectUrl}` : ""}`
+			);
 		},
 	});
 
@@ -142,7 +146,9 @@ export default function Page() {
 				<CardFooter>
 					<p className="text-sm mr-2">Already have account? </p>
 					<Link
-						href={"/sign-in"}
+						href={`/sign-in?${
+							redirectUrl ? `redirect_url=${redirectUrl}` : ""
+						}`}
 						className="text-sm font-medium transition-colors hover:text-blue-500"
 					>
 						Sign In

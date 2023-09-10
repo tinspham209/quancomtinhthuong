@@ -19,9 +19,9 @@ import {
 	SheetTrigger,
 	Skeleton,
 } from "../ui";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import TokenServices from "@/services/token";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { useProfileStore } from "@/hooks";
 import ChangePassword from "./change-password";
@@ -34,6 +34,7 @@ const Navbar = ({}: NavbarProps) => {
 	const { profile, onSetProfile } = useProfileStore();
 
 	const router = useRouter();
+	const pathname = usePathname();
 
 	const getUsernameAvatar = useCallback(() => {
 		if (profile) {
@@ -42,16 +43,21 @@ const Navbar = ({}: NavbarProps) => {
 	}, [profile]);
 
 	const handleLogout = () => {
-		router.push("/sign-in");
+		router.push(`/sign-in?redirect_url=${pathname}`);
 		handleInvalidateProfile();
 		onSetProfile(null);
 		TokenServices.clearToken();
 	};
 
+	const isAdmin = useMemo(() => {
+		if (profile?.role.name === "ADMIN") return true;
+		return false;
+	}, [profile]);
+
 	return (
 		<nav className="border-b">
 			<div className="h-16 flex items-center px-4">
-				{!isEmpty(profile) ? (
+				{isAdmin ? (
 					<MainNav className="mr-6" />
 				) : (
 					<Link href="/">
