@@ -17,7 +17,7 @@ const GroupOrderHeader: React.FC<Props> = ({ order }) => {
 	const [value, copy] = useCopyToClipboard();
 
 	const handleGetLinkOrder = () => {
-		const url = `${origin}/order/${order?.storeId}/group-orders/${order?.id}`;
+		const url = `${origin}/order/${order?.storeId}/group-order/${order?.id}`;
 		copy(url);
 		toast.success(
 			"Copy Order URL to clipboard successfully. You can post it in your slack channel to start ordering"
