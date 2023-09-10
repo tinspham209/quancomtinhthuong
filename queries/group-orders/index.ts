@@ -79,6 +79,71 @@ export function useGetGroupOrdersListByStoreId(
 	};
 }
 
+export function useGetGroupOrderDetail(
+	options?: UseQueryOptions<GroupOrderDetail, Error> & {
+		onSuccessCallback?: Callback;
+		onErrorCallback?: Callback;
+		groupOrderId?: string;
+	}
+) {
+	const handleGet: QueryFunction<GroupOrderDetail> = () => {
+		return responseWrapper<GroupOrderDetail>(apiClient.getGroupOrderDetail, [
+			options?.groupOrderId,
+		]);
+	};
+	const {
+		data,
+		error,
+		isError,
+		isSuccess,
+		isFetching,
+		refetch: getGroupOrderDetail,
+	} = useQuery<GroupOrderDetail, Error>(
+		[`/group-order/id`, { groupOrderId: options?.groupOrderId }],
+		{
+			queryFn: handleGet,
+			refetchOnMount: false,
+			enabled: true,
+			notifyOnChangeProps: ["data", "isFetching"],
+			select: (data) => data,
+			...options,
+		}
+	);
+
+	useEffect(() => {
+		if (data && isSuccess) {
+			if (options?.onSuccessCallback) {
+				options.onSuccessCallback(data);
+			}
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [data, isSuccess]);
+
+	useEffect(() => {
+		if (isError) {
+			if (options?.onErrorCallback) {
+				options.onErrorCallback(error);
+			}
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [isError]);
+
+	const queryClient = useQueryClient();
+
+	const handleInvalidateGroupOrderDetail = () => {
+		queryClient.invalidateQueries([`/group-order/id`]);
+	};
+
+	return {
+		groupOrder: data,
+		error,
+		isError,
+		loading: isFetching,
+		getGroupOrderDetail,
+		handleInvalidateGroupOrderDetail,
+	};
+}
+
 export function useCreateGroupOrder(
 	options?: UseMutationOptions<GroupOrderDetail, Error, CreateGroupOrderPayload>
 ) {

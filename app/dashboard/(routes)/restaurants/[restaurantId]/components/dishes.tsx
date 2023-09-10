@@ -20,12 +20,17 @@ import React, { useMemo, useState } from "react";
 interface Props {
 	dishes: Dish[] | undefined;
 	restaurantId: string;
+	isShowEdit?: boolean;
 }
 
 const noImageUrl =
 	"https://t4.ftcdn.net/jpg/04/99/93/31/360_F_499933117_ZAUBfv3P1HEOsZDrnkbNCt4jc3AodArl.jpg";
 
-const DishesCtn: React.FC<Props> = ({ dishes, restaurantId }) => {
+const DishesCtn: React.FC<Props> = ({
+	dishes,
+	restaurantId,
+	isShowEdit = true,
+}) => {
 	const [categories, setCategories] = useState<string[]>([]);
 	const dishesByCategory = useMemo(() => {
 		if (!dishes) return [];
@@ -63,21 +68,23 @@ const DishesCtn: React.FC<Props> = ({ dishes, restaurantId }) => {
 				</h3>
 				<div className="flex gap-2 mt-4 sm:mt-0">
 					<div>
-						<Sheet open={openCreateDishes} onOpenChange={setOpenCreateDishes}>
-							<SheetTrigger asChild>
-								<Button>
-									<PlusCircle className="mr-2 h-5 w-5" />
-									Create Dish
-								</Button>
-							</SheetTrigger>
-							<CreateDishes
-								onClose={() => {
-									setOpenCreateDishes(false);
-								}}
-								categories={categories}
-								restaurantId={restaurantId}
-							/>
-						</Sheet>
+						{isShowEdit && (
+							<Sheet open={openCreateDishes} onOpenChange={setOpenCreateDishes}>
+								<SheetTrigger asChild>
+									<Button>
+										<PlusCircle className="mr-2 h-5 w-5" />
+										Create Dish
+									</Button>
+								</SheetTrigger>
+								<CreateDishes
+									onClose={() => {
+										setOpenCreateDishes(false);
+									}}
+									categories={categories}
+									restaurantId={restaurantId}
+								/>
+							</Sheet>
+						)}
 					</div>
 				</div>
 			</div>
@@ -122,25 +129,30 @@ const DishesCtn: React.FC<Props> = ({ dishes, restaurantId }) => {
 											</p>
 										</CardContent>
 										<CardFooter className="flex justify-end gap-2">
-											{/* TODO: edit dish */}
-											<Sheet>
-												<SheetTrigger asChild>
-													<Button>
-														<Pen className="h-4 w-4" />
-													</Button>
-												</SheetTrigger>
-												<UpdateDish dish={dish} />
-											</Sheet>
-											<div>
-												<Sheet>
-													<SheetTrigger asChild>
-														<Button variant={"destructive"}>
-															<Trash className="h-4 w-4" />
-														</Button>
-													</SheetTrigger>
-													<DeleteDish dish={dish} />
-												</Sheet>
-											</div>
+											{isShowEdit && (
+												<>
+													<div>
+														<Sheet>
+															<SheetTrigger asChild>
+																<Button>
+																	<Pen className="h-4 w-4" />
+																</Button>
+															</SheetTrigger>
+															<UpdateDish dish={dish} />
+														</Sheet>
+													</div>
+													<div>
+														<Sheet>
+															<SheetTrigger asChild>
+																<Button variant={"destructive"}>
+																	<Trash className="h-4 w-4" />
+																</Button>
+															</SheetTrigger>
+															<DeleteDish dish={dish} />
+														</Sheet>
+													</div>
+												</>
+											)}
 										</CardFooter>
 									</Card>
 								))}
