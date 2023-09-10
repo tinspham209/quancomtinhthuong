@@ -52,3 +52,12 @@ export const UpdateGroupOrderSchema = z.object({
 });
 
 export type UpdateGroupOrderPayload = z.infer<typeof UpdateGroupOrderSchema>;
+
+export const FinalizedGroupOrderSchema = z.object({
+	finalized: z.boolean(),
+	groupOrderId: z.string().optional(),
+});
+
+export type FinalizedGroupOrderPayload = z.infer<
+	typeof FinalizedGroupOrderSchema
+>;

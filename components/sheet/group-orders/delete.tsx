@@ -21,7 +21,9 @@ const DeleteGroupOrder: React.FC<Props> = ({ order }) => {
 
 			toast.success("Delete dish successfully.");
 
-			window.location.reload();
+			setTimeout(() => {
+				window.location.reload();
+			}, 500);
 		},
 		onError(error) {
 			toast.error(error.message);

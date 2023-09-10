@@ -7,6 +7,7 @@ import {
 import { LoginPayload, SignupPayload } from "@/lib/validators/auth";
 import {
 	CreateGroupOrderPayload,
+	FinalizedGroupOrderPayload,
 	UpdateGroupOrderPayload,
 } from "@/lib/validators/group-orders";
 import { CreateRestaurantPayload } from "@/lib/validators/restaurants";
@@ -240,6 +241,25 @@ const create = (baseURL = "/api") => {
 		return api.delete(`/app/group-order/${groupOrderId}`, {}, newCancelToken());
 	};
 
+	const finalizedGroupOrder = (payload: FinalizedGroupOrderPayload) => {
+		const groupOrderId = payload.groupOrderId;
+		const formattedPayload = {
+			...payload,
+		};
+		delete formattedPayload.groupOrderId;
+
+		return api.put(
+			`/app/group-order/${groupOrderId}`,
+			{ ...formattedPayload },
+			newCancelToken()
+		);
+	};
+
+	// Orders
+	const getOrdersByGroupOrderId = (groupOrderId: string) => {
+		return api.get(`/app/order/orders/${groupOrderId}`, {}, newCancelToken());
+	};
+
 	return {
 		getRoot,
 
@@ -278,6 +298,10 @@ const create = (baseURL = "/api") => {
 		createGroupOrder,
 		updateGroupOrder,
 		deleteGroupOrder,
+		finalizedGroupOrder,
+
+		// Orders
+		getOrdersByGroupOrderId,
 	};
 };
 

@@ -21,7 +21,9 @@ const DeleteStore: React.FC<Props> = ({ onClose, store }) => {
 			handleInvalidateStoresByUserName();
 			toast.success("Delete store successfully.");
 			router.push("/dashboard");
-			window.location.reload();
+			setTimeout(() => {
+				window.location.reload();
+			}, 500);
 		},
 		onError(error) {
 			toast.error(error.message);

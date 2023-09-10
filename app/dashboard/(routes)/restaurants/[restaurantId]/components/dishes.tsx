@@ -15,6 +15,7 @@ import {
 import { Dish } from "@/queries/dishes/types";
 import { Pen, PlusCircle, Trash } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useMemo, useState } from "react";
 
 interface Props {
@@ -63,12 +64,10 @@ const DishesCtn: React.FC<Props> = ({
 	return (
 		<div className="flex flex-col mt-4">
 			<div className="flex flex-row justify-between">
-				<h3 className="text-3xl font-bold leading-none tracking-tight">
-					&nbsp;
-				</h3>
+				<h3 className="text-3xl font-bold leading-none tracking-tight"></h3>
 				<div className="flex gap-2 mt-4 sm:mt-0">
 					<div>
-						{isShowEdit && (
+						{isShowEdit ? (
 							<Sheet open={openCreateDishes} onOpenChange={setOpenCreateDishes}>
 								<SheetTrigger asChild>
 									<Button>
@@ -84,21 +83,25 @@ const DishesCtn: React.FC<Props> = ({
 									restaurantId={restaurantId}
 								/>
 							</Sheet>
+						) : (
+							<Link href={`/dashboard/restaurants/${restaurantId}`}>
+								<Button>Edit Restaurant</Button>
+							</Link>
 						)}
 					</div>
 				</div>
 			</div>
-			<div className="justify-center gap-6 rounded-lg p-4 ">
+			<div className="justify-center gap-6 rounded-lg p-1 sm:p-4">
 				{dishesByCategory.map((category) => {
 					return (
 						<div key={category.groupTitle}>
 							<h2 className="text-2xl font-bold leading-none tracking-tight my-4">
 								{category.groupTitle}
 							</h2>
-							<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6 gap-6 rounded-lg">
+							<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6 gap-3 sm:gap-6 rounded-lg">
 								{category.data.map((dish) => (
 									<Card key={dish.id} className="">
-										<CardHeader className="pb-2">
+										<CardHeader className="p-2 sm:p-4 sm:pb-2">
 											<CardTitle
 												style={{
 													height: 48,
@@ -129,7 +132,7 @@ const DishesCtn: React.FC<Props> = ({
 												)}
 											</CardDescription>
 										</CardHeader>
-										<CardContent className="pb-0">
+										<CardContent className="p-2 sm:p-4 sm:pb-0">
 											<div className="w-[100%] h-[150px] sm:h-[200px] relative border-zinc-300 border border-solid rounded-lg">
 												<Image
 													unoptimized
@@ -144,7 +147,7 @@ const DishesCtn: React.FC<Props> = ({
 												{new Intl.NumberFormat().format(dish.price)}đ
 											</p>
 										</CardContent>
-										<CardFooter className="flex justify-end gap-2">
+										<CardFooter className="flex justify-end gap-2 p-2 sm:p-4">
 											{isShowEdit && (
 												<>
 													<div>

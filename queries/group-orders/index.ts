@@ -1,5 +1,6 @@
 import {
 	CreateGroupOrderPayload,
+	FinalizedGroupOrderPayload,
 	UpdateGroupOrderPayload,
 } from "@/lib/validators/group-orders";
 import {
@@ -202,6 +203,30 @@ export function useDeleteGroupOrder(
 
 	return {
 		deleteGroupOrder,
+		isLoading,
+	};
+}
+
+export function useFinalizedGroupOrder(
+	options?: UseMutationOptions<
+		GroupOrderDetail,
+		Error,
+		FinalizedGroupOrderPayload
+	>
+) {
+	const { mutate: finalizedGroupOrder, isLoading } = useMutation<
+		GroupOrderDetail,
+		Error,
+		FinalizedGroupOrderPayload
+	>({
+		mutationFn: async (payload: FinalizedGroupOrderPayload) => {
+			return responseWrapper(apiClient.finalizedGroupOrder, [payload]);
+		},
+		...options,
+	});
+
+	return {
+		finalizedGroupOrder,
 		isLoading,
 	};
 }
