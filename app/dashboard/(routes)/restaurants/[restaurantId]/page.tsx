@@ -1,11 +1,10 @@
 "use client";
 
-import JsonView from "@/components/json-view";
+import { useGetDishesByRestaurantId } from "@/queries/dishes";
 import { useGetRestaurantById } from "@/queries/restaurants";
 import { useParams } from "next/navigation";
 import React from "react";
-import { RestaurantHeader, Dishes } from "./components";
-import { useGetDishesByRestaurantId } from "@/queries/dishes";
+import { Dishes, RestaurantHeader } from "./components";
 
 interface Props {}
 
@@ -24,8 +23,6 @@ const RestaurantDetailPage: React.FC<Props> = ({}) => {
 		<div className="p-4">
 			<RestaurantHeader restaurant={restaurant} />
 			<Dishes dishes={dishes} restaurantId={params.restaurantId} />
-			<JsonView src={restaurant} />
-			<JsonView src={dishes} />
 		</div>
 	);
 };

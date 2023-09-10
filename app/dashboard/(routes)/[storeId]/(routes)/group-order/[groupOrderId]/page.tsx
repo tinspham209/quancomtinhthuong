@@ -1,5 +1,4 @@
 "use client";
-import JsonView from "@/components/json-view";
 import { useGetGroupOrderDetail } from "@/queries/group-orders";
 import { useParams } from "next/navigation";
 import React from "react";
@@ -17,7 +16,6 @@ const GroupOrderDetail: React.FC<Props> = ({}) => {
 		<div className="p-4">
 			<GroupOrderDetailHeader order={groupOrder} />
 			<GroupOrderDetailDishes order={groupOrder} />
-			<JsonView src={groupOrder} />
 		</div>
 	);
 };

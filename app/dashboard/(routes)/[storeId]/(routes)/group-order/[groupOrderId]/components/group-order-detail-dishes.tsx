@@ -1,7 +1,6 @@
 import { Dishes } from "@/app/dashboard/(routes)/restaurants/[restaurantId]/components";
 import { useGetDishesByRestaurantId } from "@/queries/dishes";
 import { GroupOrderDetail } from "@/queries/group-orders/types";
-import dayjs from "dayjs";
 import React from "react";
 
 interface Props {

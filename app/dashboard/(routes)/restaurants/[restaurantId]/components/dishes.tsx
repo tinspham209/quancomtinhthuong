@@ -111,20 +111,36 @@ const DishesCtn: React.FC<Props> = ({
 											>
 												{dish.name}
 											</CardTitle>
-											<CardDescription>{dish.description}</CardDescription>
+											<CardDescription>
+												{dish?.description && (
+													<>
+														<b>Description:</b> {dish.description} <br />
+													</>
+												)}
+												{dish?.disable && (
+													<>
+														<b>Disable:</b> true <br />
+													</>
+												)}
+												{dish.additional && (
+													<>
+														<b>Additional:</b> true <br />
+													</>
+												)}
+											</CardDescription>
 										</CardHeader>
 										<CardContent className="pb-0">
-											<div className="w-[100%] h-[150px] sm:h-[200px] md:h-[300px] relative ">
+											<div className="w-[100%] h-[150px] sm:h-[200px] relative border-zinc-300 border border-solid rounded-lg">
 												<Image
 													unoptimized
 													src={dish.imgUrl || noImageUrl}
 													alt={`${dish.category}-${dish.name}`}
 													fill
 													priority
-													style={{ objectFit: "contain" }}
+													style={{ objectFit: "cover", borderRadius: "7px" }}
 												/>
 											</div>
-											<p className="text-xl font-semibold">
+											<p className="text-xl font-semibold mt-2">
 												{new Intl.NumberFormat().format(dish.price)}đ
 											</p>
 										</CardContent>

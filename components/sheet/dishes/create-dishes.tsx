@@ -12,6 +12,7 @@ import {
 	Button,
 	Form,
 	FormControl,
+	FormDescription,
 	FormField,
 	FormItem,
 	FormLabel,
@@ -20,6 +21,7 @@ import {
 	SheetContent,
 	SheetHeader,
 	SheetTitle,
+	Switch,
 } from "../../ui";
 
 interface Props {
@@ -41,6 +43,8 @@ const CreateDishes: React.FC<Props> = ({
 			price: 1000,
 			imgUrl: "",
 			category: "No Category",
+			additional: false,
+			disable: false,
 		},
 	});
 	const { handleInvalidateDishes } = useGetDishesByRestaurantId();
@@ -69,6 +73,8 @@ const CreateDishes: React.FC<Props> = ({
 					price: values.price,
 					imgUrl: values.imgUrl.trim(),
 					category: values.category.trim(),
+					disable: values.disable,
+					additional: values.additional,
 				},
 			],
 		});
@@ -122,6 +128,7 @@ const CreateDishes: React.FC<Props> = ({
 								<FormControl>
 									<Input placeholder="1000" type="number" {...field} />
 								</FormControl>
+								<FormDescription>Example: 20000</FormDescription>
 								<FormMessage />
 							</FormItem>
 						)}
@@ -167,6 +174,40 @@ const CreateDishes: React.FC<Props> = ({
 								<FormLabel>Dish thumbnail</FormLabel>
 								<FormControl>
 									<Input placeholder="Dish thumbnail" {...field} />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+
+					<FormField
+						control={form.control}
+						name="disable"
+						render={({ field }) => (
+							<FormItem className="flex flex-row justify-between items-center">
+								<FormLabel>Dish Disable</FormLabel>
+								<FormControl>
+									<Switch
+										checked={field.value}
+										onCheckedChange={field.onChange}
+									/>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+
+					<FormField
+						control={form.control}
+						name="additional"
+						render={({ field }) => (
+							<FormItem className="flex flex-row justify-between items-center">
+								<FormLabel>Dish Additional</FormLabel>
+								<FormControl>
+									<Switch
+										checked={field.value}
+										onCheckedChange={field.onChange}
+									/>
 								</FormControl>
 								<FormMessage />
 							</FormItem>

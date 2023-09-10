@@ -13,6 +13,8 @@ export const CreateDishSchema = z.object({
 	),
 	imgUrl: z.string(),
 	category: z.string(),
+	disable: z.boolean(),
+	additional: z.boolean(),
 });
 
 export type DishPayload = z.infer<typeof CreateDishSchema>;

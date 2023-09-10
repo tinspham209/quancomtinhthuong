@@ -4,6 +4,10 @@ export type Dish = {
 	description: string;
 	price: number;
 	imgUrl?: string;
-	restaurantId: string;
 	category: string;
+	disable: boolean;
+	additional: boolean;
+	restaurantId: string;
+	createdAt?: string;
+	updatedAt?: string;
 };

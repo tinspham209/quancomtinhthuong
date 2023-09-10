@@ -1,13 +1,8 @@
 "use client";
 
-import { Callback } from "@/queries/auth/types";
-
 import { CreateDishSchema, DishPayload } from "@/lib/validators";
-import {
-	useCreateDishes,
-	useGetDishesByRestaurantId,
-	useUpdateDish,
-} from "@/queries/dishes";
+import { useGetDishesByRestaurantId, useUpdateDish } from "@/queries/dishes";
+import { Dish } from "@/queries/dishes/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -24,8 +19,8 @@ import {
 	SheetContent,
 	SheetHeader,
 	SheetTitle,
+	Switch,
 } from "../../ui";
-import { Dish } from "@/queries/dishes/types";
 
 interface Props {
 	dish: Dish;
@@ -40,6 +35,8 @@ const UpdateDish: React.FC<Props> = ({ dish }) => {
 			price: 1000,
 			imgUrl: "",
 			category: "No Category",
+			disable: false,
+			additional: false,
 		},
 	});
 
@@ -51,6 +48,8 @@ const UpdateDish: React.FC<Props> = ({ dish }) => {
 				price: dish.price,
 				imgUrl: dish.imgUrl || "",
 				category: dish.category || "No Category",
+				disable: dish.disable || false,
+				additional: dish.additional || false,
 			});
 		}
 	}, [form, dish]);
@@ -80,6 +79,8 @@ const UpdateDish: React.FC<Props> = ({ dish }) => {
 			imgUrl: values.imgUrl.trim(),
 			category: values.category.trim(),
 			restaurantId: dish.restaurantId,
+			disable: values.disable,
+			additional: values.additional,
 		});
 	};
 
@@ -176,6 +177,40 @@ const UpdateDish: React.FC<Props> = ({ dish }) => {
 								<FormLabel>Dish thumbnail</FormLabel>
 								<FormControl ref={field.ref}>
 									<Input placeholder="Dish thumbnail" {...field} />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+
+					<FormField
+						control={form.control}
+						name="disable"
+						render={({ field }) => (
+							<FormItem className="flex flex-row justify-between items-center">
+								<FormLabel>Dish Disable</FormLabel>
+								<FormControl>
+									<Switch
+										checked={field.value}
+										onCheckedChange={field.onChange}
+									/>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+
+					<FormField
+						control={form.control}
+						name="additional"
+						render={({ field }) => (
+							<FormItem className="flex flex-row justify-between items-center">
+								<FormLabel>Dish Additional</FormLabel>
+								<FormControl>
+									<Switch
+										checked={field.value}
+										onCheckedChange={field.onChange}
+									/>
 								</FormControl>
 								<FormMessage />
 							</FormItem>

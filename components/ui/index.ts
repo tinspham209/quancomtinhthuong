@@ -19,3 +19,4 @@ export * from "./dropdown-menu";
 export * from "./sheet";
 export * from "./skeleton";
 export * from "./select";
+export * from "./switch";

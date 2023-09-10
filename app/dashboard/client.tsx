@@ -1,7 +1,5 @@
 "use client";
 
-import JsonView from "@/components/json-view";
-import CreateStore from "@/components/sheet/stores/create-store";
 import {
 	Button,
 	Card,
@@ -9,14 +7,12 @@ import {
 	CardFooter,
 	CardHeader,
 	CardTitle,
-	SheetTrigger,
 } from "@/components/ui";
 import { useProfileStore } from "@/hooks";
 import { useGetStoresByUserName } from "@/queries/stores";
-import { PlusCircle, Sheet } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React from "react";
 
 interface Props {}
 
@@ -67,7 +63,6 @@ const Client: React.FC<Props> = ({}: Props) => {
 					))}
 				</div>
 			</div>
-			<JsonView src={stores} />
 		</div>
 	);
 };
