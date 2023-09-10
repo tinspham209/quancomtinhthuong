@@ -49,8 +49,8 @@ const StoreSwitcher: React.FC<StoreSwitcherProps> = ({ className }) => {
 	}, [stores]);
 
 	const currentStore = React.useMemo(() => {
-		return formattedItems.find((item) => item.value === params.slug);
-	}, [formattedItems, params.slug]);
+		return formattedItems.find((item) => item.value === params.storeId);
+	}, [formattedItems, params.storeId]);
 
 	const [openPopover, setOpenPopover] = useState(false);
 
@@ -73,7 +73,7 @@ const StoreSwitcher: React.FC<StoreSwitcherProps> = ({ className }) => {
 					role="combobox"
 					aria-expanded={openPopover}
 					aria-label="Select a store"
-					className={cn("w-[150px] sm:w-[200px] justify-between", className)}
+					className={cn("w-[120px] sm:w-[200px] justify-between", className)}
 				>
 					<StoreIcon className="mr-2 h-4 w-4" />
 					<p className="whitespace-nowrap">{currentStore?.label}</p>

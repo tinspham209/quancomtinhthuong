@@ -22,7 +22,7 @@ const StoreDetail: React.FC<StoreDetailProps> = ({}) => {
 	return (
 		<div className="p-4">
 			<StoreHeader store={store} />
-			<GroupLists groupLists={groupLists} />
+			<GroupLists groupLists={groupLists} storeId={params.storeId} />
 
 			<div className="mt-10" />
 			<JsonView src={store} />

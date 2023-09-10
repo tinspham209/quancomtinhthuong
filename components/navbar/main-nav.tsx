@@ -29,7 +29,12 @@ const MainNav = ({
 	];
 
 	return (
-		<div className={cn("flex items-center space-x-4 lg:space-x-6", className)}>
+		<div
+			className={cn(
+				"flex items-center space-x-2 sm:space-x-4 lg:space-x-6",
+				className
+			)}
+		>
 			<StoreSwitcher />
 			{routes.map((route, index) => (
 				<Link

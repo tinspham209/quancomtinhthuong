@@ -1,14 +1,20 @@
 import {
+	CreateGroupOrderPayload,
+	UpdateGroupOrderPayload,
+} from "@/lib/validators/group-orders";
+import {
 	QueryFunction,
+	UseMutationOptions,
 	UseQueryOptions,
+	useMutation,
 	useQuery,
 	useQueryClient,
 } from "@tanstack/react-query";
-import { GroupOrderList } from "./types";
-import { Callback } from "../auth/types";
-import { responseWrapper } from "../auth/helpers";
-import apiClient from "../apiClient";
 import { useEffect } from "react";
+import apiClient from "../apiClient";
+import { responseWrapper } from "../auth/helpers";
+import { Callback } from "../auth/types";
+import { GroupOrderDetail, GroupOrderList } from "./types";
 
 export function useGetGroupOrdersListByStoreId(
 	options?: UseQueryOptions<GroupOrderList, Error> & {
@@ -70,5 +76,67 @@ export function useGetGroupOrdersListByStoreId(
 		loading: isFetching,
 		getGroupOrderList,
 		handleInvalidateGroupList,
+	};
+}
+
+export function useCreateGroupOrder(
+	options?: UseMutationOptions<GroupOrderDetail, Error, CreateGroupOrderPayload>
+) {
+	const { mutate: createGroupOrder, isLoading } = useMutation<
+		GroupOrderDetail,
+		Error,
+		CreateGroupOrderPayload
+	>({
+		mutationFn: async (payload: CreateGroupOrderPayload) => {
+			return responseWrapper(apiClient.createGroupOrder, [payload]);
+		},
+		...options,
+	});
+
+	return {
+		createGroupOrder,
+		isLoading,
+	};
+}
+
+export function useUpdateGroupOrder(
+	options?: UseMutationOptions<GroupOrderDetail, Error, UpdateGroupOrderPayload>
+) {
+	const { mutate: updateGroupOrder, isLoading } = useMutation<
+		GroupOrderDetail,
+		Error,
+		UpdateGroupOrderPayload
+	>({
+		mutationFn: async (payload: UpdateGroupOrderPayload) => {
+			return responseWrapper(apiClient.updateGroupOrder, [payload]);
+		},
+		...options,
+	});
+
+	return {
+		updateGroupOrder,
+		isLoading,
+	};
+}
+
+export function useDeleteGroupOrder(
+	options?: UseMutationOptions<any, Error, { groupOrderId: string }>
+) {
+	const { mutate: deleteGroupOrder, isLoading } = useMutation<
+		any,
+		Error,
+		{ groupOrderId: string }
+	>({
+		mutationFn: async (payload: { groupOrderId: string }) => {
+			return responseWrapper(apiClient.deleteGroupOrder, [
+				payload.groupOrderId,
+			]);
+		},
+		...options,
+	});
+
+	return {
+		deleteGroupOrder,
+		isLoading,
 	};
 }

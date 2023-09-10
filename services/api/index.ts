@@ -5,6 +5,10 @@ import {
 	UpdateStorePayload,
 } from "@/lib/validators";
 import { LoginPayload, SignupPayload } from "@/lib/validators/auth";
+import {
+	CreateGroupOrderPayload,
+	UpdateGroupOrderPayload,
+} from "@/lib/validators/group-orders";
 import { CreateRestaurantPayload } from "@/lib/validators/restaurants";
 import { Store } from "@/queries/auth/types";
 import { Dish } from "@/queries/dishes/types";
@@ -180,7 +184,6 @@ const create = (baseURL = "/api") => {
 	};
 
 	const updateDish = (payload: Dish) => {
-		console.log("payload: ", payload);
 		const dishId = payload.id;
 		const formattedPayload = {
 			...payload,
@@ -207,6 +210,28 @@ const create = (baseURL = "/api") => {
 			{},
 			newCancelToken()
 		);
+	};
+
+	const createGroupOrder = (payload: CreateGroupOrderPayload) => {
+		return api.post(`/app/group-order`, payload, newCancelToken());
+	};
+
+	const updateGroupOrder = (payload: UpdateGroupOrderPayload) => {
+		const groupOrderId = payload.groupOrderId;
+		const formattedPayload = {
+			...payload,
+		};
+		delete formattedPayload.groupOrderId;
+
+		return api.put(
+			`/app/group-order/${groupOrderId}`,
+			{ ...formattedPayload },
+			newCancelToken()
+		);
+	};
+
+	const deleteGroupOrder = (groupOrderId: string) => {
+		return api.delete(`/app/group-order/${groupOrderId}`, {}, newCancelToken());
 	};
 
 	return {
@@ -243,6 +268,9 @@ const create = (baseURL = "/api") => {
 
 		// Group order
 		getGroupOrdersListByStoreId,
+		createGroupOrder,
+		updateGroupOrder,
+		deleteGroupOrder,
 	};
 };
 
