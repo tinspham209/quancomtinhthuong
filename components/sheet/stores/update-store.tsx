@@ -1,7 +1,16 @@
 import { useProfileStore } from "@/hooks";
-import { CreateStorePayload, CreateStoreSchema } from "@/lib/validators";
+import {
+	CreateStorePayload,
+	CreateStoreSchema,
+	UpdateStorePayload,
+	UpdateStoreSchema,
+} from "@/lib/validators";
 import { Callback, Store } from "@/queries/auth/types";
-import { useCreateStore, useGetStoresByUserName } from "@/queries/stores";
+import {
+	useCreateStore,
+	useGetStoresByUserName,
+	useUpdateStore,
+} from "@/queries/stores";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
@@ -21,67 +30,64 @@ import {
 	SheetTitle,
 } from "../../ui";
 
-interface CreateStoreProps {
-	onClose: Callback;
-	isEdit?: boolean;
-	store?: Store | undefined;
+interface Props {
+	store: Store | undefined;
 }
 
-const CreateStore: React.FC<CreateStoreProps> = ({
-	onClose,
-	isEdit,
-	store,
-}) => {
-	const router = useRouter();
-	const { profile } = useProfileStore();
-
-	const { handleInvalidateStoresByUserName, getStoresByUserName } =
-		useGetStoresByUserName({
-			userName: profile?.userName || "",
-		});
-
-	const form = useForm<CreateStorePayload>({
-		resolver: zodResolver(CreateStoreSchema),
+const UpdateStore: React.FC<Props> = ({ store }) => {
+	const form = useForm<UpdateStorePayload>({
+		resolver: zodResolver(UpdateStoreSchema),
 		defaultValues: {
 			name: "",
 			description: "",
-			slackWebhookUrl: "",
 			ruleDescription: "",
 			imgUrl: "",
-			userId: profile?.id,
+			storeId: store?.id,
 		},
 	});
 
-	const { createStore, isLoading } = useCreateStore({
+	useEffect(() => {
+		if (store) {
+			form.reset({
+				name: store.name || "",
+				description: store.description || "",
+				ruleDescription: store.ruleDescription || "",
+				imgUrl: store.imgUrl || "",
+				storeId: store.id,
+			});
+		}
+	}, [form, store]);
+
+	const { updateStore, isLoading } = useUpdateStore({
 		onSuccess(data) {
-			handleInvalidateStoresByUserName();
-			onClose();
-			toast.success(`Create store (${data.name}) successfully.`);
-			router.push(`/dashboard/${data.id}`);
+			toast.success(`Update store (${store?.name}) successfully.`);
+			setTimeout(() => {
+				window.location.reload();
+			}, 500);
 		},
 		onError(error) {
 			toast.error(error.message);
 		},
-		onSettled() {
-			getStoresByUserName();
-		},
 	});
 
-	const onSubmit = async (values: CreateStorePayload) => {
-		createStore({
-			name: values.name,
-			description: values.description,
-			ruleDescription: values.ruleDescription,
-			slackWebhookUrl: values.slackWebhookUrl,
-			imgUrl: values.imgUrl,
-			userId: values.userId,
-		});
+	const onSubmit = async (values: UpdateStorePayload) => {
+		if (store) {
+			updateStore({
+				name: values.name,
+				description: values.description,
+				ruleDescription: values.ruleDescription,
+				imgUrl: values.imgUrl,
+				storeId: values.storeId,
+			});
+		} else {
+			toast.error(`Can't get store Id`);
+		}
 	};
 
 	return (
 		<SheetContent>
 			<SheetHeader>
-				<SheetTitle>Create Store</SheetTitle>
+				<SheetTitle>Update Store</SheetTitle>
 			</SheetHeader>
 
 			<Form {...form}>
@@ -132,22 +138,6 @@ const CreateStore: React.FC<CreateStoreProps> = ({
 
 					<FormField
 						control={form.control}
-						name="slackWebhookUrl"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Your Channel Slack webhook url</FormLabel>
-								<FormControl>
-									<Input
-										placeholder="Start with https://hooks.slack.com/service...."
-										{...field}
-									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-					<FormField
-						control={form.control}
 						name="imgUrl"
 						render={({ field }) => (
 							<FormItem>
@@ -160,7 +150,7 @@ const CreateStore: React.FC<CreateStoreProps> = ({
 						)}
 					/>
 					<Button type="submit" disabled={isLoading}>
-						Create
+						Update
 					</Button>
 				</form>
 			</Form>
@@ -168,4 +158,4 @@ const CreateStore: React.FC<CreateStoreProps> = ({
 	);
 };
 
-export default CreateStore;
+export default UpdateStore;

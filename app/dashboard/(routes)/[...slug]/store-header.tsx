@@ -1,4 +1,5 @@
-import { Button } from "@/components/ui";
+import { DeleteStore, UpdateStore } from "@/components/sheet";
+import { Button, Sheet, SheetTrigger } from "@/components/ui";
 import { Store } from "@/queries/auth/types";
 import { Pen, Trash } from "lucide-react";
 import React from "react";
@@ -17,19 +18,34 @@ const StoreHeader: React.FC<Props> = ({ store }) => {
 				{store?.description && (
 					<p className="text-xl text-muted-foreground">{store.description}</p>
 				)}
+				{store?.ruleDescription && (
+					<p className="text-xl text-muted-foreground">
+						Rule: {store.ruleDescription}
+					</p>
+				)}
 			</div>
 			<div className="flex flex-row gap-2">
 				<div>
-					<Button variant={"destructive"}>
-						<Trash className="mr-2 h-4 w-4" />
-						Delete store
-					</Button>
+					<Sheet>
+						<SheetTrigger asChild>
+							<Button variant={"destructive"}>
+								<Trash className="mr-2 h-4 w-4" />
+								Delete store
+							</Button>
+						</SheetTrigger>
+						<DeleteStore store={store} />
+					</Sheet>
 				</div>
 				<div>
-					<Button>
-						<Pen className="mr-2 h-4 w-4" />
-						Edit store
-					</Button>
+					<Sheet>
+						<SheetTrigger asChild>
+							<Button>
+								<Pen className="mr-2 h-4 w-4" />
+								Edit store
+							</Button>
+						</SheetTrigger>
+						<UpdateStore store={store} />
+					</Sheet>
 				</div>
 			</div>
 		</div>

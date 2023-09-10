@@ -2,6 +2,7 @@ import {
 	CreateDishPayload,
 	CreateStorePayload,
 	GetStoresByUserName,
+	UpdateStorePayload,
 } from "@/lib/validators";
 import { LoginPayload, SignupPayload } from "@/lib/validators/auth";
 import { CreateRestaurantPayload } from "@/lib/validators/restaurants";
@@ -87,8 +88,22 @@ const create = (baseURL = "/api") => {
 		return api.post(`/app/store/store`, { ...payload }, newCancelToken());
 	};
 
-	const deleteStore = (payload: { storeId: string }) => {
-		return api.delete(`/stores/${payload.storeId}`);
+	const updateStore = (payload: UpdateStorePayload) => {
+		const id = payload.storeId;
+		const formattedPayload = {
+			...payload,
+		};
+		delete formattedPayload.storeId;
+
+		return api.put(
+			`/app/store/${id}`,
+			{ ...formattedPayload },
+			newCancelToken()
+		);
+	};
+
+	const deleteStore = (storeId: string) => {
+		return api.delete(`/app/store/${storeId}`);
 	};
 
 	// Auth
@@ -157,7 +172,6 @@ const create = (baseURL = "/api") => {
 	};
 
 	const createDishes = (payload: CreateDishPayload) => {
-		console.log("payload: ", payload);
 		return api.post(
 			`/app/dish/${payload.restaurantId}`,
 			payload.dishes,
@@ -193,6 +207,7 @@ const create = (baseURL = "/api") => {
 		// Store
 		getStoresByUserName,
 		createStore,
+		updateStore,
 		deleteStore,
 		getStoreById,
 

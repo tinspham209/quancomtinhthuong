@@ -1,6 +1,10 @@
 "use client";
 
-import { CreateStorePayload, CreateStoreResponse } from "@/lib/validators";
+import {
+	CreateStorePayload,
+	CreateStoreResponse,
+	UpdateStorePayload,
+} from "@/lib/validators";
 import {
 	QueryFunction,
 	UseMutationOptions,
@@ -18,7 +22,7 @@ export function useGetStoresByUserName(
 	options?: UseQueryOptions<Store[], Error> & {
 		onSuccessCallback?: Callback;
 		onErrorCallback?: Callback;
-		userName: string;
+		userName?: string;
 	}
 ) {
 	const handleGet: QueryFunction<Store[]> = () => {
@@ -108,9 +112,7 @@ export function useDeleteStore(
 		{ storeId: string }
 	>({
 		mutationFn: async (payload: { storeId: string }) => {
-			const { data } = await apiClient.deleteStore(payload);
-
-			return data;
+			return responseWrapper(apiClient.deleteStore, [payload.storeId]);
 		},
 		...options,
 	});
@@ -177,5 +179,25 @@ export function useGetStoreById(
 		loading: isFetching,
 		getStoreById,
 		handleInvalidateStoreById,
+	};
+}
+
+export function useUpdateStore(
+	options?: UseMutationOptions<Store, Error, UpdateStorePayload>
+) {
+	const { mutate: updateStore, isLoading } = useMutation<
+		Store,
+		Error,
+		UpdateStorePayload
+	>({
+		mutationFn: async (payload: UpdateStorePayload) => {
+			return responseWrapper(apiClient.updateStore, [payload]);
+		},
+		...options,
+	});
+
+	return {
+		updateStore,
+		isLoading,
 	};
 }
