@@ -25,6 +25,10 @@ const OrderHeader: React.FC<Props> = ({ order }) => {
 				<p className="text-xl text-muted-foreground">
 					Finalized: {order?.finalized ? "Yes" : "No"}
 				</p>
+
+				<h2 className="text-2xl font-bold leading-none tracking-tight mt-4">
+					{order?.restaurant.name || "Restaurant"}
+				</h2>
 			</div>
 		</div>
 	);
