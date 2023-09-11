@@ -42,7 +42,7 @@ export function useGetStoresByUserName(
 		{
 			queryFn: handleGet,
 			refetchOnMount: false,
-			enabled: false,
+			enabled: !!options?.userName,
 			notifyOnChangeProps: ["data", "isFetching"],
 			select: (data) => data,
 			...options,
