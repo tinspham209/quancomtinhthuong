@@ -145,7 +145,7 @@ const DishesCtn: React.FC<Props> = ({
 												/>
 											</div>
 											<p className="text-xl font-semibold mt-2">
-												{new Intl.NumberFormat().format(dish.price)}đ
+												{new Intl.NumberFormat().format(dish.price)}VND
 											</p>
 										</CardContent>
 										<CardFooter className="flex justify-end gap-2 p-2 sm:p-4">

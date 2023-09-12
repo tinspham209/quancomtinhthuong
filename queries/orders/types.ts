@@ -14,7 +14,9 @@ export type OrderDetail = {
 	orderCode: number;
 	paymentLink: string;
 	limitAdditionalOrder: number;
+	note: string;
 	Dish: Dish;
+	User: { name: string; userName: string; imgUrl: string; id: string };
 };
 
 export enum OrderStatus {

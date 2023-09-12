@@ -20,3 +20,4 @@ export * from "./sheet";
 export * from "./skeleton";
 export * from "./select";
 export * from "./switch";
+export * from "./data-tables";

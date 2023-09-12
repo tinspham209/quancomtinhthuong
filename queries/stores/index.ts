@@ -182,6 +182,67 @@ export function useGetStoreById(
 	};
 }
 
+export function useGetStoreBySlug(
+	options?: UseQueryOptions<Store, Error> & {
+		onSuccessCallback?: Callback;
+		onErrorCallback?: Callback;
+		slug: string;
+	}
+) {
+	const handleGet: QueryFunction<Store> = () => {
+		return responseWrapper<Store>(apiClient.getStoreBySlugName, [
+			options?.slug,
+		]);
+	};
+	const {
+		data,
+		error,
+		isError,
+		isSuccess,
+		isFetching,
+		refetch: getStoreBySlugName,
+	} = useQuery<Store, Error>([`/store/slug`, { slug: options?.slug }], {
+		queryFn: handleGet,
+		refetchOnMount: false,
+		enabled: !!options?.slug,
+		notifyOnChangeProps: ["data", "isFetching"],
+		select: (data) => data,
+		...options,
+	});
+
+	useEffect(() => {
+		if (data && isSuccess) {
+			if (options?.onSuccessCallback) {
+				options.onSuccessCallback(data);
+			}
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [data, isSuccess]);
+
+	useEffect(() => {
+		if (isError) {
+			if (options?.onErrorCallback) {
+				options.onErrorCallback(error);
+			}
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [isError]);
+
+	const queryClient = useQueryClient();
+
+	const handleInvalidateStoreBySlug = () =>
+		queryClient.invalidateQueries([`/store/slug`]);
+
+	return {
+		store: data,
+		error,
+		isError,
+		loading: isFetching,
+		getStoreBySlugName,
+		handleInvalidateStoreBySlug,
+	};
+}
+
 export function useUpdateStore(
 	options?: UseMutationOptions<Store, Error, UpdateStorePayload>
 ) {

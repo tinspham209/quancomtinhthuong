@@ -2,6 +2,7 @@
 
 import { useGetDishesByRestaurantId } from "@/queries/dishes";
 import { useGetGroupOrderDetail } from "@/queries/group-orders";
+import { useGetStoreBySlug } from "@/queries/stores";
 import { useParams } from "next/navigation";
 import React from "react";
 import { OrderDishesCtn, OrderHeader } from "./components";
@@ -9,7 +10,7 @@ import { OrderDishesCtn, OrderHeader } from "./components";
 interface Props {}
 
 const OrderCtn: React.FC<Props> = ({}) => {
-	const { storeId, groupOrderId } = useParams();
+	const { storeSlug, groupOrderId } = useParams();
 	const { groupOrder } = useGetGroupOrderDetail({
 		groupOrderId: groupOrderId,
 	});
@@ -17,12 +18,16 @@ const OrderCtn: React.FC<Props> = ({}) => {
 		restaurantId: groupOrder?.restaurantId,
 	});
 
+	const { store } = useGetStoreBySlug({
+		slug: storeSlug,
+	});
+
 	return (
 		<div className="p-4">
 			<OrderHeader order={groupOrder} />
 			<OrderDishesCtn
 				dishes={dishes}
-				storeId={storeId}
+				storeId={store?.id || ""}
 				groupOrderId={groupOrderId}
 				isFinalized={groupOrder?.finalized || false}
 			/>

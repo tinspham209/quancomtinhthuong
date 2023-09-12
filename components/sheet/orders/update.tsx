@@ -1,11 +1,9 @@
-import { useProfileStore } from "@/hooks";
 import { CreateOrderPayload, CreateOrderSchema } from "@/lib/validators/orders";
-import { Dish } from "@/queries/dishes/types";
-import { useCreateOrder } from "@/queries/orders";
-import { OrderStatus } from "@/queries/orders/types";
+import { useCreateOrder, useDeleteOrder } from "@/queries/orders";
+import { OrderDetail, OrderStatus } from "@/queries/orders/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import {
@@ -27,30 +25,40 @@ import {
 } from "../../ui";
 
 interface Props {
-	groupOrderId: string;
-	dish: Dish;
+	order: OrderDetail;
 }
 const noImageUrl =
 	"https://t4.ftcdn.net/jpg/04/99/93/31/360_F_499933117_ZAUBfv3P1HEOsZDrnkbNCt4jc3AodArl.jpg";
 
-const CreateOrder: React.FC<Props> = ({ groupOrderId, dish }) => {
-	const { profile } = useProfileStore();
-
+const UpdateOrder: React.FC<Props> = ({ order }) => {
 	const form = useForm<CreateOrderPayload>({
 		resolver: zodResolver(CreateOrderSchema),
 		defaultValues: {
 			status: OrderStatus.NOPE,
-			userId: profile?.id,
-			groupOrderId: groupOrderId,
-			dishId: dish.id,
+			userId: order.userId,
+			groupOrderId: order.groupOrderId,
+			dishId: "",
 			amount: 1,
 			note: "",
 		},
 	});
 
+	useEffect(() => {
+		if (order) {
+			form.reset({
+				status: order.status,
+				userId: order.userId,
+				groupOrderId: order.groupOrderId,
+				dishId: order.dishId,
+				amount: order.amount,
+				note: order.note || "",
+			});
+		}
+	}, [form, order]);
+
 	const { createOrder, isLoading } = useCreateOrder({
 		onSuccess(data) {
-			toast.success(`Create order successfully.`);
+			toast.success(`Update order successfully.`);
 			setTimeout(() => {
 				window.location.reload();
 			}, 500);
@@ -59,6 +67,24 @@ const CreateOrder: React.FC<Props> = ({ groupOrderId, dish }) => {
 			toast.error(error.message);
 		},
 	});
+
+	const { deleteOrder, isLoading: isLoadingDelete } = useDeleteOrder({
+		onSuccess() {
+			toast.success(`Delete order successfully.`);
+			setTimeout(() => {
+				window.location.reload();
+			}, 500);
+		},
+		onError(error) {
+			toast.error(error.message);
+		},
+	});
+
+	const handleDeleteOrder = () => {
+		deleteOrder({
+			orderId: order.id,
+		});
+	};
 
 	const onSubmit = async (values: CreateOrderPayload) => {
 		createOrder({
@@ -76,7 +102,7 @@ const CreateOrder: React.FC<Props> = ({ groupOrderId, dish }) => {
 	return (
 		<SheetContent>
 			<SheetHeader>
-				<SheetTitle>Create Order</SheetTitle>
+				<SheetTitle>Update Order</SheetTitle>
 			</SheetHeader>
 
 			<Card className="border-0 shadow-none">
@@ -91,22 +117,22 @@ const CreateOrder: React.FC<Props> = ({ groupOrderId, dish }) => {
 							WebkitLineClamp: 1,
 						}}
 					>
-						{dish.name}
+						{order.Dish.name}
 					</CardTitle>
 				</CardHeader>
 				<CardContent className="p-0">
 					<div className="w-[100%] h-[300px] relative border-zinc-300 border border-solid rounded-lg">
 						<Image
 							unoptimized
-							src={dish.imgUrl || noImageUrl}
-							alt={`${dish.category}-${dish.name}`}
+							src={order.Dish.imgUrl || noImageUrl}
+							alt={`${order.Dish.category}-${order.Dish.name}`}
 							fill
 							priority
 							style={{ objectFit: "cover", borderRadius: "7px" }}
 						/>
 					</div>
 					<p className="text-xl font-semibold mt-2">
-						{new Intl.NumberFormat().format(dish.price)}đ
+						{new Intl.NumberFormat().format(order.Dish.price)}VND
 					</p>
 				</CardContent>
 			</Card>
@@ -144,9 +170,19 @@ const CreateOrder: React.FC<Props> = ({ groupOrderId, dish }) => {
 						)}
 					/>
 
-					<h1>Total: {new Intl.NumberFormat().format(dish.price * amount)}d</h1>
-					<Button type="submit" disabled={isLoading}>
-						Create
+					<h1>
+						Total: {new Intl.NumberFormat().format(order.Dish.price * amount)}d
+					</h1>
+					<Button type="submit" disabled={isLoadingDelete || isLoading}>
+						Update
+					</Button>
+					<Button
+						type="button"
+						variant={"destructive"}
+						onClick={() => handleDeleteOrder()}
+						disabled={isLoadingDelete || isLoading}
+					>
+						Delete
 					</Button>
 				</form>
 			</Form>
@@ -154,4 +190,4 @@ const CreateOrder: React.FC<Props> = ({ groupOrderId, dish }) => {
 	);
 };
 
-export default CreateOrder;
+export default UpdateOrder;

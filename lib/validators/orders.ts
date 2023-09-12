@@ -13,6 +13,7 @@ export const CreateOrderSchema = z.object({
 			})
 			.nonnegative()
 	),
+	note: z.string().optional(),
 });
 
 export type CreateOrderPayload = z.infer<typeof CreateOrderSchema>;

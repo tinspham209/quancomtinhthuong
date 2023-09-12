@@ -90,6 +90,10 @@ const create = (baseURL = "/api") => {
 		return api.get(`/app/store/${storeId}`, {}, newCancelToken());
 	};
 
+	const getStoreBySlugName = (storeSlug: Store["storeSlug"]) => {
+		return api.get(`/app/store/slug/${storeSlug}`, {}, newCancelToken());
+	};
+
 	const createStore = (payload: CreateStorePayload) => {
 		return api.post(`/app/store/store`, { ...payload }, newCancelToken());
 	};
@@ -265,6 +269,10 @@ const create = (baseURL = "/api") => {
 		return api.post(`/app/order`, payload, newCancelToken());
 	};
 
+	const deleteOrder = (orderId: number) => {
+		return api.delete(`/app/order/${orderId}`, {}, newCancelToken());
+	};
+
 	return {
 		getRoot,
 
@@ -277,6 +285,7 @@ const create = (baseURL = "/api") => {
 		updateStore,
 		deleteStore,
 		getStoreById,
+		getStoreBySlugName,
 
 		// Auth
 		login,
@@ -308,6 +317,7 @@ const create = (baseURL = "/api") => {
 		// Orders
 		getOrdersByGroupOrderId,
 		createOrder,
+		deleteOrder,
 	};
 };
 

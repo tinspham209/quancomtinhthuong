@@ -1,3 +1,4 @@
+import { Skeleton } from "@/components/ui";
 import { GroupOrderDetail } from "@/queries/group-orders/types";
 import dayjs from "dayjs";
 import React from "react";

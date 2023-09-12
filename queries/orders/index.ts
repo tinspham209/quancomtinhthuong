@@ -35,7 +35,7 @@ export function useGetOrdersByGroupOrderId(
 	} = useQuery<OrderDetail[], Error>([`orders/group-order-id`], {
 		queryFn: handleGet,
 		refetchOnMount: false,
-		enabled: true,
+		enabled: !!options?.groupOrderId,
 		notifyOnChangeProps: ["data", "isFetching"],
 		select: (data) => data,
 		...options,
@@ -91,6 +91,26 @@ export function useCreateOrder(
 
 	return {
 		createOrder,
+		isLoading,
+	};
+}
+
+export function useDeleteOrder(
+	options?: UseMutationOptions<any, Error, { orderId: number }>
+) {
+	const { mutate: deleteOrder, isLoading } = useMutation<
+		any,
+		Error,
+		{ orderId: number }
+	>({
+		mutationFn: async (payload: { orderId: number }) => {
+			return responseWrapper(apiClient.deleteOrder, [payload.orderId]);
+		},
+		...options,
+	});
+
+	return {
+		deleteOrder,
 		isLoading,
 	};
 }
