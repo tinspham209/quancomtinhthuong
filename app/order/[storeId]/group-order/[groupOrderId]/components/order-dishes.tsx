@@ -12,6 +12,7 @@ import {
 	Sheet,
 	SheetTrigger,
 } from "@/components/ui";
+import { cn } from "@/lib/utils";
 import { Dish } from "@/queries/dishes/types";
 import { Plus, PlusCircle } from "lucide-react";
 import Image from "next/image";
@@ -69,7 +70,12 @@ const OrderDishesCtn: React.FC<Props> = ({
 							</h2>
 							<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6 gap-3 sm:gap-6 rounded-lg">
 								{category.data.map((dish) => (
-									<Card key={dish.id} className="">
+									<Card
+										key={dish.id}
+										className={cn("", {
+											"opacity-50": dish.disable,
+										})}
+									>
 										<CardHeader className="p-2 sm:p-4 sm:pb-2">
 											<CardTitle
 												style={{

@@ -2,6 +2,7 @@ import FinalizedGroupOrder from "@/components/sheet/group-orders/finalized";
 import { Button, Sheet, SheetTrigger } from "@/components/ui";
 import { useOrigin } from "@/hooks";
 import useCopyToClipboard from "@/hooks/use-copy-to-clipboard";
+import { Store } from "@/queries/auth/types";
 import { GroupOrderDetail } from "@/queries/group-orders/types";
 import dayjs from "dayjs";
 import Link from "next/link";
@@ -10,14 +11,15 @@ import toast from "react-hot-toast";
 
 interface Props {
 	order: GroupOrderDetail | undefined;
+	store: Store | undefined;
 }
 
-const GroupOrderHeader: React.FC<Props> = ({ order }) => {
+const GroupOrderHeader: React.FC<Props> = ({ order, store }) => {
 	const origin = useOrigin();
 	const [value, copy] = useCopyToClipboard();
 
 	const handleGetLinkOrder = () => {
-		const url = `${origin}/order/${order?.storeId}/group-order/${order?.id}`;
+		const url = `${origin}/order/${store?.storeSlug}/group-order/${order?.id}`;
 		copy(url);
 		toast.success(
 			"Copy Order URL to clipboard successfully. You can post it in your slack channel to start ordering"
