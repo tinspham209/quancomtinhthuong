@@ -4,7 +4,8 @@ import { GroupOrderDetail } from "@/queries/group-orders/types";
 import { useGetOrdersByGroupOrderId } from "@/queries/orders";
 import dayjs from "dayjs";
 import Link from "next/link";
-import React from "react";
+import { usePathname } from "next/navigation";
+import React, { useMemo } from "react";
 import { toast } from "react-hot-toast";
 
 interface Props {
@@ -12,7 +13,20 @@ interface Props {
 }
 
 const OrdersHeader: React.FC<Props> = ({ groupOrder }) => {
-	const { handleInvalidateOrders, loading } = useGetOrdersByGroupOrderId();
+	const { handleInvalidateOrders, loading } = useGetOrdersByGroupOrderId({
+		groupOrderId: groupOrder?.id,
+	});
+	const pathname = usePathname();
+
+	const createNewOrderUrl = useMemo(() => {
+		if (pathname.endsWith("/orders")) {
+			const lastIndex = pathname.lastIndexOf("/orders");
+
+			return pathname.slice(0, lastIndex).replace(/\/+$/, "");
+		}
+
+		return pathname;
+	}, [pathname]);
 
 	return (
 		<div className="mb-4">
@@ -49,18 +63,8 @@ const OrdersHeader: React.FC<Props> = ({ groupOrder }) => {
 						</Button>
 					</div>
 					<div>
-						<Sheet>
-							<SheetTrigger asChild>
-								<Button variant={"outline"}>Finalize</Button>
-							</SheetTrigger>
-							<FinalizedGroupOrder order={groupOrder as GroupOrderDetail} />
-						</Sheet>
-					</div>
-					<div>
-						<Link
-							href={`/dashboard/${groupOrder?.storeId}/group-order/${groupOrder?.id}`}
-						>
-							<Button>View Group Order Detail</Button>
+						<Link href={createNewOrderUrl}>
+							<Button>Create new order</Button>
 						</Link>
 					</div>
 				</div>

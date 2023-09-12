@@ -1,7 +1,7 @@
 import { useProfileStore } from "@/hooks";
 import { CreateOrderPayload, CreateOrderSchema } from "@/lib/validators/orders";
 import { Dish } from "@/queries/dishes/types";
-import { useCreateOrder } from "@/queries/orders";
+import { useCreateOrder, useGetOrdersByGroupOrderId } from "@/queries/orders";
 import { OrderStatus } from "@/queries/orders/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
@@ -25,6 +25,8 @@ import {
 	SheetHeader,
 	SheetTitle,
 } from "../../ui";
+import Link from "next/link";
+import { useParams, usePathname } from "next/navigation";
 
 interface Props {
 	groupOrderId: string;
@@ -35,7 +37,7 @@ const noImageUrl =
 
 const CreateOrder: React.FC<Props> = ({ groupOrderId, dish }) => {
 	const { profile } = useProfileStore();
-
+	const pathname = usePathname();
 	const form = useForm<CreateOrderPayload>({
 		resolver: zodResolver(CreateOrderSchema),
 		defaultValues: {
@@ -48,12 +50,14 @@ const CreateOrder: React.FC<Props> = ({ groupOrderId, dish }) => {
 		},
 	});
 
-	const { createOrder, isLoading } = useCreateOrder({
+	const { handleInvalidateOrders } = useGetOrdersByGroupOrderId({
+		groupOrderId: groupOrderId,
+	});
+
+	const { createOrder, isLoading, isSuccess } = useCreateOrder({
 		onSuccess(data) {
 			toast.success(`Create order successfully.`);
-			setTimeout(() => {
-				window.location.reload();
-			}, 500);
+			handleInvalidateOrders();
 		},
 		onError(error) {
 			toast.error(error.message);
@@ -75,81 +79,108 @@ const CreateOrder: React.FC<Props> = ({ groupOrderId, dish }) => {
 
 	return (
 		<SheetContent>
-			<SheetHeader>
-				<SheetTitle>Create Order</SheetTitle>
-			</SheetHeader>
+			{isSuccess ? (
+				<>
+					<SheetHeader>
+						<SheetTitle>Create Order Successfully</SheetTitle>
+					</SheetHeader>
 
-			<Card className="border-0 shadow-none">
-				<CardHeader className="py-2 px-0">
-					<CardTitle
-						style={{
-							height: 24,
-							display: "-webkit-box",
-							overflow: "hidden",
-							lineHeight: "24px",
-							WebkitBoxOrient: "vertical",
-							WebkitLineClamp: 1,
-						}}
-					>
-						{dish.name}
-					</CardTitle>
-				</CardHeader>
-				<CardContent className="p-0">
-					<div className="w-[100%] h-[300px] relative border-zinc-300 border border-solid rounded-lg">
-						<Image
-							unoptimized
-							src={dish.imgUrl || noImageUrl}
-							alt={`${dish.category}-${dish.name}`}
-							fill
-							priority
-							style={{ objectFit: "cover", borderRadius: "7px" }}
-						/>
+					<div className="flex flex-col gap-4 mt-24">
+						<Link className="w-full" href={`${pathname}/orders`}>
+							<Button className="w-full">View all orders</Button>
+						</Link>
+						<Button
+							type="button"
+							variant={"outline"}
+							onClick={() => {
+								window.location.reload();
+							}}
+						>
+							Create new order
+						</Button>
 					</div>
-					<p className="text-xl font-semibold mt-2">
-						{new Intl.NumberFormat().format(dish.price)}đ
-					</p>
-				</CardContent>
-			</Card>
+				</>
+			) : (
+				<>
+					<SheetHeader>
+						<SheetTitle>Create Order</SheetTitle>
+					</SheetHeader>
 
-			<Form {...form}>
-				<form
-					onSubmit={form.handleSubmit(onSubmit)}
-					className="flex gap-3 flex-col pt-8"
-				>
-					<FormField
-						control={form.control}
-						name="amount"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Amount *</FormLabel>
-								<FormControl>
-									<Input placeholder="Amount" {...field} />
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
+					<Card className="border-0 shadow-none">
+						<CardHeader className="py-2 px-0">
+							<CardTitle
+								style={{
+									height: 24,
+									display: "-webkit-box",
+									overflow: "hidden",
+									lineHeight: "24px",
+									WebkitBoxOrient: "vertical",
+									WebkitLineClamp: 1,
+								}}
+							>
+								{dish.name}
+							</CardTitle>
+						</CardHeader>
+						<CardContent className="p-0">
+							<div className="w-[100%] h-[300px] relative border-zinc-300 border border-solid rounded-lg">
+								<Image
+									unoptimized
+									src={dish.imgUrl || noImageUrl}
+									alt={`${dish.category}-${dish.name}`}
+									fill
+									priority
+									style={{ objectFit: "cover", borderRadius: "7px" }}
+								/>
+							</div>
+							<p className="text-xl font-semibold mt-2">
+								{new Intl.NumberFormat().format(dish.price)}đ
+							</p>
+						</CardContent>
+					</Card>
 
-					<FormField
-						control={form.control}
-						name="note"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Note</FormLabel>
-								<FormControl>
-									<Input placeholder="Note" {...field} />
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
+					<Form {...form}>
+						<form
+							onSubmit={form.handleSubmit(onSubmit)}
+							className="flex gap-3 flex-col pt-8"
+						>
+							<FormField
+								control={form.control}
+								name="amount"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Amount *</FormLabel>
+										<FormControl>
+											<Input placeholder="Amount" {...field} />
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
 
-					<h1>Total: {new Intl.NumberFormat().format(dish.price * amount)}d</h1>
-					<Button type="submit" disabled={isLoading}>
-						Create
-					</Button>
-				</form>
-			</Form>
+							<FormField
+								control={form.control}
+								name="note"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Note</FormLabel>
+										<FormControl>
+											<Input placeholder="Note" {...field} />
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+
+							<h1>
+								Total: {new Intl.NumberFormat().format(dish.price * amount)}d
+							</h1>
+							<Button type="submit" disabled={isLoading}>
+								Create
+							</Button>
+						</form>
+					</Form>
+				</>
+			)}
 		</SheetContent>
 	);
 };

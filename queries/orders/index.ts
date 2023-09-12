@@ -32,11 +32,13 @@ export function useGetOrdersByGroupOrderId(
 		isSuccess,
 		isFetching,
 		refetch: getOrders,
-	} = useQuery<OrderDetail[], Error>([`orders/group-order-id`], {
+	} = useQuery<OrderDetail[], Error>([`/orders/group-order-id`], {
 		queryFn: handleGet,
 		refetchOnMount: false,
 		enabled: !!options?.groupOrderId,
 		notifyOnChangeProps: ["data", "isFetching"],
+		staleTime: 10000,
+		refetchOnWindowFocus: true,
 		select: (data) => data,
 		...options,
 	});
@@ -62,7 +64,7 @@ export function useGetOrdersByGroupOrderId(
 	const queryClient = useQueryClient();
 
 	const handleInvalidateOrders = () => {
-		queryClient.invalidateQueries([`orders/group-order-id`]);
+		return queryClient.invalidateQueries([`/orders/group-order-id`]);
 	};
 
 	return {
@@ -78,11 +80,11 @@ export function useGetOrdersByGroupOrderId(
 export function useCreateOrder(
 	options?: UseMutationOptions<OrderDetail, Error, CreateOrderPayload>
 ) {
-	const { mutate: createOrder, isLoading } = useMutation<
-		OrderDetail,
-		Error,
-		CreateOrderPayload
-	>({
+	const {
+		mutate: createOrder,
+		isLoading,
+		isSuccess,
+	} = useMutation<OrderDetail, Error, CreateOrderPayload>({
 		mutationFn: async (payload: CreateOrderPayload) => {
 			return responseWrapper(apiClient.createOrder, [payload]);
 		},
@@ -92,6 +94,7 @@ export function useCreateOrder(
 	return {
 		createOrder,
 		isLoading,
+		isSuccess,
 	};
 }
 

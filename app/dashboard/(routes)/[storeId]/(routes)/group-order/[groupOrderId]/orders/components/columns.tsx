@@ -13,6 +13,7 @@ import {
 } from "@/components/ui";
 import { OrderDetail, OrderStatus } from "@/queries/orders/types";
 import { ColumnDef } from "@tanstack/react-table";
+import dayjs from "dayjs";
 import { MoreHorizontal } from "lucide-react";
 
 export type OrderRow = {
@@ -36,6 +37,15 @@ export type OrderRow = {
 };
 
 export const orderColumns: ColumnDef<OrderRow>[] = [
+	{
+		accessorKey: "index",
+		header: "#",
+		cell: ({ row }) => {
+			const index = row.index;
+
+			return <div>{index + 1}</div>;
+		},
+	},
 	{
 		accessorKey: "userFullName",
 		header: "Username",
@@ -75,6 +85,16 @@ export const orderColumns: ColumnDef<OrderRow>[] = [
 	{
 		accessorKey: "paymentStatus",
 		header: "Payment Status",
+	},
+	{
+		accessorKey: "createdAt",
+		header: "Created At",
+		cell: ({ row }) => {
+			const createdAt: string = row.getValue("createdAt");
+			const formatted = dayjs(new Date(createdAt)).format("DD/MM HH:mm:ss");
+
+			return <div>{formatted}</div>;
+		},
 	},
 	{
 		accessorKey: "action",
