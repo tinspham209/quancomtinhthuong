@@ -32,6 +32,8 @@ const UpdateStore: React.FC<Props> = ({ store }) => {
 			ruleDescription: "",
 			imgUrl: "",
 			storeId: store?.id,
+			bankInfo: "",
+			storeSlug: "",
 		},
 	});
 
@@ -43,6 +45,8 @@ const UpdateStore: React.FC<Props> = ({ store }) => {
 				ruleDescription: store.ruleDescription || "",
 				imgUrl: store.imgUrl || "",
 				storeId: store.id,
+				bankInfo: store.bankInfo || "",
+				storeSlug: store.storeSlug || "",
 			});
 		}
 	}, [form, store]);
@@ -67,6 +71,8 @@ const UpdateStore: React.FC<Props> = ({ store }) => {
 				ruleDescription: values.ruleDescription,
 				imgUrl: values.imgUrl,
 				storeId: values.storeId,
+				storeSlug: values.storeSlug,
+				bankInfo: values.bankInfo,
 			});
 		} else {
 			toast.error(`Can't get store Id`);
@@ -118,7 +124,7 @@ const UpdateStore: React.FC<Props> = ({ store }) => {
 							<FormItem>
 								<FormLabel>Rule Description</FormLabel>
 								<FormControl>
-									<Input placeholder="Rule Description" {...field} />
+									<Input multiple placeholder="Rule Description" {...field} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>

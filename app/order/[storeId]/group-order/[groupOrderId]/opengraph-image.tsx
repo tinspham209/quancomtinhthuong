@@ -22,6 +22,7 @@ export default async function LocationOG({
 		restaurantName: info?.restaurant?.name,
 		limit: info?.limit,
 		discount: info?.discount,
+		dueTime: info?.dueTime,
 	};
 
 	return new ImageResponse(
@@ -77,9 +78,9 @@ export default async function LocationOG({
 									marginBottom: "-36px",
 								}}
 							>
-								CLOSED AT
+								DUE TIME
 							</p>
-							<p>11:00 AM</p>
+							<p>{formatInfo.dueTime || "11:00 AM"}</p>
 						</div>
 						<div tw="flex flex-col items-center justify-center mx-10">
 							<p
@@ -103,7 +104,7 @@ export default async function LocationOG({
 							>
 								DISCOUNT
 							</p>
-							<p>{formatInfo.discount || 0}Đ</p>
+							<p>{formatInfo.discount || 0} VND</p>
 						</div>
 					</div>
 				</div>

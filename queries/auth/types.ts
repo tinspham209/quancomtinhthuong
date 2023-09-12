@@ -27,6 +27,8 @@ export type Store = {
 	ruleDescription: string;
 	createdAt: string;
 	updatedAt: string;
+	storeSlug: string;
+	bankInfo: string;
 };
 
 export type Callback<T = any> = (..._args: T[]) => void;

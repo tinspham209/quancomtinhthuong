@@ -12,6 +12,7 @@ const GroupOrderDetail: React.FC<Props> = ({}) => {
 	const { groupOrder } = useGetGroupOrderDetail({
 		groupOrderId: params.groupOrderId,
 	});
+	console.log("groupOrder: ", groupOrder);
 	return (
 		<div className="p-4">
 			<GroupOrderDetailHeader order={groupOrder} />

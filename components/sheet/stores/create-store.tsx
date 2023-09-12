@@ -49,6 +49,8 @@ const CreateStore: React.FC<CreateStoreProps> = ({
 			ruleDescription: "",
 			imgUrl: "",
 			userId: profile?.id,
+			storeSlug: "",
+			bankInfo: "",
 		},
 	});
 
@@ -75,6 +77,8 @@ const CreateStore: React.FC<CreateStoreProps> = ({
 			slackWebhookUrl: values.slackWebhookUrl,
 			imgUrl: values.imgUrl,
 			userId: values.userId,
+			storeSlug: values.storeSlug,
+			bankInfo: values.bankInfo,
 		});
 	};
 
@@ -104,6 +108,19 @@ const CreateStore: React.FC<CreateStoreProps> = ({
 					/>
 					<FormField
 						control={form.control}
+						name="storeSlug"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Store Slug *</FormLabel>
+								<FormControl>
+									<Input placeholder="Store Slug" {...field} />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<FormField
+						control={form.control}
 						name="description"
 						render={({ field }) => (
 							<FormItem>
@@ -123,7 +140,21 @@ const CreateStore: React.FC<CreateStoreProps> = ({
 							<FormItem>
 								<FormLabel>Rule Description</FormLabel>
 								<FormControl>
-									<Input placeholder="Rule Description" {...field} />
+									<Input multiple placeholder="Rule Description" {...field} />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+
+					<FormField
+						control={form.control}
+						name="bankInfo"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Bank Information</FormLabel>
+								<FormControl>
+									<Input placeholder="Bank Information" {...field} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>

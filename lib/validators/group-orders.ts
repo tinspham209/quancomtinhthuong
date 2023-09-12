@@ -22,6 +22,7 @@ export const CreateGroupOrderSchema = z.object({
 			})
 			.nonnegative()
 	),
+	dueTime: z.string().min(1),
 });
 
 export type CreateGroupOrderPayload = z.infer<typeof CreateGroupOrderSchema>;
@@ -49,6 +50,7 @@ export const UpdateGroupOrderSchema = z.object({
 			})
 			.nonnegative()
 	),
+	dueTime: z.string().min(1),
 });
 
 export type UpdateGroupOrderPayload = z.infer<typeof UpdateGroupOrderSchema>;

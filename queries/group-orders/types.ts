@@ -13,6 +13,7 @@ export type GroupOrderDetail = {
 	finalized: boolean;
 	storeId: string;
 	restaurant: Restaurant;
+	dueTime: string;
 };
 
 export type GroupOrderList = {

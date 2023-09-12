@@ -111,6 +111,7 @@ const DishesCtn: React.FC<Props> = ({
 													WebkitBoxOrient: "vertical",
 													WebkitLineClamp: 2,
 												}}
+												title={dish.name}
 											>
 												{dish.name}
 											</CardTitle>
@@ -153,7 +154,7 @@ const DishesCtn: React.FC<Props> = ({
 													<div>
 														<Sheet>
 															<SheetTrigger asChild>
-																<Button>
+																<Button title="Edit">
 																	<Pen className="h-4 w-4" />
 																</Button>
 															</SheetTrigger>
@@ -163,7 +164,7 @@ const DishesCtn: React.FC<Props> = ({
 													<div>
 														<Sheet>
 															<SheetTrigger asChild>
-																<Button variant={"destructive"}>
+																<Button title="Delete" variant={"destructive"}>
 																	<Trash className="h-4 w-4" />
 																</Button>
 															</SheetTrigger>

@@ -74,7 +74,7 @@ const GroupLists: React.FC<Props> = ({ groupLists, storeId }) => {
 										<div className="flex gap-1">
 											<Sheet>
 												<SheetTrigger asChild>
-													<Button variant={"outline"}>
+													<Button variant={"outline"} title="Edit Group Order">
 														<Pen className="w-4 h-4" />
 													</Button>
 												</SheetTrigger>
@@ -83,7 +83,10 @@ const GroupLists: React.FC<Props> = ({ groupLists, storeId }) => {
 
 											<Sheet>
 												<SheetTrigger asChild>
-													<Button variant={"destructive"}>
+													<Button
+														variant={"destructive"}
+														title="Delete Group Order"
+													>
 														<Trash className="w-4 h-4" />
 													</Button>
 												</SheetTrigger>

@@ -49,6 +49,7 @@ const UpdateGroupOrder: React.FC<Props> = ({ order }) => {
 			restaurantId: "",
 			discount: 0,
 			limit: 15,
+			dueTime: "",
 		},
 	});
 
@@ -62,6 +63,7 @@ const UpdateGroupOrder: React.FC<Props> = ({ order }) => {
 				restaurantId: order.restaurantId || "",
 				discount: order.discount || 0,
 				limit: order.limit || 15,
+				dueTime: order.dueTime || "11:00 AM",
 			});
 		}
 	}, [form, order]);
@@ -88,6 +90,7 @@ const UpdateGroupOrder: React.FC<Props> = ({ order }) => {
 			restaurantId: values.restaurantId,
 			discount: values.discount,
 			limit: values.limit,
+			dueTime: values.dueTime,
 		});
 	};
 
@@ -215,6 +218,20 @@ const UpdateGroupOrder: React.FC<Props> = ({ order }) => {
 										type="number"
 										{...field}
 									/>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+
+					<FormField
+						control={form.control}
+						name="dueTime"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Due Time</FormLabel>
+								<FormControl>
+									<Input placeholder="Due Time" {...field} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>

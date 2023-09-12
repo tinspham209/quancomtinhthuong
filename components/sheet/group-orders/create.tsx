@@ -48,6 +48,8 @@ const CreateGroupOrder: React.FC<Props> = ({ storeId }) => {
 			restaurantId: "",
 			discount: 0,
 			limit: 15,
+
+			dueTime: "11:00 AM",
 		},
 	});
 
@@ -72,6 +74,7 @@ const CreateGroupOrder: React.FC<Props> = ({ storeId }) => {
 			restaurantId: values.restaurantId,
 			discount: values.discount,
 			limit: values.limit,
+			dueTime: values.dueTime,
 		});
 	};
 
@@ -199,6 +202,20 @@ const CreateGroupOrder: React.FC<Props> = ({ storeId }) => {
 										type="number"
 										{...field}
 									/>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+
+					<FormField
+						control={form.control}
+						name="dueTime"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Due Time</FormLabel>
+								<FormControl>
+									<Input placeholder="Due Time" {...field} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
