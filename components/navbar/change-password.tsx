@@ -17,7 +17,9 @@ const ChangePassword: React.FC<Props> = ({}) => {
 				<Input placeholder="New Password" />
 				<Button
 					onClick={() => {
-						toast.error("Đang làm má ui");
+						toast.error(
+							"Oh, come on, brain! It's not rocket science, it's just your password! We're not auditioning for a forgetful goldfish role here!🐡"
+						);
 					}}
 				>
 					Change

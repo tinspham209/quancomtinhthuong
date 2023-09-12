@@ -117,16 +117,28 @@ export default function Page() {
 						</form>
 					</Form>
 				</CardContent>
-				<CardFooter>
-					<p className="text-sm mr-2">No account? </p>
-					<Link
-						href={`/sign-up?${
-							redirectUrl ? `redirect_url=${redirectUrl}` : ""
-						}`}
-						className="text-sm font-medium transition-colors hover:text-blue-500"
-					>
-						Signup
-					</Link>
+				<CardFooter className="flex flex-col">
+					<div className="flex flex-row">
+						<p className="text-sm mr-2">No account? </p>
+						<Link
+							href={`/sign-up?${
+								redirectUrl ? `redirect_url=${redirectUrl}` : ""
+							}`}
+							className="text-sm font-medium transition-colors hover:text-blue-500"
+						>
+							Signup
+						</Link>
+					</div>
+					<div className="mt-2">
+						<Button
+							variant={"ghost"}
+							onClick={() => {
+								toast.error("Relax and try to remember your password.");
+							}}
+						>
+							Forgot your password?
+						</Button>
+					</div>
 				</CardFooter>
 			</Card>
 		</div>
