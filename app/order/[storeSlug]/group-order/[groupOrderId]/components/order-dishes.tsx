@@ -73,7 +73,7 @@ const OrderDishesCtn: React.FC<Props> = ({
 									<Card
 										key={dish.id}
 										className={cn("", {
-											"opacity-50": dish.disable,
+											"opacity-50": dish.disable || isFinalized,
 										})}
 									>
 										<CardHeader className="p-2 sm:p-4 sm:pb-2">

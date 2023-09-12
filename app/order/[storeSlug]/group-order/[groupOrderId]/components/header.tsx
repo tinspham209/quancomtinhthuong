@@ -19,11 +19,15 @@ const OrderHeader: React.FC<Props> = ({ order }) => {
 						{order.description}
 					</p>
 				)}
-				<p className="text-xl text-muted-foreground">
+				<p className="text-md text-muted-foreground">
 					Date: {dayjs(order?.createdAt).format("DD-MMM-YYYY")}
 				</p>
 
-				<p className="text-xl text-muted-foreground">
+				<p className="text-md text-muted-foreground">
+					Limit: {order?.limit || "Unlimited"}
+				</p>
+
+				<p className="text-md text-muted-foreground">
 					Finalized: {order?.finalized ? "Yes" : "No"}
 				</p>
 

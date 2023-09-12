@@ -26,11 +26,13 @@ const OrdersHeader: React.FC<Props> = ({ groupOrder }) => {
 							{groupOrder.description}
 						</p>
 					)}
-					<p className="text-xl text-muted-foreground">
+					<p className="text-md text-muted-foreground">
 						Date: {dayjs(groupOrder?.createdAt).format("DD-MMM-YYYY")}
 					</p>
-
-					<p className="text-xl text-muted-foreground">
+					<p className="text-md text-muted-foreground">
+						Limit: {groupOrder?.limit || "Unlimited"}
+					</p>
+					<p className="text-md text-muted-foreground">
 						Finalized: {groupOrder?.finalized ? "Yes" : "No"}
 					</p>
 				</div>
