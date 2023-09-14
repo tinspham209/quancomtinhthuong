@@ -51,7 +51,7 @@ export const orderColumns = (
 		},
 		{
 			accessorKey: "userFullName",
-			header: "Username",
+			header: "User Name",
 			cell: ({ row }) => {
 				const order = row.original.order;
 
