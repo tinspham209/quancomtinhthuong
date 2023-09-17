@@ -14,6 +14,7 @@ import {
 } from '@/components/ui';
 import { cn } from '@/lib/utils';
 import { Dish } from '@/queries/dishes/types';
+import { noImageUrl } from '@/utils';
 import { Plus, PlusCircle } from 'lucide-react';
 import Image from 'next/image';
 import React, { useMemo } from 'react';
@@ -24,9 +25,6 @@ interface Props {
   groupOrderId: string;
   isFinalized: boolean;
 }
-
-const noImageUrl =
-  'https://t4.ftcdn.net/jpg/04/99/93/31/360_F_499933117_ZAUBfv3P1HEOsZDrnkbNCt4jc3AodArl.jpg';
 
 const OrderDishesCtn: React.FC<Props> = ({ dishes, storeId, groupOrderId, isFinalized }) => {
   const dishesByCategory = useMemo(() => {

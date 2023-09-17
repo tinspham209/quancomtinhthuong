@@ -13,6 +13,7 @@ import {
   SheetTrigger,
 } from '@/components/ui';
 import { Dish } from '@/queries/dishes/types';
+import { noImageUrl } from '@/utils';
 import { Pen, PlusCircle, Trash } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -23,9 +24,6 @@ interface Props {
   restaurantId: string;
   isShowEdit?: boolean;
 }
-
-const noImageUrl =
-  'https://t4.ftcdn.net/jpg/04/99/93/31/360_F_499933117_ZAUBfv3P1HEOsZDrnkbNCt4jc3AodArl.jpg';
 
 const DishesCtn: React.FC<Props> = ({ dishes, restaurantId, isShowEdit = true }) => {
   const [categories, setCategories] = useState<string[]>([]);

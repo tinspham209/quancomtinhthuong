@@ -29,14 +29,12 @@ import {
 } from '../../ui';
 import useAuthNavigate from '@/hooks/use-auth-navigate';
 import { HttpStatusCode } from 'axios';
+import { noImageUrl } from '@/utils';
 
 interface Props {
   groupOrderId: string;
   dish: Dish;
 }
-const noImageUrl =
-  'https://t4.ftcdn.net/jpg/04/99/93/31/360_F_499933117_ZAUBfv3P1HEOsZDrnkbNCt4jc3AodArl.jpg';
-
 const CreateOrder: React.FC<Props> = ({ groupOrderId, dish }) => {
   const { profile } = useProfileStore();
   const { navigateToLogin } = useAuthNavigate();

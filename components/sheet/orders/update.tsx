@@ -23,12 +23,11 @@ import {
   SheetHeader,
   SheetTitle,
 } from '../../ui';
+import { noImageUrl } from '@/utils';
 
 interface Props {
   order: OrderDetail;
 }
-const noImageUrl =
-  'https://t4.ftcdn.net/jpg/04/99/93/31/360_F_499933117_ZAUBfv3P1HEOsZDrnkbNCt4jc3AodArl.jpg';
 
 const UpdateOrder: React.FC<Props> = ({ order }) => {
   const form = useForm<CreateOrderPayload>({
