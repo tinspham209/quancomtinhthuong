@@ -5,6 +5,8 @@ import { useCreateOrder, useGetOrdersByGroupOrderId } from '@/queries/orders';
 import { OrderStatus } from '@/queries/orders/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
@@ -25,8 +27,8 @@ import {
   SheetHeader,
   SheetTitle,
 } from '../../ui';
-import Link from 'next/link';
-import { useParams, usePathname } from 'next/navigation';
+import useAuthNavigate from '@/hooks/use-auth-navigate';
+import { HttpStatusCode } from 'axios';
 
 interface Props {
   groupOrderId: string;
@@ -37,6 +39,7 @@ const noImageUrl =
 
 const CreateOrder: React.FC<Props> = ({ groupOrderId, dish }) => {
   const { profile } = useProfileStore();
+  const { navigateToLogin } = useAuthNavigate();
   const pathname = usePathname();
   const form = useForm<CreateOrderPayload>({
     resolver: zodResolver(CreateOrderSchema),
@@ -55,12 +58,19 @@ const CreateOrder: React.FC<Props> = ({ groupOrderId, dish }) => {
   });
 
   const { createOrder, isLoading, isSuccess } = useCreateOrder({
-    onSuccess(data) {
+    onSuccess(_data) {
       toast.success(`Create order successfully.`);
       handleInvalidateOrders();
     },
     onError(error) {
       toast.error(error.message);
+
+      if (
+        error.statusCode === HttpStatusCode.Unauthorized ||
+        error.status === HttpStatusCode.Unauthorized
+      ) {
+        navigateToLogin();
+      }
     },
   });
 

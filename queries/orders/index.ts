@@ -14,7 +14,7 @@ import { useEffect } from 'react';
 import { CreateOrderPayload } from '@/lib/validators/orders';
 
 export function useGetOrdersByGroupOrderId(
-  options?: UseQueryOptions<OrderDetail[], Error> & {
+  options?: UseQueryOptions<OrderDetail[], ErrorResponse> & {
     onSuccessCallback?: Callback;
     onErrorCallback?: Callback;
     groupOrderId?: string;
@@ -32,7 +32,7 @@ export function useGetOrdersByGroupOrderId(
     isSuccess,
     isFetching,
     refetch: getOrders,
-  } = useQuery<OrderDetail[], Error>([`/orders/group-order-id`], {
+  } = useQuery<OrderDetail[], ErrorResponse>([`/orders/group-order-id`], {
     queryFn: handleGet,
     refetchOnMount: false,
     enabled: !!options?.groupOrderId,
@@ -78,13 +78,13 @@ export function useGetOrdersByGroupOrderId(
 }
 
 export function useCreateOrder(
-  options?: UseMutationOptions<OrderDetail, Error, CreateOrderPayload>,
+  options?: UseMutationOptions<OrderDetail, ErrorResponse, CreateOrderPayload>,
 ) {
   const {
     mutate: createOrder,
     isLoading,
     isSuccess,
-  } = useMutation<OrderDetail, Error, CreateOrderPayload>({
+  } = useMutation<OrderDetail, ErrorResponse, CreateOrderPayload>({
     mutationFn: async (payload: CreateOrderPayload) => {
       return responseWrapper(apiClient.createOrder, [payload]);
     },
@@ -98,8 +98,10 @@ export function useCreateOrder(
   };
 }
 
-export function useDeleteOrder(options?: UseMutationOptions<any, Error, { orderId: number }>) {
-  const { mutate: deleteOrder, isLoading } = useMutation<any, Error, { orderId: number }>({
+export function useDeleteOrder(
+  options?: UseMutationOptions<any, ErrorResponse, { orderId: number }>,
+) {
+  const { mutate: deleteOrder, isLoading } = useMutation<any, ErrorResponse, { orderId: number }>({
     mutationFn: async (payload: { orderId: number }) => {
       return responseWrapper(apiClient.deleteOrder, [payload.orderId]);
     },
