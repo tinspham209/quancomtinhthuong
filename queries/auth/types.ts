@@ -3,9 +3,11 @@ export type MyProfile = {
   userName: string;
   name: string;
   slackId: string;
+  imgUrl?: string;
   createdAt: string;
   updatedAt: string;
   roleId: number;
+  Stores?: Store[];
   role: Role;
   iat: number;
   exp: number;

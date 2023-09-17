@@ -14,6 +14,7 @@ import ChangePassword from '../sheet/uam/change-password';
 import {
   Avatar,
   AvatarFallback,
+  AvatarImage,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -89,6 +90,7 @@ const Navbar = ({}: NavbarProps) => {
                   <DropdownMenu>
                     <DropdownMenuTrigger>
                       <Avatar>
+                        <AvatarImage src={profile?.imgUrl} />
                         <AvatarFallback>{getUsernameAvatar()}</AvatarFallback>
                       </Avatar>
                     </DropdownMenuTrigger>
