@@ -1,10 +1,9 @@
 # Quan Com Tinh Thuong
-<hr/>
+
 
 ## Tech-stack
 - NextJS 13
-- TailwindCSS / shadcn-ui
-- @clerk (Authentication)
+- TailwindCSS / shadcn-ui / radix-ui
 - react-query
 - zustand
 - react-hook-form / zod

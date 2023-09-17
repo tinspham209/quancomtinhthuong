@@ -1,25 +1,25 @@
-"use client";
+'use client';
 
-import { StoreModal } from "@/components/modals";
-import React from "react";
+import { StoreModal } from '@/components/modals';
+import React from 'react';
 
 interface ModalProviderProps {}
 
 const ModalProvider: React.FC<ModalProviderProps> = ({}) => {
-	const [isMounted, setIsMounted] = React.useState(false);
-	React.useLayoutEffect(() => {
-		setIsMounted(true);
-	}, []);
+  const [isMounted, setIsMounted] = React.useState(false);
+  React.useLayoutEffect(() => {
+    setIsMounted(true);
+  }, []);
 
-	if (!isMounted) {
-		return null;
-	}
+  if (!isMounted) {
+    return null;
+  }
 
-	return (
-		<>
-			<StoreModal />
-		</>
-	);
+  return (
+    <>
+      <StoreModal />
+    </>
+  );
 };
 
 export default ModalProvider;

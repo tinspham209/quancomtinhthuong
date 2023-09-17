@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import React from "react";
-import ReactJson from "react-json-view";
+import React from 'react';
+import ReactJson from 'react-json-view';
 interface Props {
-	src: any;
+  src: any;
 }
 
 const JsonView: React.FC<Props> = ({ src }) => {
-	return (
-		<div className="my-3">
-			<ReactJson src={src || {}} />
-		</div>
-	);
+  return (
+    <div className="my-3">
+      <ReactJson src={src || {}} />
+    </div>
+  );
 };
 
 export default JsonView;
