@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { Button, Input, SheetContent, SheetHeader, SheetTitle } from '../ui';
+import { Button, Input, SheetContent, SheetHeader, SheetTitle } from '../../ui';
 import { toast } from 'react-hot-toast';
 
 interface Props {}

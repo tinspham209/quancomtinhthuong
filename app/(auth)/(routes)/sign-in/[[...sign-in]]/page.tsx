@@ -43,10 +43,15 @@ export default function Page() {
   const { getMyProfile, loading } = useProfile({
     onSuccess(data) {
       onSetProfile(data);
+
       if (redirectUrl) {
         route.push(redirectUrl);
       } else {
-        route.push('/dashboard');
+        if (data.role.name === 'ADMIN') {
+          route.push(`/stores`);
+        } else {
+          route.push('/dashboard');
+        }
       }
     },
   });

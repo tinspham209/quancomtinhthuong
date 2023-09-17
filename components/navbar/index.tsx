@@ -1,11 +1,16 @@
 'use client';
 
+import { useProfileStore } from '@/hooks';
 import { cn } from '@/lib/utils';
-import Link from 'next/link';
-import { Icons } from '../icons';
-import MainNav from './main-nav';
 import { useProfile } from '@/queries/auth';
+import TokenServices from '@/services/token';
 import { isEmpty } from '@/utils';
+import { Lock, LogOut } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useCallback, useMemo } from 'react';
+import { Icons } from '../icons';
+import ChangePassword from '../sheet/uam/change-password';
 import {
   Avatar,
   AvatarFallback,
@@ -19,13 +24,8 @@ import {
   SheetTrigger,
   Skeleton,
 } from '../ui';
-import { useCallback, useMemo } from 'react';
-import TokenServices from '@/services/token';
-import { usePathname, useRouter } from 'next/navigation';
-import { toast } from 'react-hot-toast';
-import { useProfileStore } from '@/hooks';
-import ChangePassword from './change-password';
-import { Lock, LogOut } from 'lucide-react';
+import AdminNav from './admin-nav';
+import CustomersNav from './customers-nav';
 
 interface NavbarProps {}
 
@@ -34,7 +34,6 @@ const Navbar = ({}: NavbarProps) => {
   const { profile, onSetProfile } = useProfileStore();
 
   const router = useRouter();
-  const pathname = usePathname();
 
   const getUsernameAvatar = useCallback(() => {
     if (profile) {
@@ -43,7 +42,7 @@ const Navbar = ({}: NavbarProps) => {
   }, [profile]);
 
   const handleLogout = () => {
-    router.push(`/sign-in?redirect_url=${pathname}`);
+    router.push(`/sign-in`);
     handleInvalidateProfile();
     onSetProfile(null);
     TokenServices.clearToken();
@@ -54,11 +53,18 @@ const Navbar = ({}: NavbarProps) => {
     return false;
   }, [profile]);
 
+  const isCustomer = useMemo(() => {
+    if (profile?.role.name === 'CUSTOMER') return true;
+    return false;
+  }, [profile]);
+
   return (
     <nav className="border-b">
       <div className="h-16 flex items-center px-4">
         {isAdmin ? (
-          <MainNav className="mr-6" />
+          <AdminNav className="mr-6" />
+        ) : isCustomer ? (
+          <CustomersNav />
         ) : (
           <Link href="/">
             <Icons.logo1 className="w-[230px] h-[56px] mr-4" />
