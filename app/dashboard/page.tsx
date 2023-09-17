@@ -1,30 +1,14 @@
-'use client';
-
-import JsonView from '@/components/json-view';
-import { Button, Heading } from '@/components/ui';
-import { useProfileStore } from '@/hooks';
-import Link from 'next/link';
-import React from 'react';
+import ClientOnly from '@/providers/client-only';
+import Client from './client';
 
 interface Props {}
 
-const Client: React.FC<Props> = ({}: Props) => {
-  const { profile } = useProfileStore();
-
+const Page = ({ ...props }: Props) => {
   return (
-    <div className="p-4">
-      <div className="flex flex-col sm:flex-row md:justify-between">
-        <Heading title="Dashboard" />
-        <div className="mt-2 sm:mt-0">
-          <Link href="/history-orders">
-            <Button>History Orders</Button>
-          </Link>
-        </div>
-      </div>
-
-      <JsonView src={profile} />
-    </div>
+    <ClientOnly>
+      <Client {...props} />
+    </ClientOnly>
   );
 };
 
-export default Client;
+export default Page;
