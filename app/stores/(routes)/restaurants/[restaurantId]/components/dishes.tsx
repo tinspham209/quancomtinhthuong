@@ -12,6 +12,7 @@ import {
   Sheet,
   SheetTrigger,
 } from '@/components/ui';
+import { cn } from '@/lib/utils';
 import { Dish } from '@/queries/dishes/types';
 import { noImageUrl } from '@/utils';
 import { Pen, PlusCircle, Trash } from 'lucide-react';
@@ -104,6 +105,7 @@ const DishesCtn: React.FC<Props> = ({ dishes, restaurantId, isShowEdit = true })
                           lineHeight: '24px',
                           WebkitBoxOrient: 'vertical',
                           WebkitLineClamp: 2,
+                          opacity: dish.disable ? '0.5' : 1,
                         }}
                         title={dish.name}
                       >
@@ -128,7 +130,14 @@ const DishesCtn: React.FC<Props> = ({ dishes, restaurantId, isShowEdit = true })
                       </CardDescription>
                     </CardHeader>
                     <CardContent className="p-2 sm:p-4 sm:pb-0">
-                      <div className="w-[100%] h-[150px] sm:h-[200px] relative border-zinc-300 border border-solid rounded-lg">
+                      <div
+                        className={cn(
+                          'w-[100%] h-[150px] sm:h-[200px] relative border-zinc-300 border border-solid rounded-lg',
+                          {
+                            'opacity-50': dish.disable,
+                          },
+                        )}
+                      >
                         <Image
                           unoptimized
                           src={dish.imgUrl || noImageUrl}
