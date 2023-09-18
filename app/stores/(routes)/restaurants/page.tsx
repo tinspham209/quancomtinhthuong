@@ -62,7 +62,7 @@ const RestaurantsPage: FC<Props> = ({}) => {
               </CardHeader>
               {/* <CardContent></CardContent> */}
               <CardFooter className="flex justify-end">
-                <Link href={`/dashboard/restaurants/${restaurant.id}`}>
+                <Link href={`/stores/restaurants/${restaurant.id}`}>
                   <Button>Go to detail</Button>
                 </Link>
               </CardFooter>

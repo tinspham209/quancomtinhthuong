@@ -59,7 +59,7 @@ const GroupOrderHeader: React.FC<Props> = ({ order, store }) => {
             </Sheet>
           </div>
           <div>
-            <Link href={`/dashboard/${order?.storeId}/group-order/${order?.id}/orders`}>
+            <Link href={`/stores/${order?.storeId}/group-order/${order?.id}/orders`}>
               <Button>View Orders</Button>
             </Link>
           </div>

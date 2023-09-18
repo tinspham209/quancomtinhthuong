@@ -65,7 +65,7 @@ const CreateRestaurant: React.FC<CreateRestaurantProps> = ({ onClose, isEdit, re
       handleInvalidateRestaurants();
       onClose();
       toast.success(`Create restaurant (${data.name}) successfully.`);
-      router.push(`/dashboard/restaurants/${data.id}`);
+      router.push(`/stores/restaurants/${data.id}`);
     },
     onError(error) {
       toast.error(error.message);

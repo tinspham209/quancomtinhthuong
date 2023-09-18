@@ -43,7 +43,7 @@ const Client: React.FC<Props> = ({}: Props) => {
                 <CardDescription>{store.description}</CardDescription>
               </CardHeader>
               <CardFooter className="flex justify-end">
-                <Link href={`/dashboard/${store.id}`}>
+                <Link href={`/stores/${store.id}`}>
                   <Button>Go to store</Button>
                 </Link>
               </CardFooter>

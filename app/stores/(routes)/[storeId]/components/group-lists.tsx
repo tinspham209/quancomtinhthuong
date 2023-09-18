@@ -91,7 +91,7 @@ const GroupLists: React.FC<Props> = ({ groupLists, storeId }) => {
                       </Sheet>
                     </div>
                     <Link
-                      href={`/dashboard/${order.storeId}/group-order/${order.id}`}
+                      href={`/stores/${order.storeId}/group-order/${order.id}`}
                       className="mt-2 sm:mt-0 ml-auto"
                     >
                       <Button>Go to detail</Button>

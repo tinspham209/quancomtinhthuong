@@ -78,7 +78,7 @@ const DishesCtn: React.FC<Props> = ({ dishes, restaurantId, isShowEdit = true })
                 />
               </Sheet>
             ) : (
-              <Link href={`/dashboard/restaurants/${restaurantId}`}>
+              <Link href={`/stores/restaurants/${restaurantId}`}>
                 <Button>Edit Restaurant</Button>
               </Link>
             )}

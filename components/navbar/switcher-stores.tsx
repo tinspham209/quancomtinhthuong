@@ -56,7 +56,7 @@ const StoreSwitcher: React.FC<StoreSwitcherProps> = ({ className }) => {
 
   const onStoreSelect = (store: { value: string; label: string }) => {
     setOpenPopover(false);
-    router.push(`/dashboard/${store.value}`);
+    router.push(`/stores/${store.value}`);
   };
 
   const [openCreateStore, setOpenCreateStore] = useState(false);
