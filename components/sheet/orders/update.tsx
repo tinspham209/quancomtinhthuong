@@ -115,6 +115,7 @@ const UpdateOrder: React.FC<Props> = ({ order }) => {
               WebkitBoxOrient: 'vertical',
               WebkitLineClamp: 1,
             }}
+            title={order.Dish.name}
           >
             {order.Dish.name}
           </CardTitle>

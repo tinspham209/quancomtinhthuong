@@ -53,6 +53,7 @@ const GroupLists: React.FC<Props> = ({ groupLists, storeId }) => {
                         WebkitBoxOrient: 'vertical',
                         WebkitLineClamp: 2,
                       }}
+                      title={order.title}
                     >
                       {order.title}
                     </CardTitle>

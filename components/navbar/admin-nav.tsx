@@ -13,10 +13,10 @@ const MainNav = ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => 
     {
       href: `/stores`,
       label: 'Stores',
-      active: pathname === '/stores',
+      active: pathname.includes('/stores'),
     },
     {
-      href: `/stores/restaurants`,
+      href: `/restaurants`,
       label: 'Restaurants',
       active: pathname.includes('/restaurants'),
     },

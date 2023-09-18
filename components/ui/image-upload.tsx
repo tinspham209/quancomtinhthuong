@@ -46,7 +46,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, onRemove, value, di
                 <Trash className="h-4 w-4" />
               </Button>
             </div>
-            <Image fill className="object-cover" alt="Image" src={url} />
+            <Image unoptimized fill className="object-cover" alt="Image" src={url} />
           </div>
         ))}
       </div>

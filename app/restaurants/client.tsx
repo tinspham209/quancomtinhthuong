@@ -55,6 +55,7 @@ const RestaurantsPage: FC<Props> = ({}) => {
                     WebkitBoxOrient: 'vertical',
                     WebkitLineClamp: 2,
                   }}
+                  title={restaurant.name}
                 >
                   {restaurant.name}
                 </CardTitle>
@@ -62,7 +63,7 @@ const RestaurantsPage: FC<Props> = ({}) => {
               </CardHeader>
               {/* <CardContent></CardContent> */}
               <CardFooter className="flex justify-end">
-                <Link href={`/stores/restaurants/${restaurant.id}`}>
+                <Link href={`/restaurants/${restaurant.id}`}>
                   <Button>Go to detail</Button>
                 </Link>
               </CardFooter>

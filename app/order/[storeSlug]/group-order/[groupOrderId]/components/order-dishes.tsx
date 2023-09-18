@@ -12,6 +12,7 @@ import {
   Sheet,
   SheetTrigger,
 } from '@/components/ui';
+import MyTooltip from '@/components/ui/my-tooltip';
 import { cn } from '@/lib/utils';
 import { Dish } from '@/queries/dishes/types';
 import { noImageUrl } from '@/utils';
@@ -70,18 +71,20 @@ const OrderDishesCtn: React.FC<Props> = ({ dishes, storeId, groupOrderId, isFina
                     })}
                   >
                     <CardHeader className="p-2 sm:p-4 sm:pb-2">
-                      <CardTitle
-                        style={{
-                          height: 48,
-                          display: '-webkit-box',
-                          overflow: 'hidden',
-                          lineHeight: '24px',
-                          WebkitBoxOrient: 'vertical',
-                          WebkitLineClamp: 2,
-                        }}
-                      >
-                        {dish.name}
-                      </CardTitle>
+                      <MyTooltip title={dish.name}>
+                        <CardTitle
+                          style={{
+                            height: 48,
+                            display: '-webkit-box',
+                            overflow: 'hidden',
+                            lineHeight: '24px',
+                            WebkitBoxOrient: 'vertical',
+                            WebkitLineClamp: 2,
+                          }}
+                        >
+                          {dish.name}
+                        </CardTitle>
+                      </MyTooltip>
                       <CardDescription>
                         {dish?.description && (
                           <>

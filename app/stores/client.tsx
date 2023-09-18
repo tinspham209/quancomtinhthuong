@@ -37,6 +37,7 @@ const Client: React.FC<Props> = ({}: Props) => {
                     WebkitBoxOrient: 'vertical',
                     WebkitLineClamp: 2,
                   }}
+                  title={store.name}
                 >
                   {store.name}
                 </CardTitle>

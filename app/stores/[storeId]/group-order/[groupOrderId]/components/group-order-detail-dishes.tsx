@@ -1,4 +1,4 @@
-import { Dishes } from '@/app/stores/(routes)/restaurants/[restaurantId]/components';
+import { Dishes } from '@/app/restaurants/[restaurantId]/components';
 import { useGetDishesByRestaurantId } from '@/queries/dishes';
 import { GroupOrderDetail } from '@/queries/group-orders/types';
 import React from 'react';

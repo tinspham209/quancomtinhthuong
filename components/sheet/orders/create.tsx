@@ -126,6 +126,7 @@ const CreateOrder: React.FC<Props> = ({ groupOrderId, dish }) => {
                   WebkitBoxOrient: 'vertical',
                   WebkitLineClamp: 1,
                 }}
+                title={dish.name}
               >
                 {dish.name}
               </CardTitle>

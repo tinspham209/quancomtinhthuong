@@ -21,7 +21,7 @@ const DeleteRestaurant: React.FC<Props> = ({ onClose, restaurant }) => {
     onSuccess() {
       toast.success('Delete restaurant successfully.');
       handleInvalidateRestaurants();
-      router.push('/stores/restaurants');
+      router.push('/restaurants');
     },
     onError(error) {
       toast.error(error.message);

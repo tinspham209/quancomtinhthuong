@@ -61,6 +61,14 @@ const Navbar = ({}: NavbarProps) => {
 
   const pathname = usePathname();
 
+  const getRedirectUrl = useCallback((pathname: string) => {
+    const routeNeedRedirect = [`/order`];
+    if (routeNeedRedirect.some((route) => pathname.includes(route))) {
+      return `redirect_url=${pathname}`;
+    }
+    return ``;
+  }, []);
+
   return (
     <nav className="border-b">
       <div className="h-16 flex items-center px-4">
@@ -80,7 +88,7 @@ const Navbar = ({}: NavbarProps) => {
             <>
               {isEmpty(profile) ? (
                 <Link
-                  href={`/sign-in?redirect_url=${pathname}`}
+                  href={`/sign-in?${getRedirectUrl(pathname)}`}
                   className={cn(
                     'text-sm font-medium transition-colors hover:text-primary text-muted-foreground',
                   )}

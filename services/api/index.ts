@@ -59,6 +59,7 @@ const create = (baseURL = '/api') => {
     },
     async (error) => {
       if (error instanceof AxiosError) {
+        console.log('error: ', error);
         if (error.response?.status === 404) {
           return toast.error(`This API doesn't exists, Please check the API route again.`);
         }

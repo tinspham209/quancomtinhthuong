@@ -8,6 +8,7 @@ const RootCtn = () => {
       <div className="container">
         <div className="flex flex-row justify-center">
           <Image
+            unoptimized
             src={'/cover.webp'}
             alt="quan-com-tinh-thuong"
             width={1233}
