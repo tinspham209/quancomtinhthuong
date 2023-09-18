@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const CreateOrderSchema = z.object({
   status: z.string().min(1),
-  userId: z.string().min(1),
+  userId: z.string(),
   groupOrderId: z.string().min(1),
   dishId: z.string().min(1),
   amount: z.preprocess(

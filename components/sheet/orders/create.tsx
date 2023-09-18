@@ -43,7 +43,7 @@ const CreateOrder: React.FC<Props> = ({ groupOrderId, dish }) => {
     resolver: zodResolver(CreateOrderSchema),
     defaultValues: {
       status: OrderStatus.NOPE,
-      userId: profile?.id,
+      userId: profile?.id || '',
       groupOrderId: groupOrderId,
       dishId: dish.id,
       amount: 1,
@@ -61,13 +61,14 @@ const CreateOrder: React.FC<Props> = ({ groupOrderId, dish }) => {
       handleInvalidateOrders();
     },
     onError(error) {
-      toast.error(error.message);
-
       if (
         error.statusCode === HttpStatusCode.Unauthorized ||
-        error.status === HttpStatusCode.Unauthorized
+        error.status === HttpStatusCode.Unauthorized ||
+        error.message[0].includes('userId should not be empty')
       ) {
         navigateToLogin();
+      } else {
+        toast.error(error.message);
       }
     },
   });
