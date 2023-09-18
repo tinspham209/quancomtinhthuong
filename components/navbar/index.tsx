@@ -7,7 +7,7 @@ import TokenServices from '@/services/token';
 import { isEmpty } from '@/utils';
 import { Lock, LogOut } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useCallback, useMemo } from 'react';
 import { Icons } from '../icons';
 import ChangePassword from '../sheet/uam/change-password';
@@ -59,6 +59,8 @@ const Navbar = ({}: NavbarProps) => {
     return false;
   }, [profile]);
 
+  const pathname = usePathname();
+
   return (
     <nav className="border-b">
       <div className="h-16 flex items-center px-4">
@@ -78,7 +80,7 @@ const Navbar = ({}: NavbarProps) => {
             <>
               {isEmpty(profile) ? (
                 <Link
-                  href={`/sign-in`}
+                  href={`/sign-in?redirect_url=${pathname}`}
                   className={cn(
                     'text-sm font-medium transition-colors hover:text-primary text-muted-foreground',
                   )}
