@@ -9,3 +9,7 @@ export const isEmpty = (value: any): boolean =>
 
 export const noImageUrl =
   'https://t4.ftcdn.net/jpg/04/99/93/31/360_F_499933117_ZAUBfv3P1HEOsZDrnkbNCt4jc3AodArl.jpg';
+
+export const formatMoney = (value: number) => {
+  return new Intl.NumberFormat().format(value);
+};

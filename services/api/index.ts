@@ -197,6 +197,11 @@ const create = (baseURL = '/api') => {
 
     return api.get(`/app/group-order/${groupOrderId}`, {}, newCancelToken());
   };
+  const getGroupOrderSummary = (groupOrderId: string) => {
+    if (!groupOrderId) return new Promise((res, rej) => res(null));
+
+    return api.get(`/app/group-order/summary/${groupOrderId}`, {}, newCancelToken());
+  };
 
   const createGroupOrder = (payload: CreateGroupOrderPayload) => {
     return api.post(`/app/group-order`, payload, newCancelToken());
@@ -293,6 +298,7 @@ const create = (baseURL = '/api') => {
     // Group order
     getGroupOrdersListByStoreId,
     getGroupOrderDetail,
+    getGroupOrderSummary,
     createGroupOrder,
     updateGroupOrder,
     deleteGroupOrder,

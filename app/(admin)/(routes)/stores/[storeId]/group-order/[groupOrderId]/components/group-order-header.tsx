@@ -53,14 +53,9 @@ const GroupOrderHeader: React.FC<Props> = ({ order, store }) => {
         <div className="flex flex-row gap-2">
           {isFinalizedOrder && (
             <div>
-              <Button
-                variant={'outline'}
-                onClick={() => {
-                  toast.error('On Develop');
-                }}
-              >
-                View Order Summary
-              </Button>
+              <Link href={`/stores/${order?.storeId}/group-order/${order?.id}/summary`}>
+                <Button variant={'outline'}>View Order Summary</Button>
+              </Link>
             </div>
           )}
           <div>
