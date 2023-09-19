@@ -98,17 +98,14 @@ export function useGetGroupOrderDetail(
     isSuccess,
     isFetching,
     refetch: getGroupOrderDetail,
-  } = useQuery<GroupOrderDetail, Error>(
-    [`/group-order/id`, { groupOrderId: options?.groupOrderId }],
-    {
-      queryFn: handleGet,
-      refetchOnMount: false,
-      enabled: true,
-      notifyOnChangeProps: ['data', 'isFetching'],
-      select: (data) => data,
-      ...options,
-    },
-  );
+  } = useQuery<GroupOrderDetail, Error>([`/group-order`, { groupOrderId: options?.groupOrderId }], {
+    queryFn: handleGet,
+    refetchOnMount: false,
+    enabled: !!options?.groupOrderId,
+    notifyOnChangeProps: ['data', 'isFetching'],
+    select: (data) => data,
+    ...options,
+  });
 
   useEffect(() => {
     if (data && isSuccess) {
@@ -131,7 +128,7 @@ export function useGetGroupOrderDetail(
   const queryClient = useQueryClient();
 
   const handleInvalidateGroupOrderDetail = () => {
-    queryClient.invalidateQueries([`/group-order/id`]);
+    queryClient.invalidateQueries([`/group-order`]);
   };
 
   return {

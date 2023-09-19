@@ -1,4 +1,5 @@
 'use client';
+
 import { useProfileStore } from '@/hooks';
 import { useProfile } from '@/queries/auth';
 import { useGetStoresByUserName } from '@/queries/stores';

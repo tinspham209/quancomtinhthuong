@@ -97,7 +97,7 @@ export function useGetRestaurantById(
     refetch: getRestaurantById,
   } = useQuery<Restaurant, Error>([`/restaurant`, { restaurantId: options?.restaurantId }], {
     queryFn: handleGet,
-    refetchOnMount: false,
+    refetchOnMount: true,
     enabled: true,
     notifyOnChangeProps: ['data', 'isFetching'],
     select: (data) => data,

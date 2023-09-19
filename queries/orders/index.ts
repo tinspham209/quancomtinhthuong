@@ -32,16 +32,20 @@ export function useGetOrdersByGroupOrderId(
     isSuccess,
     isFetching,
     refetch: getOrders,
-  } = useQuery<OrderDetail[], ErrorResponse>([`/orders/group-order-id`], {
-    queryFn: handleGet,
-    refetchOnMount: false,
-    enabled: !!options?.groupOrderId,
-    notifyOnChangeProps: ['data', 'isFetching'],
-    staleTime: 10000,
-    refetchOnWindowFocus: true,
-    select: (data) => data,
-    ...options,
-  });
+  } = useQuery<OrderDetail[], ErrorResponse>(
+    [`/orders/group-order`, { groupOrderId: options?.groupOrderId }],
+    {
+      queryFn: handleGet,
+      refetchOnMount: false,
+      enabled: !!options?.groupOrderId,
+      notifyOnChangeProps: ['data', 'isFetching'],
+      staleTime: 10000,
+      refetchOnWindowFocus: true,
+      // ref
+      select: (data) => data,
+      ...options,
+    },
+  );
 
   useEffect(() => {
     if (data && isSuccess) {
@@ -64,7 +68,7 @@ export function useGetOrdersByGroupOrderId(
   const queryClient = useQueryClient();
 
   const handleInvalidateOrders = () => {
-    return queryClient.invalidateQueries([`/orders/group-order-id`]);
+    return queryClient.invalidateQueries([`/orders/group-order`]);
   };
 
   return {

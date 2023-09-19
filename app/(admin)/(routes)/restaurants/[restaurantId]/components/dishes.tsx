@@ -105,7 +105,7 @@ const DishesCtn: React.FC<Props> = ({ dishes, restaurantId, isShowEdit = true })
                           lineHeight: '24px',
                           WebkitBoxOrient: 'vertical',
                           WebkitLineClamp: 2,
-                          opacity: dish.disable ? '0.5' : 1,
+                          opacity: dish.disable ? '0.7' : 1,
                         }}
                         title={dish.name}
                       >
