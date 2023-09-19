@@ -18,6 +18,7 @@ import axios, { AxiosError } from 'axios';
 import { toast } from 'react-hot-toast';
 import TokenServices from '../token';
 import { CreateOrderPayload } from '@/lib/validators/orders';
+import { TriggerFinalizedGroupOrderPayload } from '@/queries/group-orders/types';
 
 const AXIOS_CONFIG = {
   CONNECTION_TIMEOUT: 30000,
@@ -225,6 +226,24 @@ const create = (baseURL = '/api') => {
     return api.put(`/app/group-order/${groupOrderId}`, { ...formattedPayload }, newCancelToken());
   };
 
+  const triggerFinalizedGroupOrder = ({
+    storeId,
+    groupOrderId,
+  }: TriggerFinalizedGroupOrderPayload) => {
+    return api.get(
+      `/app/trigger/finalizeOrder/${storeId}/groupOrderId/${groupOrderId}`,
+      {},
+      newCancelToken(),
+    );
+  };
+  const triggerDebtGroupOrder = ({ storeId, groupOrderId }: TriggerFinalizedGroupOrderPayload) => {
+    return api.get(
+      `/app/trigger/debt/${storeId}/groupOrderId/${groupOrderId}`,
+      {},
+      newCancelToken(),
+    );
+  };
+
   // Orders
   const getOrdersByGroupOrderId = (groupOrderId: string) => {
     return api.get(`/app/order/orders/${groupOrderId}`, {}, newCancelToken());
@@ -278,6 +297,8 @@ const create = (baseURL = '/api') => {
     updateGroupOrder,
     deleteGroupOrder,
     finalizedGroupOrder,
+    triggerFinalizedGroupOrder,
+    triggerDebtGroupOrder,
 
     // Orders
     getOrdersByGroupOrderId,

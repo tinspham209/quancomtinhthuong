@@ -15,7 +15,7 @@ import { useEffect } from 'react';
 import apiClient from '../apiClient';
 import { responseWrapper } from '../auth/helpers';
 import { Callback } from '../auth/types';
-import { GroupOrderDetail, GroupOrderList } from './types';
+import { GroupOrderDetail, GroupOrderList, TriggerFinalizedGroupOrderPayload } from './types';
 
 export function useGetGroupOrdersListByStoreId(
   options?: UseQueryOptions<GroupOrderList, Error> & {
@@ -215,6 +215,46 @@ export function useFinalizedGroupOrder(
 
   return {
     finalizedGroupOrder,
+    isLoading,
+  };
+}
+
+export function useTriggerFinalizedGroupOrder(
+  options?: UseMutationOptions<GroupOrderDetail, Error, TriggerFinalizedGroupOrderPayload>,
+) {
+  const { mutate: triggerFinalizedGroupOrder, isLoading } = useMutation<
+    GroupOrderDetail,
+    Error,
+    TriggerFinalizedGroupOrderPayload
+  >({
+    mutationFn: async (payload: TriggerFinalizedGroupOrderPayload) => {
+      return responseWrapper(apiClient.triggerFinalizedGroupOrder, [payload]);
+    },
+    ...options,
+  });
+
+  return {
+    triggerFinalizedGroupOrder,
+    isLoading,
+  };
+}
+
+export function useTriggerDebtGroupOrder(
+  options?: UseMutationOptions<GroupOrderDetail, Error, TriggerFinalizedGroupOrderPayload>,
+) {
+  const { mutate: triggerDebtGroupOrder, isLoading } = useMutation<
+    GroupOrderDetail,
+    Error,
+    TriggerFinalizedGroupOrderPayload
+  >({
+    mutationFn: async (payload: TriggerFinalizedGroupOrderPayload) => {
+      return responseWrapper(apiClient.triggerDebtGroupOrder, [payload]);
+    },
+    ...options,
+  });
+
+  return {
+    triggerDebtGroupOrder,
     isLoading,
   };
 }

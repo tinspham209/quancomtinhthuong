@@ -1,4 +1,8 @@
-import FinalizedGroupOrder from '@/components/sheet/group-orders/finalized';
+import {
+  FinalizedGroupOrder,
+  TriggerFinalizedGroupOrder,
+  TriggerDebtGroupOrder,
+} from '@/components/sheet';
 import { Button, Sheet, SheetTrigger } from '@/components/ui';
 import { useOrigin } from '@/hooks';
 import useCopyToClipboard from '@/hooks/use-copy-to-clipboard';
@@ -26,6 +30,8 @@ const GroupOrderHeader: React.FC<Props> = ({ order, store }) => {
     );
   };
 
+  const isFinalizedOrder = order?.finalized;
+
   return (
     <div className="mb-4">
       <div className="flex flex-col md:flex-row justify-between">
@@ -41,29 +47,68 @@ const GroupOrderHeader: React.FC<Props> = ({ order, store }) => {
           </p>
 
           <p className="text-xl text-muted-foreground">
-            Finalized: {order?.finalized ? 'Yes' : 'No'}
+            Finalized: {isFinalizedOrder ? 'Yes' : 'No'}
           </p>
         </div>
         <div className="flex flex-row gap-2">
+          {isFinalizedOrder && (
+            <div>
+              <Button
+                variant={'outline'}
+                onClick={() => {
+                  toast.error('On Develop');
+                }}
+              >
+                View Order Summary
+              </Button>
+            </div>
+          )}
           <div>
             <Button variant={'secondary'} onClick={handleGetLinkOrder}>
               Get Link Order
             </Button>
           </div>
-          <div>
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant={'outline'}>Finalize</Button>
-              </SheetTrigger>
-              <FinalizedGroupOrder order={order as GroupOrderDetail} />
-            </Sheet>
-          </div>
+
           <div>
             <Link href={`/stores/${order?.storeId}/group-order/${order?.id}/orders`}>
-              <Button>View Orders</Button>
+              <Button>View All Orders</Button>
             </Link>
           </div>
         </div>
+      </div>
+      <div className="flex flex-row mt-4 md:mt-0 justify-end gap-2">
+        <div>
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button>Finalize</Button>
+            </SheetTrigger>
+            <FinalizedGroupOrder order={order as GroupOrderDetail} />
+          </Sheet>
+        </div>
+        {isFinalizedOrder && (
+          <>
+            <div>
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant={'secondary'}>Trigger Finalize</Button>
+                </SheetTrigger>
+                <TriggerFinalizedGroupOrder />
+              </Sheet>
+            </div>
+          </>
+        )}
+        {isFinalizedOrder && (
+          <>
+            <div>
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant={'outline'}>Trigger Debt</Button>
+                </SheetTrigger>
+                <TriggerDebtGroupOrder />
+              </Sheet>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

@@ -20,3 +20,8 @@ export type GroupOrderList = {
   dateTabs: string[];
   groupOrders: GroupOrderDetail[][];
 };
+
+export type TriggerFinalizedGroupOrderPayload = {
+  storeId: string;
+  groupOrderId: string;
+};
