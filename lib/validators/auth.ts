@@ -20,3 +20,19 @@ export const SignupSchema = z.object({
 });
 
 export type SignupPayload = z.infer<typeof SignupSchema>;
+
+export const ChangePasswordSchema = z.object({
+  userName: z.string({}).min(1),
+  currPassword: z
+    .string({
+      required_error: 'This field is required',
+    })
+    .min(1),
+  newPassword: z
+    .string({
+      required_error: 'This field is required',
+    })
+    .min(1),
+});
+
+export type ChangePasswordPayload = z.infer<typeof ChangePasswordSchema>;

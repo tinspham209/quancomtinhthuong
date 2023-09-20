@@ -4,7 +4,7 @@ import {
   GetStoresByUserName,
   UpdateStorePayload,
 } from '@/lib/validators';
-import { LoginPayload, SignupPayload } from '@/lib/validators/auth';
+import { ChangePasswordPayload, LoginPayload, SignupPayload } from '@/lib/validators/auth';
 import {
   CreateGroupOrderPayload,
   FinalizedGroupOrderPayload,
@@ -115,6 +115,10 @@ const create = (baseURL = '/api') => {
   // Auth
   const login = (payload: LoginPayload) => {
     return api.post(`/app/auth/login`, payload, newCancelToken());
+  };
+
+  const changePassword = (payload: ChangePasswordPayload) => {
+    return api.post(`/app/user/change-p`, payload, newCancelToken());
   };
 
   const signUp = (payload: SignupPayload) => {
@@ -278,6 +282,7 @@ const create = (baseURL = '/api') => {
 
     // Auth
     login,
+    changePassword,
     signUp,
     getMyProfile,
 
