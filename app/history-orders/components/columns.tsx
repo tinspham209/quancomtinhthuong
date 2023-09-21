@@ -16,7 +16,7 @@ import { OrderStatus } from '@/queries/orders/types';
 import { OrdersHistoryDetail } from '@/queries/ordersHistory/type';
 import { ColumnDef } from '@tanstack/react-table';
 import dayjs from 'dayjs';
-import { ArrowRight, ExternalLink, MoreHorizontal } from 'lucide-react';
+import { ExternalLink, MoreHorizontal } from 'lucide-react';
 import Link from 'next/link';
 
 export type OrderHistoryRow = {
@@ -120,7 +120,7 @@ export const orderHistoryColumns = (): ColumnDef<OrderHistoryRow>[] => {
                 {order.status === OrderStatus.NOPE && (
                   <DropdownMenuItem asChild className="cursor-pointer">
                     <Link href={`${order.paymentLink}`} target="_blank">
-                      Payment
+                      Payment <ExternalLink className="w-4 h-4 ml-2 mb-1" />
                     </Link>
                   </DropdownMenuItem>
                 )}

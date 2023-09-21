@@ -11,6 +11,7 @@ import {
   Sheet,
   SheetTrigger,
 } from '@/components/ui';
+import { GroupOrderDetail } from '@/queries/group-orders/types';
 import { OrderDetail, OrderStatus } from '@/queries/orders/types';
 import { ColumnDef } from '@tanstack/react-table';
 import dayjs from 'dayjs';
@@ -36,7 +37,13 @@ export type OrderRow = {
   order: OrderDetail;
 };
 
-export const orderColumns = (currentProfileId: string): ColumnDef<OrderRow>[] => {
+export const orderColumns = ({
+  currentProfileId,
+  groupOrder,
+}: {
+  currentProfileId: string;
+  groupOrder: GroupOrderDetail | undefined;
+}): ColumnDef<OrderRow>[] => {
   return [
     {
       accessorKey: 'index',
@@ -111,11 +118,12 @@ export const orderColumns = (currentProfileId: string): ColumnDef<OrderRow>[] =>
       header: 'Actions',
       cell: ({ row }) => {
         const order = row.original.order;
+        const allowModifyOrder = !!groupOrder && !groupOrder?.finalized;
         const isOrderMatchWithProfile = currentProfileId === order.userId;
 
         return (
           <div>
-            {isOrderMatchWithProfile ? (
+            {allowModifyOrder && isOrderMatchWithProfile ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="h-8 w-8 p-0" title="More">

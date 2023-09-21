@@ -51,7 +51,10 @@ const OrdersOfGroupOrders: React.FC<Props> = ({}) => {
 
   const { profile } = useProfileStore();
 
-  const allColumns = useMemo(() => orderColumns(profile?.id || ''), [profile]);
+  const allColumns = useMemo(
+    () => orderColumns({ currentProfileId: profile?.id || '', groupOrder: groupOrder }),
+    [profile, groupOrder],
+  );
 
   return (
     <div className="p-4">

@@ -1,10 +1,11 @@
+import { OrderStatus } from '@/queries/orders/types';
 import { OrdersHistoryDetail } from '@/queries/ordersHistory/type';
 import { formatMoney, noImageUrl } from '@/utils';
+import { ExternalLink } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import React, { useMemo } from 'react';
 import { Button, SheetContent, SheetHeader, SheetTitle } from '../../ui';
-import Link from 'next/link';
-import { Divide, ExternalLink } from 'lucide-react';
 
 interface Props {
   order: OrdersHistoryDetail;
@@ -61,23 +62,29 @@ const ViewOrder: React.FC<Props> = ({ order }) => {
 
       <div className="my-8 grid grid-cols-[1fr_2fr] gap-2">
         <div className="font-semibold">Sub Total</div>
-        <div>{formatMoney(subTotal)}</div>
+        <div>{formatMoney(subTotal)}đ</div>
         <div className="font-semibold">Discount</div>
-        <div>{formatMoney(order.discount)}</div>
+        <div>{formatMoney(order.discount)}đ</div>
         <div className="font-semibold text-xl">Total</div>
-        <div className="font-semibold text-xl">{formatMoney(order.total)}</div>
+        <div className="font-semibold text-xl">{formatMoney(order.total)}đ</div>
       </div>
 
-      <div className="flex justify-center mt-4">
+      <div className="flex justify-center mt-4 gap-4">
         <Link
           href={`/order/${order.Store.storeSlug}/group-order/${order.id}/orders?viewOnlyMe=true`}
           target="_blank"
-          className="mx-auto"
         >
           <Button>
             Go to Orders <ExternalLink className="w-4 h-4 ml-2 mb-1" />
           </Button>
         </Link>
+        {order.status === OrderStatus.NOPE && (
+          <Link href={`${order.paymentLink}`} target="_blank">
+            <Button>
+              Payment <ExternalLink className="w-4 h-4 ml-2 mb-1" />
+            </Button>
+          </Link>
+        )}
       </div>
     </SheetContent>
   );
