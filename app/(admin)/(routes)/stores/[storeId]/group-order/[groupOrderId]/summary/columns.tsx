@@ -9,6 +9,7 @@ export type DishRow = {
   dishName: string;
   price: number;
   amount: number;
+  numberOfUsers: number;
   total: number;
   users: GroupOrderSummary['orders'][0]['users'];
 };
@@ -52,6 +53,10 @@ export const dishColumns: ColumnDef<DishRow>[] = [
     },
   },
   {
+    accessorKey: 'numberOfUsers',
+    header: 'Number Of Users',
+  },
+  {
     accessorKey: 'users',
     header: 'Order By',
     cell: ({ row }) => {
@@ -60,7 +65,7 @@ export const dishColumns: ColumnDef<DishRow>[] = [
       const formatUsers = () => {
         const u: string[] = [];
         users.forEach((user) => {
-          u.push(user.name);
+          u.push(`${user.name} (${user.amount})`);
         });
         return u.join(', ');
       };

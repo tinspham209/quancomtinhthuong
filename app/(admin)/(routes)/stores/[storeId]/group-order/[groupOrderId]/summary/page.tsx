@@ -25,8 +25,9 @@ const OrdersOfGroupOrders: React.FC<Props> = ({}) => {
         id: order.id,
         dishName: order.name,
         price: order.price,
-        amount: order.usersLength,
-        total: order.price * order.usersLength,
+        amount: order.amount,
+        numberOfUsers: order.usersLength,
+        total: order.price * order.amount,
         users: order.users,
       };
     });

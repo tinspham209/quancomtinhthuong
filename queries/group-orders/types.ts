@@ -55,11 +55,13 @@ export type GroupOrderSummary = {
     price: number;
     name: string;
     imgUrl: string;
+    amount: number;
     users: {
       userName: string;
       imgUrl: string;
       name: string;
       id: string;
+      amount: number;
       additionalOrders: any[];
     }[];
     usersLength: number;
