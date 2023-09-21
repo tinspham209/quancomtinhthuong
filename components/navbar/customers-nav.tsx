@@ -17,7 +17,7 @@ const CustomersNav = ({ className, ...props }: React.HTMLAttributes<HTMLElement>
     },
     {
       href: `/history-orders`,
-      label: 'History Orders',
+      label: 'Orders History',
       active: pathname.includes('/history-orders'),
     },
   ];

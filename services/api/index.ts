@@ -10,15 +10,17 @@ import {
   FinalizedGroupOrderPayload,
   UpdateGroupOrderPayload,
 } from '@/lib/validators/group-orders';
+import { CreateOrderPayload } from '@/lib/validators/orders';
 import { CreateRestaurantPayload } from '@/lib/validators/restaurants';
 import { Store } from '@/queries/auth/types';
 import { Dish } from '@/queries/dishes/types';
+import { TriggerFinalizedGroupOrderPayload } from '@/queries/group-orders/types';
+import { GetUserOrdersHistoryParams } from '@/queries/ordersHistory/type';
+import { stringify } from '@/utils';
 import apisauce, { CancelToken } from 'apisauce';
 import axios, { AxiosError } from 'axios';
 import { toast } from 'react-hot-toast';
 import TokenServices from '../token';
-import { CreateOrderPayload } from '@/lib/validators/orders';
-import { TriggerFinalizedGroupOrderPayload } from '@/queries/group-orders/types';
 
 const AXIOS_CONFIG = {
   CONNECTION_TIMEOUT: 30000,
@@ -266,6 +268,11 @@ const create = (baseURL = '/api') => {
     return api.delete(`/app/order/${orderId}`, {}, newCancelToken());
   };
 
+  // History
+  const getUserOrdersHistory = (params: GetUserOrdersHistoryParams) => {
+    return api.get(`/app/user/history?${stringify(params)}`, {}, newCancelToken());
+  };
+
   return {
     getRoot,
 
@@ -315,6 +322,9 @@ const create = (baseURL = '/api') => {
     getOrdersByGroupOrderId,
     createOrder,
     deleteOrder,
+
+    // History
+    getUserOrdersHistory,
   };
 };
 

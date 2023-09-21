@@ -17,7 +17,7 @@ const Client: React.FC<Props> = ({}: Props) => {
         <Heading title="Dashboard" />
         <div className="mt-2 sm:mt-0">
           <Link href="/history-orders">
-            <Button>History Orders</Button>
+            <Button>Orders History</Button>
           </Link>
         </div>
       </div>
