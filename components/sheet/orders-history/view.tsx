@@ -1,5 +1,5 @@
 import { OrdersHistoryDetail } from '@/queries/ordersHistory/type';
-import { noImageUrl } from '@/utils';
+import { formatMoney, noImageUrl } from '@/utils';
 import Image from 'next/image';
 import React, { useMemo } from 'react';
 import { Button, SheetContent, SheetHeader, SheetTitle } from '../../ui';
@@ -20,9 +20,9 @@ const ViewOrder: React.FC<Props> = ({ order }) => {
         <SheetTitle>Order Detail</SheetTitle>
       </SheetHeader>
 
-      {order.Orders.map((item) => {
+      {order.Orders.map((item, index) => {
         return (
-          <div className="border-0 shadow-none mt-2">
+          <div className="border-0 shadow-none mt-2" key={`${item.Dish.name}-${index}`}>
             <div className="p-2 mt-2 flex align-middle gap-2 border rounded-lg">
               <div className="min-w-[90px] max-w-[90px] h-auto relative border-zinc-300 border border-solid rounded-lg ">
                 <Image
@@ -48,11 +48,10 @@ const ViewOrder: React.FC<Props> = ({ order }) => {
                   {item.Dish.name}
                 </p>
                 <p className="mt-1 text-sm">
-                  {new Intl.NumberFormat().format(item.Dish.price)}đ <span className="ml-2">x</span>{' '}
-                  {item.amount}
+                  {formatMoney(item.Dish.price)}VND <span className="ml-2">x</span> {item.amount}
                 </p>
                 <p className="text-xl font-semibold mt-3">
-                  {new Intl.NumberFormat().format(item.Dish.price * (item.amount ?? 1))}đ
+                  {formatMoney(item.Dish.price * (item.amount ?? 1))}đ
                 </p>
               </div>
             </div>
@@ -62,11 +61,11 @@ const ViewOrder: React.FC<Props> = ({ order }) => {
 
       <div className="my-8 grid grid-cols-[1fr_2fr] gap-2">
         <div className="font-semibold">Sub Total</div>
-        <div>{new Intl.NumberFormat().format(subTotal)}đ</div>
+        <div>{formatMoney(subTotal)}</div>
         <div className="font-semibold">Discount</div>
-        <div>{new Intl.NumberFormat().format(order.discount)}đ</div>
+        <div>{formatMoney(order.discount)}</div>
         <div className="font-semibold text-xl">Total</div>
-        <div className="font-semibold text-xl">{new Intl.NumberFormat().format(order.total)}đ</div>
+        <div className="font-semibold text-xl">{formatMoney(order.total)}</div>
       </div>
 
       <div className="flex justify-center mt-4">

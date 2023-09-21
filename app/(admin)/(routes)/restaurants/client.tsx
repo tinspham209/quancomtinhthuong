@@ -11,14 +11,18 @@ import {
   Sheet,
   SheetTrigger,
 } from '@/components/ui';
+import useCopyToClipboard from '@/hooks/use-copy-to-clipboard';
 import { useGetRestaurants } from '@/queries/restaurants';
-import { PlusCircle } from 'lucide-react';
+import { Copy, PlusCircle } from 'lucide-react';
 import Link from 'next/link';
 import { FC, useState } from 'react';
+import toast from 'react-hot-toast';
 
 interface Props {}
 
 const RestaurantsPage: FC<Props> = ({}) => {
+  const [value, copy] = useCopyToClipboard();
+
   const { restaurants } = useGetRestaurants();
   const [openCreateRestaurant, setOpenCreateRestaurant] = useState(false);
   return (
@@ -62,7 +66,17 @@ const RestaurantsPage: FC<Props> = ({}) => {
                 <CardDescription>{restaurant.description}</CardDescription>
               </CardHeader>
               {/* <CardContent></CardContent> */}
-              <CardFooter className="flex justify-end">
+              <CardFooter className="flex justify-end gap-2">
+                <Button
+                  variant={'outline'}
+                  title="Copy Restaurant link"
+                  onClick={() => {
+                    copy(restaurant.link);
+                    toast.success('Copy Restaurant link successfully.');
+                  }}
+                >
+                  <Copy className="w-4 h-4" />
+                </Button>
                 <Link href={`/restaurants/${restaurant.id}`}>
                   <Button>Go to detail</Button>
                 </Link>

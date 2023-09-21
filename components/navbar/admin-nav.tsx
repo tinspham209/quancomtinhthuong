@@ -11,6 +11,11 @@ const MainNav = ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => 
 
   const routes: RouteItemNav[] = [
     {
+      href: `/dashboard`,
+      label: 'Dashboard',
+      active: pathname === '/dashboard',
+    },
+    {
       href: `/stores`,
       label: 'Stores',
       active: pathname.includes('/stores'),
@@ -19,6 +24,11 @@ const MainNav = ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => 
       href: `/restaurants`,
       label: 'Restaurants',
       active: pathname.includes('/restaurants'),
+    },
+    {
+      href: `/history-orders`,
+      label: 'Orders History',
+      active: pathname.includes('/history-orders'),
     },
   ];
 
