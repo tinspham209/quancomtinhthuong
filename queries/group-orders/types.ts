@@ -68,3 +68,56 @@ export type GroupOrderSummary = {
   }[];
   totalPrice: number;
 };
+
+export type GroupOrder = {
+  id: string;
+  limit: number;
+  discount: number;
+  restaurantId: string;
+  title: string;
+  imgUrl: any;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
+  finalized: boolean;
+  dueTime: string;
+  storeId: string;
+  boomboxId: any;
+  restaurant: {
+    id: string;
+    name: string;
+    link: string;
+    description: string;
+    imgUrl: any;
+    createdAt: string;
+    updatedAt: string;
+  };
+  Store: {
+    storeSlug: string;
+    name: string;
+    id: string;
+  };
+  Orders: {
+    id: number;
+    amount: number;
+    status: string;
+    confirm: boolean;
+    orderNumber: number;
+    note: string;
+    groupOrderId: string;
+    createdAt: string;
+    updatedAt: string;
+    userId: string;
+    dishId: string;
+    orderCode: number;
+    paymentLink?: string;
+    limitAdditionalOrder: number;
+    User: {
+      userName: string;
+      imgUrl: string;
+    };
+  }[];
+  _count: {
+    Orders: number;
+  };
+};

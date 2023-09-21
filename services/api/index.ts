@@ -192,6 +192,10 @@ const create = (baseURL = '/api') => {
   };
 
   // Group order
+  const getGroupOrders = () => {
+    return api.get(`/app/group-order/groups?finalized=false`, {}, newCancelToken());
+  };
+
   const getGroupOrdersListByStoreId = (storeId: string) => {
     if (!storeId) return new Promise((res, rej) => res(null));
 
@@ -308,6 +312,7 @@ const create = (baseURL = '/api') => {
     deleteDish,
 
     // Group order
+    getGroupOrders,
     getGroupOrdersListByStoreId,
     getGroupOrderDetail,
     getGroupOrderSummary,

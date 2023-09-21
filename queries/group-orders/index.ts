@@ -16,6 +16,7 @@ import apiClient from '../apiClient';
 import { responseWrapper } from '../auth/helpers';
 import { Callback } from '../auth/types';
 import {
+  GroupOrder,
   GroupOrderDetail,
   GroupOrderList,
   GroupOrderSummary,
@@ -326,5 +327,64 @@ export function useTriggerDebtGroupOrder(
   return {
     triggerDebtGroupOrder,
     isLoading,
+  };
+}
+
+export function useGetGroupOrders(
+  options?: UseQueryOptions<GroupOrder[], Error> & {
+    onSuccessCallback?: Callback;
+    onErrorCallback?: Callback;
+  },
+) {
+  const handleGet: QueryFunction<GroupOrder[]> = () => {
+    return responseWrapper<GroupOrder[]>(apiClient.getGroupOrders);
+  };
+  const {
+    data,
+    error,
+    isError,
+    isSuccess,
+    isFetching,
+    refetch: getGroupOrders,
+  } = useQuery<GroupOrder[], Error>([`/group-order/group`], {
+    queryFn: handleGet,
+    refetchOnMount: false,
+    enabled: true,
+    notifyOnChangeProps: ['data', 'isFetching'],
+    select: (data) => data,
+    ...options,
+  });
+
+  useEffect(() => {
+    if (data && isSuccess) {
+      if (options?.onSuccessCallback) {
+        options.onSuccessCallback(data);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, isSuccess]);
+
+  useEffect(() => {
+    if (isError) {
+      if (options?.onErrorCallback) {
+        options.onErrorCallback(error);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isError]);
+
+  const queryClient = useQueryClient();
+
+  const handleInvalidateGroupOrders = () => {
+    queryClient.invalidateQueries([`/group-order/group`]);
+  };
+
+  return {
+    groupLists: data,
+    error,
+    isError,
+    loading: isFetching,
+    getGroupOrders,
+    handleInvalidateGroupOrders,
   };
 }
