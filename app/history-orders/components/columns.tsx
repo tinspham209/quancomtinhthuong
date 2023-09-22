@@ -1,7 +1,9 @@
 'use client';
 
+import BadgeStatus from '@/components/badge-status';
 import { ViewOrder } from '@/components/sheet';
 import {
+  Badge,
   Button,
   DropdownMenu,
   DropdownMenuContent,
@@ -81,8 +83,13 @@ export const orderHistoryColumns = (): ColumnDef<OrderHistoryRow>[] => {
     {
       accessorKey: 'paymentStatus',
       header: 'Payment Status',
-    },
+      cell: ({ row }) => {
+        const status = (row.getValue('paymentStatus') as OrderStatus) || '';
 
+        return <BadgeStatus status={status}/>;
+        
+      },
+    },
     {
       accessorKey: 'action',
       header: 'Actions',

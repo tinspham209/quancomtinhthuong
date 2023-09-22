@@ -1,5 +1,6 @@
 'use client';
 
+import BadgeStatus from '@/components/badge-status';
 import { UpdateOrder } from '@/components/sheet';
 import {
   Button,
@@ -102,6 +103,11 @@ export const orderColumns = ({
     {
       accessorKey: 'paymentStatus',
       header: 'Payment Status',
+      cell: ({ row }) => {
+        const status = (row.getValue('paymentStatus') as OrderStatus) || '';
+
+        return <BadgeStatus status={status} />;
+      },
     },
     {
       accessorKey: 'createdAt',
