@@ -34,7 +34,7 @@ const MainNav = ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => 
 
   return (
     <div className={cn('flex items-center space-x-2 sm:space-x-4 lg:space-x-6', className)}>
-      <StoreSwitcher />
+      <StoreSwitcher className="hidden sm:flex" />
       <NavLists routes={routes} />
     </div>
   );
