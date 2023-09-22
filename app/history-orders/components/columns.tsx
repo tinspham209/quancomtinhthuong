@@ -86,8 +86,11 @@ export const orderHistoryColumns = (): ColumnDef<OrderHistoryRow>[] => {
       cell: ({ row }) => {
         const status = (row.getValue('paymentStatus') as OrderStatus) || '';
 
-        return <BadgeStatus status={status}/>;
-        
+        return (
+          <div className="flex justify-center -translate-x-4">
+            <BadgeStatus status={status} isShowAnimation />
+          </div>
+        );
       },
     },
     {

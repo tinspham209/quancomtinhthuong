@@ -104,9 +104,16 @@ export const orderColumns = ({
       accessorKey: 'paymentStatus',
       header: 'Payment Status',
       cell: ({ row }) => {
-        const status = (row.getValue('paymentStatus') as OrderStatus) || '';
+        const order = row.original.order;
+        const isOrderMatchWithProfile = currentProfileId === order.userId;
 
-        return <BadgeStatus status={status} />;
+        const status = (order.status as OrderStatus) || '';
+
+        return (
+          <div className="flex justify-center -translate-x-6">
+            <BadgeStatus status={status} isShowAnimation={isOrderMatchWithProfile} />
+          </div>
+        );
       },
     },
     {

@@ -6,12 +6,13 @@ import { Badge } from './ui';
 
 interface Props {
   status: OrderStatus;
+  isShowAnimation?: boolean;
 }
 
-const BadgeStatus: React.FC<Props> = ({ status }) => {
+const BadgeStatus: React.FC<Props> = ({ status, isShowAnimation = false }) => {
   if (status === OrderStatus.NOPE)
     return (
-      <div className="animate-jump animate-infinite animate-ease-in-out ">
+      <div className={isShowAnimation ? 'animate-jump animate-infinite animate-ease-in-out' : ''}>
         <Badge variant={'destructive'}>{status}</Badge>
       </div>
     );
