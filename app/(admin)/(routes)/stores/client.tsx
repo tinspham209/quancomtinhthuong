@@ -1,11 +1,21 @@
 'use client';
 
-import { Button, Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui';
+import { CreateStore } from '@/components/sheet';
+import {
+  Button,
+  Card,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+  Sheet,
+  SheetTrigger,
+} from '@/components/ui';
 import { useProfileStore } from '@/hooks';
-import ClientOnly from '@/providers/client-only';
 import { useGetStoresByUserName } from '@/queries/stores';
+import { PlusCircle } from 'lucide-react';
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 
 interface Props {}
 
@@ -16,11 +26,32 @@ const Client: React.FC<Props> = ({}: Props) => {
     userName: profile?.userName || '',
   });
 
+  const [openCreateStore, setOpenCreateStore] = useState(false);
+  const handleOpenCreateStore = (open: boolean) => {
+    setOpenCreateStore(open);
+  };
+
   return (
     <div className="p-4">
       <div className="flex flex-col sm:flex-row md:justify-between">
         <h1 className="text-3xl font-bold leading-none tracking-tight">Stores</h1>
-        <div></div>
+        <div className="mt-2 sm:mt-0">
+          <div>
+            <Sheet open={openCreateStore} onOpenChange={setOpenCreateStore}>
+              <SheetTrigger className="flex" asChild>
+                <Button>
+                  <PlusCircle className="mr-2 h-5 w-5" />
+                  Create Store
+                </Button>
+              </SheetTrigger>
+              <CreateStore
+                onClose={() => {
+                  handleOpenCreateStore(false);
+                }}
+              />
+            </Sheet>
+          </div>
+        </div>
       </div>
 
       <div className="mt-2">
