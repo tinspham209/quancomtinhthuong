@@ -43,7 +43,6 @@ interface Props {
 }
 
 const UpdateOrder: React.FC<Props> = ({ order, restaurantId }) => {
-  console.log('restaurantId: ', restaurantId);
   const form = useForm<CreateOrderPayload>({
     resolver: zodResolver(CreateOrderSchema),
     defaultValues: {

@@ -14,4 +14,5 @@ export { default as TriggerFinalizedGroupOrder } from './group-orders/trigger-fi
 export { default as TriggerDebtGroupOrder } from './group-orders/trigger-debt';
 export { default as CreateOrder } from './orders/create';
 export { default as UpdateOrder } from './orders/update';
+export { default as DeleteOrder } from './orders/delete';
 export { default as ViewOrder } from './orders-history/view';

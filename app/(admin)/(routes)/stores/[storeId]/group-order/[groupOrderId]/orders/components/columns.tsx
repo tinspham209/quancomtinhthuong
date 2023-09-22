@@ -1,6 +1,6 @@
 'use client';
 
-import { UpdateOrder } from '@/components/sheet';
+import { DeleteOrder, UpdateOrder } from '@/components/sheet';
 import {
   Button,
   DropdownMenu,
@@ -118,6 +118,8 @@ export const orderColumns = ({
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
+
+              {/* Edit */}
               <Sheet>
                 <SheetTrigger asChild>
                   <DropdownMenuLabel className="cursor-pointer font-normal hover:bg-accent rounded-sm">
@@ -125,6 +127,16 @@ export const orderColumns = ({
                   </DropdownMenuLabel>
                 </SheetTrigger>
                 <UpdateOrder order={order} restaurantId={groupOrder?.restaurantId || ''} />
+              </Sheet>
+
+              {/* Delete */}
+              <Sheet>
+                <SheetTrigger asChild>
+                  <DropdownMenuLabel className="cursor-pointer font-normal text-red-500 hover:bg-accent rounded-sm">
+                    Delete Order
+                  </DropdownMenuLabel>
+                </SheetTrigger>
+                <DeleteOrder order={order} isShowUserName />
               </Sheet>
             </DropdownMenuContent>
           </DropdownMenu>
