@@ -18,6 +18,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 const ALL_ORDER_STATUS_OPTION_VALUE = 'ALL';
+const DAY_FROM_NOW_DEFAULT = 15;
 enum OrderHistoryParams {
   PAYMENT_STATUS = 'paymentStatus',
 }
@@ -39,7 +40,7 @@ const Client: React.FC<Props> = ({}: Props) => {
   );
 
   const { ordersHistory, getOrdersHistory } = useGetOrdersHistory({
-    from: dayjs().subtract(15, 'days').format('MM/DD/YYYY'),
+    from: dayjs().subtract(DAY_FROM_NOW_DEFAULT, 'days').format('MM/DD/YYYY'),
     to: dayjs().format('MM/DD/YYYY'),
     userId: profile?.id || '',
     status: paymentStatusParam === ALL_ORDER_STATUS_OPTION_VALUE ? undefined : paymentStatusParam,

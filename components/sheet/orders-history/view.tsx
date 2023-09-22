@@ -11,8 +11,10 @@ interface Props {
   order: OrdersHistoryDetail;
 }
 const ViewOrder: React.FC<Props> = ({ order }) => {
-  const subTotal = useMemo(() => {
-    return order.Orders.reduce((total, curr) => total + curr.Dish.price, 0);
+  const { subTotal, showPaymentLink } = useMemo(() => {
+    const showPaymentLink = order.status === OrderStatus.NOPE && !!order.paymentLink;
+    const subTotal = order.Orders.reduce((total, curr) => total + curr.Dish.price, 0);
+    return { subTotal, showPaymentLink };
   }, [order]);
 
   return (
@@ -78,7 +80,7 @@ const ViewOrder: React.FC<Props> = ({ order }) => {
             Go to Orders <ExternalLink className="w-4 h-4 ml-2 mb-1" />
           </Button>
         </Link>
-        {order.status === OrderStatus.NOPE && (
+        {showPaymentLink && (
           <Link href={`${order.paymentLink}`} target="_blank">
             <Button>
               Payment <ExternalLink className="w-4 h-4 ml-2 mb-1" />

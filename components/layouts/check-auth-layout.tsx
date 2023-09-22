@@ -5,7 +5,13 @@ import useAuthNavigate from '@/hooks/use-auth-navigate';
 import { useProfile } from '@/queries/auth';
 import { useLayoutEffect } from 'react';
 
-export default function AuthLayout({ children }: { children: React.ReactNode }) {
+export default function AuthLayout({
+  children,
+  requiredLogin = true,
+}: {
+  children: React.ReactNode;
+  requiredLogin?: boolean;
+}) {
   const { navigateToLogin } = useAuthNavigate();
   const { onSetProfile } = useProfileStore();
   const { profile: profileQuery, getMyProfile } = useProfile({
@@ -13,7 +19,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       onSetProfile(data);
     },
     onErrorCallback: () => {
-      navigateToLogin();
+      if (requiredLogin) navigateToLogin();
     },
   });
 

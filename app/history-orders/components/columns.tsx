@@ -88,6 +88,7 @@ export const orderHistoryColumns = (): ColumnDef<OrderHistoryRow>[] => {
       header: 'Actions',
       cell: ({ row }) => {
         const order = row.original.order;
+        const showPaymentLink = order.status === OrderStatus.NOPE && !!order.paymentLink;
 
         return (
           <div>
@@ -117,7 +118,7 @@ export const orderHistoryColumns = (): ColumnDef<OrderHistoryRow>[] => {
                     Go to Orders <ExternalLink className="w-4 h-4 ml-2 mb-1" />
                   </Link>
                 </DropdownMenuItem>
-                {order.status === OrderStatus.NOPE && (
+                {showPaymentLink && (
                   <DropdownMenuItem asChild className="cursor-pointer">
                     <Link href={`${order.paymentLink}`} target="_blank">
                       Payment <ExternalLink className="w-4 h-4 ml-2 mb-1" />
