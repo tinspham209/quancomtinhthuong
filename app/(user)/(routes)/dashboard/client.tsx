@@ -13,6 +13,7 @@ import {
   Heading,
 } from '@/components/ui';
 import { useGetGroupOrders } from '@/queries/group-orders';
+import { GroupOrder } from '@/queries/group-orders/types';
 import Link from 'next/link';
 import React from 'react';
 
@@ -20,6 +21,24 @@ interface Props {}
 
 const Client: React.FC<Props> = ({}: Props) => {
   const { groupLists } = useGetGroupOrders();
+
+  const getListCurrentUser = (orders: GroupOrder['Orders']) => {
+    if (!groupLists) return [];
+    const arr: {
+      avatarUrl: string;
+      title: string;
+    }[] = [];
+    orders.forEach((order) => {
+      arr.push({
+        avatarUrl: order.User.imgUrl,
+        title: order.User.userName,
+      });
+    });
+
+    const uniqueArr = Array.from(new Map(arr.map((m) => [m.title, m])).values());
+
+    return uniqueArr;
+  };
 
   return (
     <div className="p-4">
@@ -60,24 +79,29 @@ const Client: React.FC<Props> = ({}: Props) => {
                   {group.title}
                 </CardTitle>
                 <CardDescription>Restaurant: {group.restaurant.name}</CardDescription>
-                <CardDescription>Store: {group.Store.name}</CardDescription>
-                <CardDescription>Due Time: {group.dueTime}</CardDescription>
-                <CardDescription>Limit: {group.limit}</CardDescription>
                 <CardDescription>
-                  {group._count.Orders} user{group._count.Orders > 1 ? 's' : ''} ordering here
+                  Store: <strong>{group.Store.name}</strong>
+                </CardDescription>
+                <CardDescription>
+                  Due Time: <strong>{group.dueTime}</strong>
+                </CardDescription>
+                <CardDescription>
+                  Limit: <strong>{group.limit}</strong>
+                </CardDescription>
+                <CardDescription className="text-md">
+                  <strong>{group._count.Orders}</strong> order{group._count.Orders > 1 ? 's' : ''}{' '}
+                  being placed here
                 </CardDescription>
                 <div className="flex flex-row gap-1 flex-wrap">
-                  {group.Orders.map((order) => (
-                    <div key={order.id}>
-                      <Avatar className="w-5 h-5">
+                  {getListCurrentUser(group.Orders).map((order) => (
+                    <div key={order.title}>
+                      <Avatar className="w-7 h-7">
                         <AvatarImage
-                          src={order.User.imgUrl}
-                          alt={`${order.User.userName}`}
-                          title={order.User.userName}
+                          src={order.avatarUrl}
+                          alt={`${order.title}`}
+                          title={order.title}
                         />
-                        <AvatarFallback title={order.User.userName}>
-                          {order.User.userName.charAt(0)}
-                        </AvatarFallback>
+                        <AvatarFallback title={order.title}>{order.title.charAt(0)}</AvatarFallback>
                       </Avatar>
                     </div>
                   ))}
