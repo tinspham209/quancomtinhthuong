@@ -1,3 +1,5 @@
+import AuthLayout from '@/components/layouts/check-auth-layout';
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return <div>{children}</div>;
+  return <AuthLayout requiredLogin={false}>{children}</AuthLayout>;
 }

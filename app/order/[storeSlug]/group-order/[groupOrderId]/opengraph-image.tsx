@@ -1,5 +1,6 @@
 import { ImageResponse } from 'next/server';
 import getGroupOrderInfo from './actions';
+import { formatMoney } from '@/utils';
 
 export const alt = 'Quan-com-tinh-thuong';
 
@@ -7,8 +8,8 @@ export const contentType = 'image/png';
 export const runtime = 'edge';
 
 export default async function LocationOG({ params }: { params: { groupOrderId: string } }) {
-  const font = await fetch(new URL('./fonts/ClashDisplay-Semibold.otf', import.meta.url)).then(
-    (res) => res.arrayBuffer(),
+  const font = await fetch(new URL('./fonts/Roboto-Bold.ttf', import.meta.url)).then((res) =>
+    res.arrayBuffer(),
   );
 
   const info = await getGroupOrderInfo(params);
@@ -33,31 +34,33 @@ export default async function LocationOG({ params }: { params: { groupOrderId: s
           justifyContent: 'center',
           flexDirection: 'column',
           flexWrap: 'nowrap',
-          fontFamily: 'Clash',
+          fontFamily: 'Roboto',
           backgroundColor: 'white',
           backgroundImage:
             'radial-gradient(circle at 25px 25px, lightgray 2%, transparent 0%), radial-gradient(circle at 75px 75px, lightgray 2%, transparent 0%)',
           backgroundSize: '100px 100px',
+          padding: '0px 8px',
         }}
       >
         <div tw="flex flex-col items-center justify-center mt-10">
           <b
             style={{
-              fontSize: 60,
+              fontSize: 48,
               color: 'black',
               lineHeight: 1.8,
+              marginBottom: '24px',
             }}
           >
-            {formatInfo.title}
+            {formatInfo.title || 'Group order title'}
           </b>
           <b
             style={{
               fontSize: 48,
               color: 'black',
-              lineHeight: 1.8,
+              lineHeight: 1,
             }}
           >
-            {formatInfo.restaurantName}
+            {formatInfo.restaurantName || 'Restaurant'}
           </b>
           <div
             tw="flex"
@@ -66,42 +69,36 @@ export default async function LocationOG({ params }: { params: { groupOrderId: s
               color: 'black',
             }}
           >
-            <div tw="flex flex-col items-center justify-center mx-10">
-              <p
-                style={{
-                  fontSize: 28,
-                  color: '#71717A',
-                  marginBottom: '-36px',
-                }}
-              >
-                DUE TIME
-              </p>
-              <p>{formatInfo.dueTime || '11:00 AM'}</p>
-            </div>
-            <div tw="flex flex-col items-center justify-center mx-10">
-              <p
-                style={{
-                  fontSize: 28,
-                  color: '#71717A',
-                  marginBottom: '-36px',
-                }}
-              >
-                LIMIT
-              </p>
-              <p>{formatInfo?.limit || 15}</p>
-            </div>
-            <div tw="flex flex-col items-center justify-center mx-10">
-              <p
-                style={{
-                  fontSize: 28,
-                  color: '#71717A',
-                  marginBottom: '-36px',
-                }}
-              >
-                DISCOUNT
-              </p>
-              <p>{formatInfo.discount || 0} VND</p>
-            </div>
+            {[
+              {
+                title: 'DUE TIME',
+                value: formatInfo.dueTime || '11:00 AM',
+                icon: '⏳',
+              },
+              {
+                title: 'LIMIT',
+                value: `${formatInfo.limit || 15}`,
+                icon: '📌',
+              },
+              {
+                title: 'DISCOUNT',
+                value: `${formatMoney(formatInfo.discount || 0)} VND`,
+                icon: '💰',
+              },
+            ].map((item) => (
+              <div key={item.title} tw="flex flex-col items-center justify-center mx-10">
+                <p
+                  style={{
+                    fontSize: 28,
+                    color: '#71717A',
+                    marginBottom: '-36px',
+                  }}
+                >
+                  {item.title} {item.icon}
+                </p>
+                <p>{item.value}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -111,7 +108,7 @@ export default async function LocationOG({ params }: { params: { groupOrderId: s
       height: 600,
       fonts: [
         {
-          name: 'Clash',
+          name: 'Roboto',
           data: font,
         },
       ],
