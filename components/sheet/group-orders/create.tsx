@@ -14,6 +14,7 @@ import {
   FormMessage,
   Input,
   PopoverContent,
+  ScrollArea,
   SheetContent,
   SheetHeader,
   SheetTitle,
@@ -139,24 +140,26 @@ const CreateGroupOrder: React.FC<Props> = ({ storeId }) => {
                       <CommandInput placeholder="Search Restaurant..." />
                       <CommandEmpty>No restaurant found.</CommandEmpty>
                       <CommandGroup>
-                        {restaurants.map((restaurant) => (
-                          <CommandItem
-                            value={restaurant.id}
-                            key={restaurant.id}
-                            onSelect={() => {
-                              form.setValue('restaurantId', restaurant.id);
-                            }}
-                            className="cursor-pointer text-left"
-                          >
-                            <Check
-                              className={cn(
-                                'mr-2 h-4 w-4',
-                                restaurant.id === field.value ? 'opacity-100' : 'opacity-0',
-                              )}
-                            />
-                            {restaurant.name}
-                          </CommandItem>
-                        ))}
+                        <ScrollArea className="max-h-[300px] overflow-y-auto">
+                          {restaurants.map((restaurant) => (
+                            <CommandItem
+                              value={restaurant.id}
+                              key={restaurant.id}
+                              onSelect={() => {
+                                form.setValue('restaurantId', restaurant.id);
+                              }}
+                              className="cursor-pointer text-left"
+                            >
+                              <Check
+                                className={cn(
+                                  'mr-2 h-4 w-4',
+                                  restaurant.id === field.value ? 'opacity-100' : 'opacity-0',
+                                )}
+                              />
+                              {restaurant.name}
+                            </CommandItem>
+                          ))}
+                        </ScrollArea>
                       </CommandGroup>
                     </Command>
                   </PopoverContent>

@@ -21,3 +21,5 @@ export * from './skeleton';
 export * from './select';
 export * from './switch';
 export * from './data-tables';
+export * from './scroll-area';
+export * from './menubar';

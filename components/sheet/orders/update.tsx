@@ -27,6 +27,7 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
+  ScrollArea,
   SheetContent,
   SheetHeader,
   SheetTitle,
@@ -185,30 +186,32 @@ const UpdateOrder: React.FC<Props> = ({ order, restaurantId }) => {
                     </FormControl>
                   </PopoverTrigger>
                   <PopoverContent className="p-0" side="bottom">
-                    <Command>
+                    <Command className="">
                       <CommandInput placeholder="Search Restaurant..." />
                       <CommandEmpty>No dish found.</CommandEmpty>
-                      <CommandGroup className="max-h-[300px] overflow-y-auto">
-                        {dishes
-                          .filter((dish) => dish.disable)
-                          .map((dish) => (
-                            <CommandItem
-                              value={dish.id}
-                              key={dish.id}
-                              onSelect={() => {
-                                form.setValue('dishId', dish.id || '');
-                              }}
-                              className={cn('cursor-pointer text-left')}
-                            >
-                              <Check
-                                className={cn(
-                                  'mr-2 h-4 w-4',
-                                  dish.id === field.value ? 'opacity-100' : 'opacity-0',
-                                )}
-                              />
-                              {dish.name}
-                            </CommandItem>
-                          ))}
+                      <CommandGroup>
+                        <ScrollArea className="max-h-[300px] overflow-y-auto">
+                          {dishes
+                            .filter((dish) => dish.disable)
+                            .map((dish) => (
+                              <CommandItem
+                                value={dish.id}
+                                key={dish.id}
+                                onSelect={() => {
+                                  form.setValue('dishId', dish.id || '');
+                                }}
+                                className={cn('cursor-pointer text-left')}
+                              >
+                                <Check
+                                  className={cn(
+                                    'mr-2 h-4 w-4',
+                                    dish.id === field.value ? 'opacity-100' : 'opacity-0',
+                                  )}
+                                />
+                                {dish.name}
+                              </CommandItem>
+                            ))}
+                        </ScrollArea>
                       </CommandGroup>
                     </Command>
                   </PopoverContent>
