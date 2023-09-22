@@ -11,6 +11,7 @@ import {
   Sheet,
   SheetTrigger,
 } from '@/components/ui';
+import { GroupOrderDetail } from '@/queries/group-orders/types';
 import { OrderDetail, OrderStatus } from '@/queries/orders/types';
 import { ColumnDef } from '@tanstack/react-table';
 import dayjs from 'dayjs';
@@ -36,7 +37,11 @@ export type OrderRow = {
   order: OrderDetail;
 };
 
-export const orderColumns: ColumnDef<OrderRow>[] = [
+export const orderColumns = ({
+  groupOrder,
+}: {
+  groupOrder: GroupOrderDetail | undefined;
+}): ColumnDef<OrderRow>[] => [
   {
     accessorKey: 'index',
     header: '#',
@@ -119,7 +124,7 @@ export const orderColumns: ColumnDef<OrderRow>[] = [
                     Edit Order
                   </DropdownMenuLabel>
                 </SheetTrigger>
-                <UpdateOrder order={order} />
+                <UpdateOrder order={order} restaurantId={groupOrder?.restaurantId || ''} />
               </Sheet>
             </DropdownMenuContent>
           </DropdownMenu>

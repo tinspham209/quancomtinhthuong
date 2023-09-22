@@ -139,7 +139,7 @@ export const orderColumns = ({
                         Edit Order
                       </DropdownMenuLabel>
                     </SheetTrigger>
-                    <UpdateOrder order={order} />
+                    <UpdateOrder order={order} restaurantId={groupOrder.restaurantId} />
                   </Sheet>
                 </DropdownMenuContent>
               </DropdownMenu>

@@ -12,6 +12,11 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
   Form,
   FormControl,
   FormField,
@@ -19,17 +24,25 @@ import {
   FormLabel,
   FormMessage,
   Input,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
   SheetContent,
   SheetHeader,
   SheetTitle,
 } from '../../ui';
 import { noImageUrl } from '@/utils';
+import { cn } from '@/lib/utils';
+import { useGetDishesByRestaurantId } from '@/queries/dishes';
+import { Check, ChevronsUpDown } from 'lucide-react';
 
 interface Props {
   order: OrderDetail;
+  restaurantId: string;
 }
 
-const UpdateOrder: React.FC<Props> = ({ order }) => {
+const UpdateOrder: React.FC<Props> = ({ order, restaurantId }) => {
+  console.log('restaurantId: ', restaurantId);
   const form = useForm<CreateOrderPayload>({
     resolver: zodResolver(CreateOrderSchema),
     defaultValues: {
@@ -93,10 +106,17 @@ const UpdateOrder: React.FC<Props> = ({ order }) => {
       dishId: values.dishId,
       amount: values.amount,
       note: values.note,
+      // orderId: order
     });
   };
 
+  const dishId = form.watch('dishId');
   const amount = form.watch('amount');
+  const { dishes } = useGetDishesByRestaurantId({
+    restaurantId: restaurantId,
+  });
+
+  const currentDish = dishes.find((dish) => dish.id === dishId);
 
   return (
     <SheetContent>
@@ -115,30 +135,89 @@ const UpdateOrder: React.FC<Props> = ({ order }) => {
               WebkitBoxOrient: 'vertical',
               WebkitLineClamp: 1,
             }}
-            title={order.Dish.name}
+            title={currentDish?.name}
           >
-            {order.Dish.name}
+            {currentDish?.name}
           </CardTitle>
         </CardHeader>
         <CardContent className="p-0">
           <div className="w-[100%] h-[300px] relative border-zinc-300 border border-solid rounded-lg">
             <Image
               unoptimized
-              src={order.Dish.imgUrl || noImageUrl}
-              alt={`${order.Dish.category}-${order.Dish.name}`}
+              src={currentDish?.imgUrl || noImageUrl}
+              alt={`${currentDish?.category}-${currentDish?.name}`}
               fill
               priority
               style={{ objectFit: 'cover', borderRadius: '7px' }}
             />
           </div>
           <p className="text-xl font-semibold mt-2">
-            {new Intl.NumberFormat().format(order.Dish.price)}VND
+            {new Intl.NumberFormat().format(currentDish?.price || 0)}VND
           </p>
         </CardContent>
       </Card>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="flex gap-3 flex-col pt-8">
+          <FormField
+            control={form.control}
+            name="dishId"
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel>Dish</FormLabel>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant="outline"
+                        role="combobox"
+                        className={cn(
+                          'justify-between',
+
+                          !field.value && 'text-muted-foreground',
+                        )}
+                      >
+                        {field.value
+                          ? dishes.find((dish) => dish.id === field.value)?.name
+                          : 'Select Restaurant'}
+                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="p-0" side="bottom">
+                    <Command>
+                      <CommandInput placeholder="Search Restaurant..." />
+                      <CommandEmpty>No dish found.</CommandEmpty>
+                      <CommandGroup className="max-h-[300px] overflow-y-auto">
+                        {dishes
+                          .filter((dish) => dish.disable)
+                          .map((dish) => (
+                            <CommandItem
+                              value={dish.id}
+                              key={dish.id}
+                              onSelect={() => {
+                                form.setValue('dishId', dish.id || '');
+                              }}
+                              className={cn('cursor-pointer text-left')}
+                            >
+                              <Check
+                                className={cn(
+                                  'mr-2 h-4 w-4',
+                                  dish.id === field.value ? 'opacity-100' : 'opacity-0',
+                                )}
+                              />
+                              {dish.name}
+                            </CommandItem>
+                          ))}
+                      </CommandGroup>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="amount"
