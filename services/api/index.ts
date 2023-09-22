@@ -277,6 +277,11 @@ const create = (baseURL = '/api') => {
     return api.get(`/app/user/history?${stringify(params)}`, {}, newCancelToken());
   };
 
+  // Notification
+  const getUserNotifications = (userName: string) => {
+    return api.get(`/app/user/notifications/${userName}`, {}, newCancelToken());
+  };
+
   return {
     getRoot,
 
@@ -330,6 +335,9 @@ const create = (baseURL = '/api') => {
 
     // History
     getUserOrdersHistory,
+
+    // Notifications
+    getUserNotifications,
   };
 };
 

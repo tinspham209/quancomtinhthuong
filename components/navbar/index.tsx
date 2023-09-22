@@ -3,18 +3,21 @@
 import { useProfileStore } from '@/hooks';
 import { cn } from '@/lib/utils';
 import { useProfile } from '@/queries/auth';
+import { useGetNotifications } from '@/queries/notifications';
 import TokenServices from '@/services/token';
 import { isEmpty } from '@/utils';
+import dayjs from 'dayjs';
 import { Lock, LogOut } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { useCallback, useMemo } from 'react';
+import { Fragment, useCallback, useMemo } from 'react';
 import { Icons } from '../icons';
 import ChangePassword from '../sheet/uam/change-password';
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
+  Button,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -30,11 +33,18 @@ import CustomersNav from './customers-nav';
 
 interface NavbarProps {}
 
+const NOTI_IMG_URL =
+  'https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExb3E2ZnN3Ym1iaWhrY3NmMGg1MmRiMjc3a3hoMHBxeXNvajh5Y3Y4NSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/fR7Wcwthfnt5YfKMF0/giphy.gif';
+
 const Navbar = ({}: NavbarProps) => {
   const { handleInvalidateProfile, loading } = useProfile();
   const { profile, onSetProfile } = useProfileStore();
 
   const router = useRouter();
+
+  const { notifications } = useGetNotifications({
+    userName: profile?.userName,
+  });
 
   const getUsernameAvatar = useCallback(() => {
     if (profile) {
@@ -96,7 +106,69 @@ const Navbar = ({}: NavbarProps) => {
                   Sign In
                 </Link>
               ) : (
-                <div>
+                <div className="flex flex-row gap-6">
+                  {/* Notification */}
+                  {!isEmpty(notifications) && (
+                    <DropdownMenu>
+                      <DropdownMenuTrigger>
+                        <div className="animate-bounce animate-infinite animate-duration-1000 animate-ease-in-out">
+                          <Avatar className="cursor-pointer animate-spin animate-infinite animate-duration-[2000ms] animate-ease-in-out">
+                            <AvatarImage
+                              src={NOTI_IMG_URL}
+                              alt="notification"
+                              title="Thông báo có nợ nè"
+                              className=""
+                            />
+                            <AvatarFallback>Noti</AvatarFallback>
+                          </Avatar>
+                        </div>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className="max-w-[360px] max-h-[560px] overflow-y-auto">
+                        <DropdownMenuLabel className="text-xl flex flex-row justify-between items-center">
+                          <p>Nợ nè</p>
+                          <Button
+                            variant={'outline'}
+                            onClick={() => {
+                              window.location.reload();
+                            }}
+                          >
+                            Refresh
+                          </Button>
+                        </DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+
+                        {notifications?.map((notification) => (
+                          <Fragment key={notification.createdAt}>
+                            <DropdownMenuItem className="cursor-pointer" asChild>
+                              <Link href={`/history-orders`} className="flex flex-col">
+                                <p className="text-sm">
+                                  Bạn có 1 khoản nợ chưa trả của group-order:{' '}
+                                  <b>{notification.title}</b> tại store:{' '}
+                                  <b>{notification.Store.name}</b> vào ngày{' '}
+                                  <b>
+                                    {dayjs(new Date(notification.createdAt)).format(
+                                      'DD/MM/YYYY HH:MM',
+                                    )}
+                                  </b>
+                                </p>
+                                <div className="flex justify-end w-full">
+                                  <Button
+                                    variant={'destructive'}
+                                    className="animate-jump animate-infinite animate-ease-in-out"
+                                  >
+                                    Trả nợ
+                                  </Button>
+                                </div>
+                              </Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                          </Fragment>
+                        ))}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  )}
+
+                  {/* Avatar */}
                   <DropdownMenu>
                     <DropdownMenuTrigger>
                       <Avatar>
@@ -106,7 +178,7 @@ const Navbar = ({}: NavbarProps) => {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
                       <DropdownMenuLabel>
-                        {profile?.userName} ({profile?.role.description})
+                        {profile?.name} - {profile?.userName} ({profile?.role.description})
                       </DropdownMenuLabel>
 
                       <DropdownMenuSeparator />
