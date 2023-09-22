@@ -5,6 +5,8 @@ import { usePathname } from 'next/navigation';
 import React from 'react';
 import NavLists, { RouteItemNav } from './nav-lists';
 import StoreSwitcher from './switcher-stores';
+import useMediaQuery, { breakpointScreen } from '@/hooks/use-media-query';
+import MenuBar from './menu-bar';
 
 const MainNav = ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => {
   const pathname = usePathname();
@@ -32,10 +34,12 @@ const MainNav = ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => 
     },
   ];
 
+  const isMobile = useMediaQuery(breakpointScreen.MOBILE);
+
   return (
     <div className={cn('flex items-center space-x-2 sm:space-x-4 lg:space-x-6', className)}>
-      <StoreSwitcher className="hidden sm:flex" />
-      <NavLists routes={routes} />
+      <StoreSwitcher className="" />
+      {isMobile ? <MenuBar routes={routes} /> : <NavLists routes={routes} />}
     </div>
   );
 };

@@ -73,7 +73,7 @@ const StoreSwitcher: React.FC<StoreSwitcherProps> = ({ className }) => {
           role="combobox"
           aria-expanded={openPopover}
           aria-label="Select a store"
-          className={cn('w-[120px] sm:w-[200px] justify-between', className)}
+          className={cn('w-[150px] sm:w-[200px] justify-between', className)}
         >
           <StoreIcon className="mr-2 h-4 w-4" />
           <p className="whitespace-nowrap">{currentStore?.label}</p>
