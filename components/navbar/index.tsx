@@ -79,6 +79,22 @@ const Navbar = ({}: NavbarProps) => {
     return ``;
   }, []);
 
+  const getRandomTextColor = () => {
+    const textColorClasses = [
+      'text-red-500',
+      'text-blue-500',
+      'text-green-500',
+      'text-yellow-500',
+      'text-pink-500',
+      'text-purple-500',
+      'text-indigo-500',
+    ];
+
+    const randomIndex = Math.floor(Math.random() * textColorClasses.length);
+
+    return textColorClasses[randomIndex];
+  };
+
   return (
     <nav className="border-b">
       <div className="h-16 flex items-center px-4">
@@ -112,7 +128,7 @@ const Navbar = ({}: NavbarProps) => {
                     <DropdownMenu>
                       <DropdownMenuTrigger>
                         <div className="animate-bounce animate-infinite animate-duration-1000 animate-ease-in-out">
-                          <Avatar className="cursor-pointer animate-spin animate-infinite animate-duration-[2000ms] animate-ease-in-out">
+                          <Avatar className="border-none cursor-pointer animate-spin animate-infinite animate-duration-[2000ms] animate-ease-in-out">
                             <AvatarImage
                               src={NOTI_IMG_URL}
                               alt="notification"
@@ -204,6 +220,30 @@ const Navbar = ({}: NavbarProps) => {
           )}
         </div>
       </div>
+      {!isEmpty(notifications) && (
+        <div className="relative overflow-x-hidden border-t pt-2 bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400">
+          <div className="animate-marquee whitespace-nowrap flex flex-row">
+            {Array.from({ length: 5 }).map((item, index) => (
+              <p
+                key={index}
+                className={`text-xl mx-2 font-semibold ${getRandomTextColor()} animate-bounce animate-infinite`}
+              >
+                Bạn có 1 khoản nợ chưa trả
+              </p>
+            ))}
+          </div>
+          <div className="absolute top-2 animate-marquee2 whitespace-nowrap flex flex-row">
+            {Array.from({ length: 5 }).map((item, index) => (
+              <p
+                key={index}
+                className={`text-xl mx-2 font-semibold ${getRandomTextColor()} animate-bounce animate-infinite`}
+              >
+                Bạn có 1 khoản nợ chưa trả
+              </p>
+            ))}
+          </div>
+        </div>
+      )}
     </nav>
   );
 };
