@@ -1,5 +1,6 @@
 'use client';
 
+import BadgeStatus from '@/components/badge-status';
 import { DeleteOrder, UpdateOrder } from '@/components/sheet';
 import {
   Button,
@@ -86,10 +87,26 @@ export const orderColumns = ({
   {
     accessorKey: 'note',
     header: 'Note',
+    cell: ({ row }) => {
+      const order = row.original.order;
+
+      return <div className="max-w-[300px]">{order.note}</div>;
+    },
   },
   {
     accessorKey: 'paymentStatus',
     header: 'Payment Status',
+    cell: ({ row }) => {
+      const order = row.original.order;
+
+      const status = (order.status as OrderStatus) || '';
+
+      return (
+        <div className="flex justify-center -translate-x-6">
+          <BadgeStatus status={status} />
+        </div>
+      );
+    },
   },
   {
     accessorKey: 'createdAt',

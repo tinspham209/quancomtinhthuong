@@ -99,6 +99,11 @@ export const orderColumns = ({
     {
       accessorKey: 'note',
       header: 'Note',
+      cell: ({ row }) => {
+        const order = row.original.order;
+
+        return <div className="max-w-[300px]">{order.note}</div>;
+      },
     },
     {
       accessorKey: 'paymentStatus',
