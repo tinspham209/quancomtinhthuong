@@ -8,7 +8,7 @@ import { useSearchParams } from 'next/navigation';
 import React, { useEffect, useMemo, useState } from 'react';
 import getRandomQuote, { RandomQuote } from './actions';
 
-const DEFAULT_BACKGROUND_IMAGE = 'https://i.imgur.com/po1R655.png';
+const DEFAULT_BACKGROUND_IMAGE = 'https://i.imgur.com/d8Vj0Gd.png';
 
 interface Props {}
 
@@ -36,7 +36,7 @@ const OrderCtn: React.FC<Props> = ({}) => {
       case OrderStatus.PAID:
         return (
           <>
-            <CheckCircle2 className="text-green-600 w-12 h-12" />
+            <CheckCircle2 className="text-green-600 w-12 h-12 animate-bounce animate-infinite" />
             <p className="text-xl text-green-600">Payment Successful!</p>
           </>
         );
@@ -44,7 +44,7 @@ const OrderCtn: React.FC<Props> = ({}) => {
       default:
         return (
           <>
-            <XCircle className="text-red-500 w-12 h-12" />
+            <XCircle className="text-red-500 w-12 h-12 " />
             <p className="text-xl text-red-500">Payment Failed!</p>
           </>
         );
@@ -53,9 +53,9 @@ const OrderCtn: React.FC<Props> = ({}) => {
 
   return (
     <div
-      className="p-4 flex items-center justify-center h-[92vh]"
+      className="p-4 flex items-center justify-center h-[94vh] bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400"
       style={{
-        backgroundImage: `url('${DEFAULT_BACKGROUND_IMAGE}')`,
+        backgroundImage: `url('/payment-success.webp')`,
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
@@ -71,18 +71,18 @@ const OrderCtn: React.FC<Props> = ({}) => {
               <div className="absolute rounded-full w-5 h-5 bg-orange-200 -mt-3 -right-2"></div>
             </div>
             <div className="flex justify-center flex-col items-center text-center p-8 pb-4">
-              <p className="text-sm text-red-500 font-light text-center">
+              <p className="text-sm text-red-500 font-light text-center animate-bounce animate-infinite">
                 Mỗi ngày một câu nói đạo lý
               </p>
               <div className="w-full mb-4">
                 <div className="text-3xl text-indigo-500 text-left leading-tight h-3 font-serif">
-                  "
+                  &ldquo;
                 </div>
                 <p className="text-lg font-medium text-gray-600 text-center px-5">
                   {quote.content}
                 </p>
                 <div className="text-3xl text-indigo-500 text-right leading-tight h-3 -mt-3 font-serif">
-                  "
+                  &rdquo;
                 </div>
               </div>
               <div className="w-full">
