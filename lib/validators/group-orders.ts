@@ -23,6 +23,7 @@ export const CreateGroupOrderSchema = z.object({
       .nonnegative(),
   ),
   dueTime: z.string().min(1),
+  boomboxId: z.string().optional(),
 });
 
 export type CreateGroupOrderPayload = z.infer<typeof CreateGroupOrderSchema>;
@@ -51,6 +52,7 @@ export const UpdateGroupOrderSchema = z.object({
       .nonnegative(),
   ),
   dueTime: z.string().min(1),
+  boomboxId: z.string().optional(),
 });
 
 export type UpdateGroupOrderPayload = z.infer<typeof UpdateGroupOrderSchema>;

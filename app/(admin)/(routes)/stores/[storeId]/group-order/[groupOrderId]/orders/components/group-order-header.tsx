@@ -2,6 +2,7 @@ import FinalizedGroupOrder from '@/components/sheet/group-orders/finalized';
 import { Button, Sheet, SheetTrigger } from '@/components/ui';
 import { GroupOrderDetail } from '@/queries/group-orders/types';
 import { useGetOrdersByGroupOrderId } from '@/queries/orders';
+import { BOOMBOX_URL } from '@/utils';
 import dayjs from 'dayjs';
 import Link from 'next/link';
 import React from 'react';
@@ -33,6 +34,15 @@ const OrdersHeader: React.FC<Props> = ({ groupOrder }) => {
           </p>
         </div>
         <div className="flex flex-row gap-2 mt-2 sm:mt-0">
+          {groupOrder?.boomboxId && (
+            <div>
+              <Link href={`${BOOMBOX_URL}?room=${groupOrder.boomboxId}`} target="_blank">
+                <Button variant={'outline'} disabled={loading} className="">
+                  Listen Music Together
+                </Button>
+              </Link>
+            </div>
+          )}
           <div>
             <Button
               variant={'secondary'}

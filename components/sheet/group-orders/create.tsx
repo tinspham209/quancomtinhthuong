@@ -23,10 +23,12 @@ import { cn } from '@/lib/utils';
 import { CreateGroupOrderPayload, CreateGroupOrderSchema } from '@/lib/validators/group-orders';
 import { useCreateGroupOrder } from '@/queries/group-orders';
 import { useGetRestaurants } from '@/queries/restaurants';
+import { BOOMBOX_URL } from '@/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Popover, PopoverTrigger } from '@radix-ui/react-popover';
 import dayjs from 'dayjs';
 import { Check, ChevronsUpDown } from 'lucide-react';
+import Link from 'next/link';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
@@ -46,8 +48,8 @@ const CreateGroupOrder: React.FC<Props> = ({ storeId }) => {
       restaurantId: '',
       discount: 0,
       limit: 15,
-
       dueTime: '11:00 AM',
+      boomboxId: '',
     },
   });
 
@@ -73,6 +75,7 @@ const CreateGroupOrder: React.FC<Props> = ({ storeId }) => {
       discount: values.discount,
       limit: values.limit,
       dueTime: values.dueTime,
+      boomboxId: values.boomboxId,
     });
   };
 
@@ -207,6 +210,25 @@ const CreateGroupOrder: React.FC<Props> = ({ storeId }) => {
                   <FormControl>
                     <Input placeholder="Due Time" {...field} />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="boomboxId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Boombox ID</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Boombox ID" {...field} />
+                  </FormControl>
+                  <FormDescription>Your username in boombox app</FormDescription>
+                  <FormDescription>
+                    <Link href={`${BOOMBOX_URL}`} target="_blank" className="text-cyan-800">
+                      Boombox app URL
+                    </Link>
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

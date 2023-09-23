@@ -14,6 +14,7 @@ export type GroupOrderDetail = {
   storeId: string;
   restaurant: Restaurant;
   dueTime: string;
+  boomboxId: string;
 };
 
 export type GroupOrderList = {

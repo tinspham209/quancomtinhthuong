@@ -47,6 +47,7 @@ const UpdateGroupOrder: React.FC<Props> = ({ order }) => {
       discount: 0,
       limit: 15,
       dueTime: '',
+      boomboxId: '',
     },
   });
 
@@ -61,6 +62,7 @@ const UpdateGroupOrder: React.FC<Props> = ({ order }) => {
         discount: order.discount || 0,
         limit: order.limit || 15,
         dueTime: order.dueTime || '11:00 AM',
+        boomboxId: order.boomboxId || '',
       });
     }
   }, [form, order]);
@@ -88,6 +90,7 @@ const UpdateGroupOrder: React.FC<Props> = ({ order }) => {
       discount: values.discount,
       limit: values.limit,
       dueTime: values.dueTime,
+      boomboxId: values.boomboxId,
     });
   };
 
@@ -220,6 +223,21 @@ const UpdateGroupOrder: React.FC<Props> = ({ order }) => {
                   <FormControl>
                     <Input placeholder="Due Time" {...field} />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="boomboxId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Boombox ID</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Boombox ID" {...field} />
+                  </FormControl>
+                  <FormDescription>Your username in boombox app</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

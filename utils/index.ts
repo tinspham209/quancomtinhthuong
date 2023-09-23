@@ -38,3 +38,5 @@ export const stringify = (
 
   return result;
 };
+
+export const BOOMBOX_URL = 'https://boombox.tinspham.dev';
