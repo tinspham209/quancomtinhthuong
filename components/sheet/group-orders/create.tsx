@@ -82,147 +82,149 @@ const CreateGroupOrder: React.FC<Props> = ({ storeId }) => {
         <SheetTitle>Create Group Order</SheetTitle>
       </SheetHeader>
 
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="flex gap-3 flex-col pt-8">
-          <FormField
-            control={form.control}
-            name="title"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Group Order Name *</FormLabel>
-                <FormControl>
-                  <Input placeholder="Group Order Name" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Group Order Description</FormLabel>
-                <FormControl>
-                  <Input placeholder="Group Order Description" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="restaurantId"
-            render={({ field }) => (
-              <FormItem className="flex flex-col">
-                <FormLabel>Restaurant</FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant="outline"
-                        role="combobox"
-                        className={cn(
-                          'justify-between',
+      <div className="max-h-[90vh] overflow-y-auto">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="flex gap-3 flex-col pt-8">
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Group Order Name *</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Group Order Name" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Group Order Description</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Group Order Description" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="restaurantId"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>Restaurant</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant="outline"
+                          role="combobox"
+                          className={cn(
+                            'justify-between',
 
-                          !field.value && 'text-muted-foreground',
-                        )}
-                      >
-                        {field.value
-                          ? restaurants.find((restaurant) => restaurant.id === field.value)?.name
-                          : 'Select Restaurant'}
-                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="p-0">
-                    <Command>
-                      <CommandInput placeholder="Search Restaurant..." />
-                      <CommandEmpty>No restaurant found.</CommandEmpty>
-                      <CommandGroup>
-                        <ScrollArea className="max-h-[300px] overflow-y-auto">
-                          {restaurants.map((restaurant) => (
-                            <CommandItem
-                              value={restaurant.id}
-                              key={restaurant.id}
-                              onSelect={() => {
-                                form.setValue('restaurantId', restaurant.id);
-                              }}
-                              className="cursor-pointer text-left"
-                            >
-                              <Check
-                                className={cn(
-                                  'mr-2 h-4 w-4',
-                                  restaurant.id === field.value ? 'opacity-100' : 'opacity-0',
-                                )}
-                              />
-                              {restaurant.name}
-                            </CommandItem>
-                          ))}
-                        </ScrollArea>
-                      </CommandGroup>
-                    </Command>
-                  </PopoverContent>
-                </Popover>
+                            !field.value && 'text-muted-foreground',
+                          )}
+                        >
+                          {field.value
+                            ? restaurants.find((restaurant) => restaurant.id === field.value)?.name
+                            : 'Select Restaurant'}
+                          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="p-0">
+                      <Command>
+                        <CommandInput placeholder="Search Restaurant..." />
+                        <CommandEmpty>No restaurant found.</CommandEmpty>
+                        <CommandGroup>
+                          <ScrollArea className="max-h-[300px] overflow-y-auto">
+                            {restaurants.map((restaurant) => (
+                              <CommandItem
+                                value={restaurant.id}
+                                key={restaurant.id}
+                                onSelect={() => {
+                                  form.setValue('restaurantId', restaurant.id);
+                                }}
+                                className="cursor-pointer text-left"
+                              >
+                                <Check
+                                  className={cn(
+                                    'mr-2 h-4 w-4',
+                                    restaurant.id === field.value ? 'opacity-100' : 'opacity-0',
+                                  )}
+                                />
+                                {restaurant.name}
+                              </CommandItem>
+                            ))}
+                          </ScrollArea>
+                        </CommandGroup>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="discount"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Discount</FormLabel>
-                <FormControl>
-                  <Input placeholder="Discount" type="number" {...field} />
-                </FormControl>
-                <FormDescription>Example: 2000</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="limit"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Limit</FormLabel>
-                <FormControl>
-                  <Input placeholder="Limit number of Order" type="number" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="discount"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Discount</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Discount" type="number" {...field} />
+                  </FormControl>
+                  <FormDescription>Example: 2000</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="limit"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Limit</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Limit number of Order" type="number" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name="dueTime"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Due Time</FormLabel>
-                <FormControl>
-                  <Input placeholder="Due Time" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <FormField
+              control={form.control}
+              name="dueTime"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Due Time</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Due Time" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <FormItem>
-            <FormLabel>Date</FormLabel>
-            <FormControl>
-              <Input placeholder="Date" value={dayjs().format('DD-MMM-YYYY')} disabled />
-            </FormControl>
-          </FormItem>
+            <FormItem>
+              <FormLabel>Date</FormLabel>
+              <FormControl>
+                <Input placeholder="Date" value={dayjs().format('DD-MMM-YYYY')} disabled />
+              </FormControl>
+            </FormItem>
 
-          <Button type="submit" disabled={isLoadingCreate}>
-            Create
-          </Button>
-        </form>
-      </Form>
+            <Button type="submit" disabled={isLoadingCreate}>
+              Create
+            </Button>
+          </form>
+        </Form>
+      </div>
     </SheetContent>
   );
 };

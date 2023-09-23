@@ -60,41 +60,43 @@ const ChangePassword: React.FC<Props> = ({}) => {
         <SheetTitle>Change Password</SheetTitle>
       </SheetHeader>
 
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="flex gap-3 flex-col pt-8">
-          <FormField
-            control={form.control}
-            name="currPassword"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Current Password *</FormLabel>
-                <FormControl>
-                  <Input placeholder="Current Password" type="password" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+      <div className="max-h-[90vh] overflow-y-auto">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="flex gap-3 flex-col pt-8">
+            <FormField
+              control={form.control}
+              name="currPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Current Password *</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Current Password" type="password" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name="newPassword"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>New Password *</FormLabel>
-                <FormControl>
-                  <Input placeholder="New Password" type="password" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <FormField
+              control={form.control}
+              name="newPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>New Password *</FormLabel>
+                  <FormControl>
+                    <Input placeholder="New Password" type="password" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <Button type="submit" disabled={isLoading}>
-            Change
-          </Button>
-        </form>
-      </Form>
+            <Button type="submit" disabled={isLoading}>
+              Change
+            </Button>
+          </form>
+        </Form>
+      </div>
     </SheetContent>
   );
 };

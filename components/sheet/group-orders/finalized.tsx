@@ -72,27 +72,29 @@ const FinalizedGroupOrder: React.FC<Props> = ({ order }) => {
         <SheetTitle>Finalize Group Order</SheetTitle>
       </SheetHeader>
 
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="flex gap-3 flex-col pt-8">
-          <FormField
-            control={form.control}
-            name="finalized"
-            render={({ field }) => (
-              <FormItem className="flex flex-row items-center justify-between">
-                <FormLabel>Finalized</FormLabel>
-                <FormControl>
-                  <Switch checked={field.value} onCheckedChange={field.onChange} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+      <div className="max-h-[90vh] overflow-y-auto">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="flex gap-3 flex-col pt-8">
+            <FormField
+              control={form.control}
+              name="finalized"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-center justify-between">
+                  <FormLabel>Finalized</FormLabel>
+                  <FormControl>
+                    <Switch checked={field.value} onCheckedChange={field.onChange} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <Button type="submit" disabled={isLoadingUpdate}>
-            Finalize
-          </Button>
-        </form>
-      </Form>
+            <Button type="submit" disabled={isLoadingUpdate}>
+              Finalize
+            </Button>
+          </form>
+        </Form>
+      </div>
     </SheetContent>
   );
 };

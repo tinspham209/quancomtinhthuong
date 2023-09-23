@@ -107,52 +107,54 @@ const CreateRestaurant: React.FC<CreateRestaurantProps> = ({ onClose, isEdit, re
         <SheetTitle>{isEdit ? 'Update' : 'Create'} Restaurant</SheetTitle>
       </SheetHeader>
 
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="flex gap-3 flex-col pt-8">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Restaurant name *</FormLabel>
-                <FormControl>
-                  <Input placeholder="Restaurant name" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Restaurant description *</FormLabel>
-                <FormControl>
-                  <Input placeholder="Restaurant description" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="link"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Restaurant link URL</FormLabel>
-                <FormControl>
-                  <Input placeholder="Start with https://food.grab.com/...." {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button type="submit" disabled={isLoadingCreate || isLoadingUpdate}>
-            {isEdit ? 'Update' : 'Create'}
-          </Button>
-        </form>
-      </Form>
+      <div className="max-h-[90vh] overflow-y-auto">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="flex gap-3 flex-col pt-8">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Restaurant name *</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Restaurant name" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Restaurant description *</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Restaurant description" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="link"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Restaurant link URL</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Start with https://food.grab.com/...." {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit" disabled={isLoadingCreate || isLoadingUpdate}>
+              {isEdit ? 'Update' : 'Create'}
+            </Button>
+          </form>
+        </Form>
+      </div>
     </SheetContent>
   );
 };

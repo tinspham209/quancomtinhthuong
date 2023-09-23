@@ -40,27 +40,29 @@ const DeleteOrder: React.FC<Props> = ({ order, isShowUserName = false }) => {
         </SheetTitle>
       </SheetHeader>
 
-      <p className="text-lg text-muted-foreground mt-4">Are you sure you want to delete order:</p>
-      <p>
-        Dish: <b>{order?.Dish.name || 'Unknown'}</b>
-      </p>
-      <p>
-        Amount: <b>{order.amount}</b>
-      </p>
-      {isShowUserName && (
+      <div className='className="max-h-[90vh] overflow-y-auto"'>
+        <p className="text-lg text-muted-foreground mt-4">Are you sure you want to delete order:</p>
         <p>
-          User: <b>{order.User.name}</b>
+          Dish: <b>{order?.Dish.name || 'Unknown'}</b>
         </p>
-      )}
+        <p>
+          Amount: <b>{order.amount}</b>
+        </p>
+        {isShowUserName && (
+          <p>
+            User: <b>{order.User.name}</b>
+          </p>
+        )}
 
-      <Button
-        onClick={handleDeleteOrder}
-        variant={'destructive'}
-        disabled={isLoadingDelete}
-        className="mt-4"
-      >
-        Delete
-      </Button>
+        <Button
+          onClick={handleDeleteOrder}
+          variant={'destructive'}
+          disabled={isLoadingDelete}
+          className="mt-4"
+        >
+          Delete
+        </Button>
+      </div>
     </SheetContent>
   );
 };

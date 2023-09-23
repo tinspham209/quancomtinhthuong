@@ -82,129 +82,131 @@ const CreateDishes: React.FC<Props> = ({ onClose, restaurantId, categories }) =>
         <SheetTitle>Create Dish</SheetTitle>
       </SheetHeader>
 
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="flex gap-3 flex-col pt-8">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Dish name *</FormLabel>
-                <FormControl>
-                  <Input placeholder="Dish name" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+      <div className="max-h-[90vh] overflow-y-auto">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="flex gap-3 flex-col pt-8">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Dish name *</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Dish name" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Dish description *</FormLabel>
-                <FormControl>
-                  <Input placeholder="Dish description" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Dish description *</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Dish description" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name="price"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Price *</FormLabel>
-                <FormControl>
-                  <Input placeholder="1000" type="number" {...field} />
-                </FormControl>
-                <FormDescription>Example: 20000</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <FormField
+              control={form.control}
+              name="price"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Price *</FormLabel>
+                  <FormControl>
+                    <Input placeholder="1000" type="number" {...field} />
+                  </FormControl>
+                  <FormDescription>Example: 20000</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name="category"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Category</FormLabel>
-                <FormControl>
-                  <Input placeholder="Select Category" {...field} />
-                </FormControl>
-                {/* <Select
-									onValueChange={field.onChange}
-									required
-									value={field.value}
-								>
-									<FormControl>
-										<SelectTrigger>
-											<SelectValue placeholder={"Select Category"} />
-										</SelectTrigger>
-									</FormControl>
-									<SelectContent ref={field.ref}>
-										{categories.map((item, index) => (
-											<SelectItem key={`${item}-${index}`} value={item}>
-												{item}
-											</SelectItem>
-										))}
-									</SelectContent>
-								</Select> */}
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <FormField
+              control={form.control}
+              name="category"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Category</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Select Category" {...field} />
+                  </FormControl>
+                  {/* <Select
+  									onValueChange={field.onChange}
+  									required
+  									value={field.value}
+  								>
+  									<FormControl>
+  										<SelectTrigger>
+  											<SelectValue placeholder={"Select Category"} />
+  										</SelectTrigger>
+  									</FormControl>
+  									<SelectContent ref={field.ref}>
+  										{categories.map((item, index) => (
+  											<SelectItem key={`${item}-${index}`} value={item}>
+  												{item}
+  											</SelectItem>
+  										))}
+  									</SelectContent>
+  								</Select> */}
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name="imgUrl"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Dish thumbnail</FormLabel>
-                <FormControl>
-                  <Input placeholder="Dish thumbnail" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <FormField
+              control={form.control}
+              name="imgUrl"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Dish thumbnail</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Dish thumbnail" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name="disable"
-            render={({ field }) => (
-              <FormItem className="flex flex-row justify-between items-center">
-                <FormLabel>Dish Disable</FormLabel>
-                <FormControl>
-                  <Switch checked={field.value} onCheckedChange={field.onChange} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <FormField
+              control={form.control}
+              name="disable"
+              render={({ field }) => (
+                <FormItem className="flex flex-row justify-between items-center">
+                  <FormLabel>Dish Disable</FormLabel>
+                  <FormControl>
+                    <Switch checked={field.value} onCheckedChange={field.onChange} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name="additional"
-            render={({ field }) => (
-              <FormItem className="flex flex-row justify-between items-center">
-                <FormLabel>Dish Additional</FormLabel>
-                <FormControl>
-                  <Switch checked={field.value} onCheckedChange={field.onChange} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button type="submit" disabled={isLoadingCreate}>
-            {'Create'}
-          </Button>
-        </form>
-      </Form>
+            <FormField
+              control={form.control}
+              name="additional"
+              render={({ field }) => (
+                <FormItem className="flex flex-row justify-between items-center">
+                  <FormLabel>Dish Additional</FormLabel>
+                  <FormControl>
+                    <Switch checked={field.value} onCheckedChange={field.onChange} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit" disabled={isLoadingCreate}>
+              {'Create'}
+            </Button>
+          </form>
+        </Form>
+      </div>
     </SheetContent>
   );
 };

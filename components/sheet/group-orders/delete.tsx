@@ -47,21 +47,23 @@ const DeleteGroupOrder: React.FC<Props> = ({ order }) => {
         </SheetTitle>
       </SheetHeader>
 
-      <p className="text-lg text-muted-foreground mt-4">
-        Are you sure you want to delete Group Order:
-      </p>
-      <p>
-        Name: <b>{order?.title || 'Unknown'}</b>
-      </p>
-      <p>
-        Restaurant: <b>{order.restaurant.name}</b>
-      </p>
-      <p>
-        Date: <b>{dayjs(order.createdAt).format('DD-MMM-YYYY')}</b>
-      </p>
-      <Button onClick={handleDeleteDish} disabled={isLoading} className="mt-4">
-        Delete
-      </Button>
+      <div className="max-h-[90vh] overflow-y-auto">
+        <p className="text-lg text-muted-foreground mt-4">
+          Are you sure you want to delete Group Order:
+        </p>
+        <p>
+          Name: <b>{order?.title || 'Unknown'}</b>
+        </p>
+        <p>
+          Restaurant: <b>{order.restaurant.name}</b>
+        </p>
+        <p>
+          Date: <b>{dayjs(order.createdAt).format('DD-MMM-YYYY')}</b>
+        </p>
+        <Button onClick={handleDeleteDish} disabled={isLoading} className="mt-4">
+          Delete
+        </Button>
+      </div>
     </SheetContent>
   );
 };
