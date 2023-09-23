@@ -124,7 +124,39 @@ const Navbar = ({}: NavbarProps) => {
               ) : (
                 <div className="flex flex-row gap-6">
                   {/* Notification */}
-                  {!isEmpty(notifications) && (
+                  {isEmpty(notifications) ? (
+                    <DropdownMenu>
+                      <DropdownMenuTrigger>
+                        <div className="animate-bounce animate-infinite animate-duration-1000 animate-ease-in-out">
+                          <Avatar className="border-none cursor-pointer animate-spin animate-infinite animate-duration-[2000ms] animate-ease-in-out">
+                            <AvatarImage
+                              src={'/no-noti.gif'}
+                              alt="notification"
+                              title="Đây là thông báo"
+                              className="border-none"
+                            />
+                            <AvatarFallback>Noti</AvatarFallback>
+                          </Avatar>
+                        </div>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className="w-[360px] max-h-[560px] overflow-y-auto">
+                        <DropdownMenuLabel className="text-md flex flex-row justify-between items-center">
+                          <p>Đây là Thông báo</p>
+                          <Button
+                            variant={'outline'}
+                            onClick={() => {
+                              window.location.reload();
+                            }}
+                          >
+                            Refresh
+                          </Button>
+                        </DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+
+                        <DropdownMenuLabel>Không có thông báo nào ở đây cả!</DropdownMenuLabel>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  ) : (
                     <DropdownMenu>
                       <DropdownMenuTrigger>
                         <div className="animate-bounce animate-infinite animate-duration-1000 animate-ease-in-out">
@@ -141,7 +173,7 @@ const Navbar = ({}: NavbarProps) => {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent className="max-w-[360px] max-h-[560px] overflow-y-auto">
                         <DropdownMenuLabel className="text-xl flex flex-row justify-between items-center">
-                          <p>Nợ nè</p>
+                          <p>Đây là Thông báo</p>
                           <Button
                             variant={'outline'}
                             onClick={() => {
