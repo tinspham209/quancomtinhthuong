@@ -15,6 +15,7 @@ export const CreateOrderSchema = z.object({
   ),
   note: z.string().optional(),
   orderId: z.string().optional(),
+  orderNumber: z.number().nullable().optional(),
 });
 
 export type CreateOrderPayload = z.infer<typeof CreateOrderSchema>;

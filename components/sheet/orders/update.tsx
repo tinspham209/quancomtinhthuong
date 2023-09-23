@@ -52,6 +52,7 @@ const UpdateOrder: React.FC<Props> = ({ order, restaurantId }) => {
       dishId: '',
       amount: 1,
       note: '',
+      orderNumber: order.orderNumber,
     },
   });
 
@@ -64,6 +65,7 @@ const UpdateOrder: React.FC<Props> = ({ order, restaurantId }) => {
         dishId: order.dishId,
         amount: order.amount,
         note: order.note || '',
+        orderNumber: order.orderNumber,
       });
     }
   }, [form, order]);
@@ -106,7 +108,7 @@ const UpdateOrder: React.FC<Props> = ({ order, restaurantId }) => {
       dishId: values.dishId,
       amount: values.amount,
       note: values.note,
-      // orderId: order
+      orderNumber: values.orderNumber,
     });
   };
 
