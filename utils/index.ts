@@ -39,4 +39,4 @@ export const stringify = (
   return result;
 };
 
-export const BOOMBOX_URL = 'https://boombox.tinspham.dev';
+export const BOOMBOX_URL = 'https://boombox.quanantinhthuong.store/';
