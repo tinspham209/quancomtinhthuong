@@ -30,6 +30,7 @@ import {
 import useAuthNavigate from '@/hooks/use-auth-navigate';
 import { HttpStatusCode } from 'axios';
 import { noImageUrl } from '@/utils';
+import { Icons } from '@/components/icons';
 
 interface Props {
   groupOrderId: string;
@@ -188,6 +189,9 @@ const CreateOrder: React.FC<Props> = ({ groupOrderId, dish }) => {
           </div>
         </>
       )}
+      <div className="mt-8">
+        <Icons.logoFullWithSlogan />
+      </div>
     </SheetContent>
   );
 };

@@ -13,7 +13,7 @@ export const font = Roboto({
 });
 
 export const metadata = getMetaData({
-  title: 'Đặt đồ ăn cùng bạn bè nay đã dễ dàng hơn với Đặt đơn nhóm',
+  title: 'Quán Ăn Tình Thương - Ăn không ngon thì cook',
 });
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -24,7 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <ModalProvider />
           <Toaster />
           <Navbar />
-          <main className="">{children}</main>
+          <main style={{ marginTop: '86px' }}>{children}</main>
         </QueryProvider>
       </body>
     </html>

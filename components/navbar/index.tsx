@@ -96,7 +96,7 @@ const Navbar = ({}: NavbarProps) => {
   };
 
   return (
-    <nav className="border-b">
+    <nav className="border-b fixed top-0 left-0 w-full bg-white z-50">
       <div className="h-16 flex items-center px-4">
         {isAdmin ? (
           <AdminNav className="mr-6" />
@@ -104,7 +104,7 @@ const Navbar = ({}: NavbarProps) => {
           <CustomersNav />
         ) : (
           <Link href="/">
-            <Icons.logo1 className="w-[230px] h-[56px] mr-4" />
+            <Icons.logoFull className="w-[195px] h-[56px] mr-4" />
           </Link>
         )}
         <div className="ml-auto flex items-center space-x-4">
