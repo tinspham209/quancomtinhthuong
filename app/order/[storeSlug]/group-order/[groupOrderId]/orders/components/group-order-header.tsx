@@ -1,3 +1,5 @@
+'use client';
+
 import { Button } from '@/components/ui';
 import { GroupOrderDetail } from '@/queries/group-orders/types';
 import { useGetOrdersByGroupOrderId } from '@/queries/orders';
@@ -6,6 +8,7 @@ import dayjs from 'dayjs';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React, { useMemo } from 'react';
+import GameDropdown from './game-dropdown';
 
 interface Props {
   groupOrder: GroupOrderDetail | undefined;
@@ -46,19 +49,6 @@ const OrdersHeader: React.FC<Props> = ({ groupOrder }) => {
           </p>
         </div>
         <div className="flex flex-row gap-2 mt-2 sm:mt-0">
-          {groupOrder?.boomboxId && (
-            <div>
-              <Link href={`${BOOMBOX_URL}?room=${groupOrder.boomboxId}`} target="_blank">
-                <Button
-                  variant={'outline'}
-                  disabled={loading}
-                  className="animate-bounce animate-infinite bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400"
-                >
-                  Listen Music Together
-                </Button>
-              </Link>
-            </div>
-          )}
           <div>
             <Button
               variant={'secondary'}
@@ -75,6 +65,25 @@ const OrdersHeader: React.FC<Props> = ({ groupOrder }) => {
               <Button>Create new order</Button>
             </Link>
           </div>
+        </div>
+      </div>
+      <div className="flex flex-row justify-end gap-2 mt-4 sm:mt-0">
+        {groupOrder?.boomboxId && (
+          <div>
+            <Link href={`${BOOMBOX_URL}?room=${groupOrder.boomboxId}`} target="_blank">
+              <Button
+                variant={'outline'}
+                disabled={loading}
+                className="text-fuchsia-800 animate-bounce animate-infinite bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400"
+              >
+                Listen Music Together
+              </Button>
+            </Link>
+          </div>
+        )}
+
+        <div>
+          <GameDropdown />
         </div>
       </div>
     </div>
