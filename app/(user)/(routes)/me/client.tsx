@@ -184,9 +184,7 @@ const Client: React.FC<Props> = ({}: Props) => {
 
   const { theme, onSetTheme, onSetCommonGlobalTheme, onSetCardProfileTheme } = useThemeStore();
   const { global: globalTheme, profile: profileTheme } = theme;
-  const [imageUrl, setImageUrl] = useState<string>(
-    'https://images.unsplash.com/photo-1692810653950-b14c1d787a34?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wyNTM0OTB8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTU2NTE0MDB8&ixlib=rb-4.0.3&q=80&w=1080',
-  );
+  const [imageUrl, setImageUrl] = useState<string>('');
 
   const fetchRandomImage = async () => {
     const randomImage = await getRandomImage({ numberOfImages: 1 });
@@ -417,6 +415,16 @@ const Client: React.FC<Props> = ({}: Props) => {
                   });
                 }}
                 type="number"
+              />
+
+              <Input
+                label="Image Url"
+                value={profileTheme?.card?.imageUrl || ''}
+                onChange={(e) => {
+                  onSetCardProfileTheme({
+                    imageUrl: e.target.value,
+                  });
+                }}
               />
             </div>
 
