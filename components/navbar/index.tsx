@@ -7,7 +7,7 @@ import { useGetNotifications } from '@/queries/notifications';
 import TokenServices from '@/services/token';
 import { isEmpty } from '@/utils';
 import dayjs from 'dayjs';
-import { Lock, LogOut } from 'lucide-react';
+import { Lock, LogOut, User } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { Fragment, useCallback, useMemo } from 'react';
@@ -96,8 +96,8 @@ const Navbar = ({}: NavbarProps) => {
   };
 
   return (
-    <nav className="border-b fixed top-0 left-0 w-full bg-white z-50">
-      <div className="h-16 flex items-center px-4">
+    <nav className="border-b fixed top-0 left-0 w-full z-50 py-1">
+      <div className="flex items-center px-4">
         {isAdmin ? (
           <AdminNav className="mr-6" />
         ) : isCustomer ? (
@@ -230,6 +230,13 @@ const Navbar = ({}: NavbarProps) => {
                       </DropdownMenuLabel>
 
                       <DropdownMenuSeparator />
+                      <DropdownMenuItem className="cursor-pointer" asChild>
+                        <Link href={`/me`}>
+                          <User className="w-4 h-4 mr-2" /> My Profile
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+
                       <div className="px-2 py-1 text-sm">
                         <Sheet>
                           <SheetTrigger className="flex">

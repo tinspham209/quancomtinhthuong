@@ -2,8 +2,8 @@ import { defaultTheme } from './default-theme';
 import { ThemeConfig } from './types';
 
 export const getLocalTheme = () => {
-  const themeLocalStorage = localStorage.getItem('theme');
   if (typeof window !== 'undefined') {
+    const themeLocalStorage = localStorage.getItem('theme');
     if (themeLocalStorage !== null) {
       const localTheme = JSON.parse(themeLocalStorage);
       return localTheme;

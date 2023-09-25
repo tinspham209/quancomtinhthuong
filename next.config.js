@@ -19,6 +19,10 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  compiler: {
+    // Enables the styled-components SWC transform
+    styledComponents: true,
+  },
 };
 
 module.exports = nextConfig;

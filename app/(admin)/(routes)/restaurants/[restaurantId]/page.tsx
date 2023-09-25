@@ -20,7 +20,7 @@ const RestaurantDetailPage: React.FC<Props> = ({}) => {
   });
 
   return (
-    <div className="p-4">
+    <div className="p-4 pt-8">
       <RestaurantHeader restaurant={restaurant} />
       <Dishes dishes={dishes} restaurantId={params.restaurantId} />
     </div>

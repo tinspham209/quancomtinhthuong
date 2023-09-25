@@ -19,7 +19,7 @@ const GroupOrderDetail: React.FC<Props> = ({}) => {
     enabled: !!groupOrder?.storeId,
   });
   return (
-    <div className="p-4">
+    <div className="p-4 pt-8">
       <GroupOrderDetailHeader order={groupOrder} store={store} />
       <GroupOrderDetailDishes order={groupOrder} />
     </div>

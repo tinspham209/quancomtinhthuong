@@ -32,7 +32,7 @@ const Client: React.FC<Props> = ({}: Props) => {
   };
 
   return (
-    <div className="p-4">
+    <div className="p-4 pt-8">
       <div className="flex flex-col sm:flex-row md:justify-between">
         <h1 className="text-3xl font-bold leading-none tracking-tight">Stores</h1>
         <div className="mt-2 sm:mt-0">

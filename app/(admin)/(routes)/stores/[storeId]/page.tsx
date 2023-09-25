@@ -19,7 +19,7 @@ const StoreDetail: React.FC<StoreDetailProps> = ({}) => {
   });
 
   return (
-    <div className="p-4">
+    <div className="p-4 pt-8">
       <StoreHeader store={store} />
       <GroupLists groupLists={groupLists} storeId={params.storeId} />
 

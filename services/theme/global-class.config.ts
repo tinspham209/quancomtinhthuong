@@ -1,8 +1,9 @@
 import { getLocalTheme } from './helper';
 import { ThemeConfig } from './types';
 
-export const getGlobalClasses = (theme: ThemeConfig = getLocalTheme()): ThemeConfig => {
+export const getThemeClasses = (theme: ThemeConfig = getLocalTheme()): ThemeConfig => {
   return {
+    name: '',
     common: {
       bgColor: `bg-[${theme.common.bgColor}]`,
       color: `text-[${theme.common.color}]`,
@@ -16,4 +17,4 @@ export const getGlobalClasses = (theme: ThemeConfig = getLocalTheme()): ThemeCon
   };
 };
 
-export const GlobalClasses = getGlobalClasses();
+export const GlobalClasses = getThemeClasses();

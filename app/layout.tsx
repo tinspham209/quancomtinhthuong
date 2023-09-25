@@ -6,6 +6,7 @@ import QueryProvider from '@/providers/query-provider';
 import Navbar from '@/components/navbar';
 
 import { getMetaData } from '@/utils/metaData';
+
 export const font = Roboto({
   weight: ['300', '400', '500', '700'],
   style: ['normal', 'italic'],
@@ -19,12 +20,12 @@ export const metadata = getMetaData({
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={font.className}>
-      <body className="min-h-screen" suppressHydrationWarning={true}>
+      <body className="min-h-[90vh]" suppressHydrationWarning={true}>
         <QueryProvider>
           <ModalProvider />
           <Toaster />
           <Navbar />
-          <main style={{ marginTop: '86px' }}>{children}</main>
+          <main style={{ marginTop: '60px' }}>{children}</main>
         </QueryProvider>
       </body>
     </html>

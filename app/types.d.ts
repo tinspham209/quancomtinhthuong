@@ -1,5 +1,5 @@
+import { ThemeConfig } from '@/services/theme';
 import 'styled-components';
-import { OrderThemeConfig } from './order/[storeSlug]/group-order/[groupOrderId]/layout';
 
 type AxiosError = import('axios').AxiosError;
 
@@ -10,5 +10,5 @@ declare type ErrorResponse = AxiosError & {
 };
 
 declare module 'styled-components' {
-  export interface DefaultTheme extends OrderThemeConfig {}
+  export interface DefaultTheme extends ThemeConfig {}
 }

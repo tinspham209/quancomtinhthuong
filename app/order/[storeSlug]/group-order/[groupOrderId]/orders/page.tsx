@@ -57,7 +57,7 @@ const OrdersOfGroupOrders: React.FC<Props> = ({}) => {
   );
 
   return (
-    <div className="p-4">
+    <div className="p-4 pt-8">
       <OrdersHeader groupOrder={groupOrder} />
 
       <div className="my-6">

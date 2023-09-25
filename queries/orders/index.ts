@@ -12,6 +12,7 @@ import apiClient from '../apiClient';
 import { responseWrapper } from '../auth/helpers';
 import { useEffect } from 'react';
 import { CreateOrderPayload } from '@/lib/validators/orders';
+import { ErrorResponse } from '@/app/types';
 
 export function useGetOrdersByGroupOrderId(
   options?: UseQueryOptions<OrderDetail[], ErrorResponse> & {

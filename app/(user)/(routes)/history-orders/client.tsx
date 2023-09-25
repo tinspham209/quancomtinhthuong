@@ -90,7 +90,7 @@ const Client: React.FC<Props> = ({}: Props) => {
   );
 
   return (
-    <div className="p-4">
+    <div className="p-4 pt-8">
       <div className="flex flex-col sm:flex-row md:justify-between">
         <Heading title="Orders History" />
         <div className="mt-2 sm:mt-0">

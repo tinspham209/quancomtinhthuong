@@ -10,4 +10,6 @@ export interface ThemeConfigProps {
   card: Partial<ThemeProps>;
 }
 
-export interface ThemeConfig extends ThemeConfigProps {}
+export interface ThemeConfig extends ThemeConfigProps {
+  name: string;
+}

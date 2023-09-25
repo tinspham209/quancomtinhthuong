@@ -21,6 +21,7 @@ import apisauce, { CancelToken } from 'apisauce';
 import axios, { AxiosError } from 'axios';
 import { toast } from 'react-hot-toast';
 import TokenServices from '../token';
+import { UpdateAppConfigPayload } from '@/queries/config/types';
 
 const AXIOS_CONFIG = {
   CONNECTION_TIMEOUT: 30000,
@@ -277,6 +278,15 @@ const create = (baseURL = '/api') => {
     return api.get(`/app/user/history?${stringify(params)}`, {}, newCancelToken());
   };
 
+  // History
+  const getAppConfig = () => {
+    return api.get(`/app/config}`, {}, newCancelToken());
+  };
+
+  const updateAppConfig = (payload: UpdateAppConfigPayload) => {
+    return api.put(`/app/config`, { ...payload }, newCancelToken());
+  };
+
   // Notification
   const getUserNotifications = (userName: string) => {
     return api.get(`/app/user/notifications/${userName}`, {}, newCancelToken());
@@ -335,6 +345,10 @@ const create = (baseURL = '/api') => {
 
     // History
     getUserOrdersHistory,
+
+    // App config
+    getAppConfig,
+    updateAppConfig,
 
     // Notifications
     getUserNotifications,

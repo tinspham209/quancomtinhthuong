@@ -51,7 +51,7 @@ const OrdersOfGroupOrders: React.FC<Props> = ({}) => {
   const allColumns = useMemo(() => orderColumns({ groupOrder }), [groupOrder]);
 
   return (
-    <div className="p-4">
+    <div className="p-4 pt-8">
       <OrdersHeader groupOrder={groupOrder} />
 
       <div className="my-6">

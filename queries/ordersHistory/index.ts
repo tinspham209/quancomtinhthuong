@@ -4,6 +4,7 @@ import { responseWrapper } from '../auth/helpers';
 import { Callback } from '../auth/types';
 import apiClient from '../apiClient';
 import { OrdersHistoryDetail, GetUserOrdersHistoryParams } from './type';
+import { ErrorResponse } from '@/app/types';
 
 const mock = [
   {

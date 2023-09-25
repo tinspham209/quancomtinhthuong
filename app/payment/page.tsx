@@ -53,7 +53,7 @@ const OrderCtn: React.FC<Props> = ({}) => {
 
   return (
     <div
-      className="p-4 flex items-center justify-center h-[94vh] bg-gradient-to-r from-sky-400 via-rose-400 to-lime-400"
+      className="p-4 flex items-center justify-center h-[92vh]"
       style={{
         backgroundImage: `url('/payment-success.webp')`,
         backgroundPosition: 'center',
