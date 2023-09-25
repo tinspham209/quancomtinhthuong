@@ -4,15 +4,17 @@ import { ThemeConfig } from './types';
 export const getThemeClasses = (theme: ThemeConfig = getLocalTheme()): ThemeConfig => {
   return {
     name: '',
-    common: {
-      bgColor: `bg-[${theme.common.bgColor}]`,
-      color: `text-[${theme.common.color}]`,
-      primaryBtnBgColor: `bg-[${theme.common.primaryBtnBgColor}]`,
-      primaryBtnColor: `text-[${theme.common.primaryBtnColor}]`,
-    },
-    card: {
-      bgColor: `bg-[${theme.card.bgColor}]`,
-      color: `text-[${theme.card.color}]`,
+    global: {
+      common: {
+        bgColor: `bg-[${theme.global?.common?.bgColor}]`,
+        color: `text-[var(--commonColor)]`,
+        primaryBtnBgColor: `bg-[${theme.global?.common?.primaryBtnBgColor}]`,
+        primaryBtnColor: `text-[${theme.global?.common?.primaryBtnColor}]`,
+      },
+      card: {
+        bgColor: `bg-[${theme.global?.card?.bgColor}]`,
+        color: `text-[${theme.global?.card?.color}]`,
+      },
     },
   };
 };

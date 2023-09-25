@@ -1,58 +1,82 @@
 'use client';
 
 import { Button, Heading } from '@/components/ui';
-import { ThemeContext } from '@/providers/theme-provider';
-import { ThemeConfig } from '@/services/theme';
-import React, { useContext, useEffect, useState } from 'react';
-import styled from 'styled-components';
-import getRandomImage from './actions';
 import { ColorPicker } from '@/components/ui/color-picker';
 import { useProfileStore } from '@/hooks';
+import { useThemeStore } from '@/hooks/use-local-theme';
 import { useUpdateAppConfig } from '@/queries/config';
+import { ThemeConfig, ThemeConfigProps, setThemeLocalStorage } from '@/services/theme';
+import React, { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
+import styled from 'styled-components';
+import getRandomImage from './actions';
 
 const themesList: Array<ThemeConfig> = [
   {
     name: 'Light',
-    common: {
-      bgColor: '#fff',
-      color: '#000',
-      primaryBtnBgColor: '#000',
-      primaryBtnColor: '#fff',
+    global: {
+      common: {
+        bgColor: '#fff',
+        color: '#000',
+        primaryBtnBgColor: '#000',
+        primaryBtnColor: '#fff',
+      },
+      card: {
+        bgColor: '#fff',
+        color: '#000',
+      },
     },
-    card: {
-      bgColor: '#fff',
-      color: '#000',
+    profile: {
+      common: {
+        bgColor: '#fff',
+        color: '#000',
+        primaryBtnBgColor: '#000',
+        primaryBtnColor: '#fff',
+      },
+      card: {
+        bgColor: '#fff',
+        color: '#000',
+      },
     },
   },
   {
     name: 'Dark',
-    common: {
-      bgColor: '#1A1A1A',
-      color: '#fff',
-      primaryBtnBgColor: '#fff',
-      primaryBtnColor: '#1A1A1A',
+    global: {
+      common: {
+        bgColor: '#1A1A1A',
+        color: '#fff',
+        primaryBtnBgColor: '#fff',
+        primaryBtnColor: '#1A1A1A',
+      },
+      card: {
+        bgColor: '#1A1A1A',
+        color: '#fff',
+      },
     },
-    card: {
-      bgColor: '#1A1A1A',
-      color: '#fff',
+    profile: {
+      common: {
+        bgColor: '#1A1A1A',
+        color: '#fff',
+        primaryBtnBgColor: '#fff',
+        primaryBtnColor: '#1A1A1A',
+      },
+      card: {
+        bgColor: '#1A1A1A',
+        color: '#fff',
+      },
     },
   },
 ];
 
 const PageContainer = styled.div`
-  .common-theme {
-    background: ${({ theme }) => theme.common.bgColor};
-    color: ${({ theme }) => theme.common.color};
-  }
-
   .card-theme {
-    background: ${({ theme }) => theme.card.bgColor};
-    color: ${({ theme }) => theme.card.color};
+    background: ${({ theme }) => theme.profile?.card?.bgColor};
+    color: ${({ theme }) => theme.profile?.card?.color};
   }
 
   .primary-button {
-    background: ${({ theme }) => theme.common.primaryBtnBgColor};
-    color: ${({ theme }) => theme.common.primaryBtnColor};
+    background: ${({ theme }) => theme.profile?.common?.primaryBtnBgColor};
+    color: ${({ theme }) => theme.profile?.common?.primaryBtnColor};
   }
 `;
 
@@ -76,8 +100,11 @@ const Client: React.FC<Props> = ({}: Props) => {
   const { profile } = useProfileStore();
   const { updateAppConfig } = useUpdateAppConfig();
 
-  const { theme, setLocalTheme } = useContext(ThemeContext);
-  const [imageUrl, setImageUrl] = useState<string>('');
+  const { theme, onSetTheme, onSetCommonGlobalTheme, onSetCardProfileTheme } = useThemeStore();
+  const { global: globalTheme, profile: profileTheme } = theme;
+  const [imageUrl, setImageUrl] = useState<string>(
+    'https://images.unsplash.com/photo-1693323932877-04b1a3068ade?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wyNTM0OTB8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTU2MzAwMTR8&ixlib=rb-4.0.3&q=80&w=1080',
+  );
 
   const fetchRandomImage = async () => {
     const randomImage = await getRandomImage({ numberOfImages: 1 });
@@ -99,11 +126,13 @@ const Client: React.FC<Props> = ({}: Props) => {
     role: { description },
   } = profile;
 
-  const handleUpdateTheme = (theme: ThemeConfig) => {
-    setLocalTheme(theme);
+  const handleUpdateTheme = (theme: Partial<ThemeConfigProps>) => {
+    onSetTheme(theme);
   };
 
   const handleSaveTheme = () => {
+    setThemeLocalStorage(theme);
+    toast.success('Update theme successfully!');
     updateAppConfig({ configs: theme });
   };
 
@@ -118,18 +147,18 @@ const Client: React.FC<Props> = ({}: Props) => {
       }}
     >
       <PageContainer className="my-6 grid grid-cols-2 gap-3">
-        <ProfileContainer className="card-theme w-[80%] max-w-[800px] min-w-[150px] my-0 mx-auto p-4 flex flex-col items-center opacity-90">
+        <ProfileContainer className="card-theme w-[50%] max-w-[800px] min-w-[150px] my-0 mx-auto p-4 flex flex-col items-center opacity-90">
           <ProfileImage
             src={imgUrl}
             alt={`${name}'s Profile Image`}
             className="w-[200px] h-[200px] rounded-full mb-5 object-cover "
           />
-          <h2 className="text-3xl font-bold mb-2">{name}</h2>
+          <h2 className={`text-3xl font-bold mb-2 test`}>{name}</h2>
           <p className="text-lg mb-4">@{userName}</p>
           <p className="text-x text-center">{description}</p>
         </ProfileContainer>
 
-        <ThemeContainer className="card-theme w-[40%] min-w-[400px] my-0 mx-auto p-4 opacity-90">
+        <ThemeContainer className="card-theme w-[60%] min-w-[400px] my-0 mx-auto p-4 opacity-90">
           <div className="mb-4 flex flex-col sm:flex-row md:justify-between">
             <Heading title="Select theme (Experiment)" />
             <div className="mt-2 sm:mt-0"></div>
@@ -147,71 +176,75 @@ const Client: React.FC<Props> = ({}: Props) => {
             })}
           </div>
 
-          <div>
-            <p>Page BG Color</p>
-            <ColorPicker
-              value={theme.common.bgColor || ''}
-              onChange={(value) =>
-                setLocalTheme({
-                  ...theme,
-                  common: {
-                    ...theme.common,
+          <div className="grid grid-cols-3">
+            <div>
+              <p>Page BG Color</p>
+              <ColorPicker
+                value={globalTheme?.common?.bgColor || ''}
+                onChange={(value) =>
+                  onSetCommonGlobalTheme({
                     bgColor: value,
-                  },
-                })
-              }
-            />
+                  })
+                }
+              />
+            </div>
 
-            <p>Page Color</p>
-            <ColorPicker
-              value={theme.common.color || ''}
-              onChange={(value) =>
-                setLocalTheme({
-                  ...theme,
-                  common: {
-                    ...theme.common,
+            <div>
+              <p>Page Color</p>
+              <ColorPicker
+                value={globalTheme?.common?.color || ''}
+                onChange={(value) =>
+                  onSetCommonGlobalTheme({
                     color: value,
-                  },
-                })
-              }
-            />
+                  })
+                }
+              />
+            </div>
 
-            <p>Card BG Color</p>
-            <ColorPicker
-              value={theme.card.bgColor || ''}
-              onChange={(value) =>
-                setLocalTheme({
-                  ...theme,
-                  card: {
-                    ...theme.card,
+            <div></div>
+
+            <div>
+              <p>Card BG Color</p>
+              <ColorPicker
+                value={profileTheme?.common?.bgColor || ''}
+                onChange={(value) =>
+                  onSetCardProfileTheme({
                     bgColor: value,
-                  },
-                })
-              }
-            />
+                  })
+                }
+              />
+            </div>
 
-            <p>Card Color</p>
-            <ColorPicker
-              value={theme.card.color || ''}
-              onChange={(value) =>
-                setLocalTheme({
-                  ...theme,
-                  card: {
-                    ...theme.card,
+            <div>
+              <p>Card Color</p>
+              <ColorPicker
+                value={profileTheme?.common?.color || ''}
+                onChange={(value) =>
+                  onSetCardProfileTheme({
                     color: value,
-                  },
-                })
-              }
-            />
+                  })
+                }
+              />
+            </div>
+
+            <div>
+              <p>Border Color</p>
+              <ColorPicker
+                value={profileTheme?.common?.borderColor || ''}
+                onChange={(value) =>
+                  onSetCardProfileTheme({
+                    borderColor: value,
+                  })
+                }
+              />
+            </div>
           </div>
 
-          {profile.role.name === 'ADMIN' && (
-            <div>
-              <Button onClick={handleSaveTheme} className="primary-button mt-4">
-                Save Theme
-              </Button>
-            </div>
-          )}
+          <div>
+            <Button onClick={handleSaveTheme} className="primary-button mt-4">
+              Save Theme
+            </Button>
+          </div>
         </ThemeContainer>
       </PageContainer>
     </div>

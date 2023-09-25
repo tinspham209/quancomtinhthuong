@@ -2,12 +2,12 @@ import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyles = createGlobalStyle`
   :root {
-    --commonBgColor:  ${({ theme }) => theme.common.bgColor};
-    --commonColor: ${({ theme }) => theme.common.color};
-    --primaryBtnBgColor:  ${({ theme }) => theme.common.primaryBtnBgColor};
-    --primaryBtnColor: ${({ theme }) => theme.common.primaryBtnColor};
-    --cardBgColor: ${({ theme }) => theme.card.bgColor};
-    --cardColor: ${({ theme }) => theme.card.color};
+    --commonBgColor:  ${({ theme }) => theme.global?.common?.bgColor};
+    --commonColor: ${({ theme }) => theme.global?.common?.color};
+    --primaryBtnBgColor:  ${({ theme }) => theme.global?.common?.primaryBtnBgColor};
+    --primaryBtnColor: ${({ theme }) => theme.global?.common?.primaryBtnColor};
+    --cardBgColor: ${({ theme }) => theme.global?.card?.bgColor};
+    --cardColor: ${({ theme }) => theme.global?.card?.color};
   }
 
   body {
