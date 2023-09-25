@@ -1,3 +1,5 @@
+import { CSS } from 'styled-components/dist/types';
+
 export interface ThemeProps {
   bgColor: string;
   color: string;
@@ -6,7 +8,9 @@ export interface ThemeProps {
   titleColor: string;
   descriptionColor: string;
   borderColor: string;
-  boxShadowColor: string;
+  borderWidth: number;
+  borderStyle: CSS.Property.BorderStyle;
+  borderRadius: number;
 
   primaryBtnBgColor: string;
   primaryBtnColor: string;

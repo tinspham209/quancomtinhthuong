@@ -12,6 +12,7 @@ export const defaultTheme: ThemeConfig = {
     card: {
       bgColor: '#fff',
       color: '#000',
+      borderRadius: 8,
     },
   },
   profile: {
@@ -24,6 +25,7 @@ export const defaultTheme: ThemeConfig = {
     card: {
       bgColor: '#fff',
       color: '#000',
+      borderRadius: 8,
     },
   },
 };

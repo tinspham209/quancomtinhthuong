@@ -1,13 +1,10 @@
 'use client';
 
-import { Button } from '@/components/ui';
-import { ThemeContext } from '@/providers/theme-provider';
 import { useGetDishesByRestaurantId } from '@/queries/dishes';
 import { useGetGroupOrderDetail } from '@/queries/group-orders';
 import { useGetStoreBySlug } from '@/queries/stores';
-import { ThemeConfig } from '@/services/theme';
 import { useParams } from 'next/navigation';
-import React, { useContext } from 'react';
+import React from 'react';
 import { OrderDishesCtn, OrderHeader } from './components';
 
 interface Props {}

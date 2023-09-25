@@ -2,14 +2,15 @@ import { useState } from 'react';
 import { SketchPicker, ColorResult } from 'react-color';
 
 export const ColorPicker = ({
-  onChange,
+  label = '',
   value,
   disableAlpha = true,
-  ...props
+  onChange,
 }: {
-  onChange: (value: string) => void;
+  label?: string;
   value: string;
   disableAlpha?: boolean;
+  onChange: (value: string) => void;
 }) => {
   const [state, setState] = useState({
     displayColorPicker: false,
@@ -29,12 +30,15 @@ export const ColorPicker = ({
 
   return (
     <div>
+      <p>{label}</p>
       <div
-        className={'p-2 bg-white rounded-1 shadow-1 inline-block cursor-pointer'}
+        className={
+          'p-2 bg-white rounded-1 shadow-1 inline-block cursor-pointer border-2 border-gray-300 my-1'
+        }
         onClick={handleClick}
       >
         <div
-          className={'w-20 h-4 rounded-2 border-gray-500 border-2'}
+          className={'w-20 h-4 rounded-2 border-gray-400 border-2'}
           style={{
             background: value,
           }}
