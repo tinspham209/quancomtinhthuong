@@ -50,6 +50,7 @@ const Client: React.FC<Props> = ({}: Props) => {
     if (profile) {
       getOrdersHistory();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profile, paymentStatusParam]);
 
   const formattedOrdersHistory = useMemo(() => {
