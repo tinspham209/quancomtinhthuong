@@ -6,6 +6,7 @@ import QueryProvider from '@/providers/query-provider';
 import Navbar from '@/components/navbar';
 
 import { getMetaData } from '@/utils/metaData';
+import { ThemeLayout } from '@/components/layouts/theme-layout';
 
 export const font = Roboto({
   weight: ['300', '400', '500', '700'],
@@ -22,10 +23,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={font.className}>
       <body className="min-h-[90vh]" suppressHydrationWarning={true}>
         <QueryProvider>
-          <ModalProvider />
-          <Toaster />
-          <Navbar />
-          <main style={{ marginTop: '60px' }}>{children}</main>
+          <ThemeLayout>
+            <ModalProvider />
+            <Toaster />
+            <Navbar />
+            <main style={{ marginTop: '60px' }}>{children}</main>
+          </ThemeLayout>
         </QueryProvider>
       </body>
     </html>

@@ -1,4 +1,4 @@
-import { getLocalTheme } from './helper';
+import { getLocalTheme } from './helpers';
 import { ThemeConfig } from './types';
 
 export const getThemeClasses = (theme: ThemeConfig = getLocalTheme()): ThemeConfig => {

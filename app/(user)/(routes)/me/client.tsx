@@ -7,7 +7,6 @@ import {
   Select,
   SelectContent,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui';
@@ -15,117 +14,16 @@ import { ColorPicker } from '@/components/ui/color-picker';
 import { useProfileStore } from '@/hooks';
 import { useThemeStore } from '@/hooks/use-local-theme';
 import { useUpdateAppConfig } from '@/queries/config';
-import { ThemeConfig, ThemeConfigProps, setThemeLocalStorage } from '@/services/theme';
+import { ThemeConfigProps, setThemeLocalStorage } from '@/services/theme';
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import styled from 'styled-components';
-import getRandomImage from './actions';
 import { CSS } from 'styled-components/dist/types';
-
-const themesList: Array<ThemeConfig> = [
-  {
-    name: 'Light',
-    global: {
-      common: {
-        bgColor: '#fff',
-        color: '#000',
-        primaryBtnBgColor: '#000',
-        primaryBtnColor: '#fff',
-      },
-      card: {
-        bgColor: '#fff',
-        color: '#000',
-        borderRadius: 8,
-      },
-    },
-    profile: {
-      common: {
-        bgColor: '#fff',
-        color: '#000',
-        primaryBtnBgColor: '#000',
-        primaryBtnColor: '#fff',
-      },
-      card: {
-        bgColor: '#fff',
-        color: '#000',
-        borderRadius: 8,
-        titleColor: '#000',
-        descriptionColor: '#000',
-        borderWidth: 0,
-        borderStyle: 'solid',
-        borderColor: '#000',
-      },
-    },
-  },
-  {
-    name: 'Dark',
-    global: {
-      common: {
-        bgColor: '#1A1A1A',
-        color: '#fff',
-        primaryBtnBgColor: '#fff',
-        primaryBtnColor: '#1A1A1A',
-      },
-      card: {
-        bgColor: '#1A1A1A',
-        color: '#fff',
-        borderRadius: 8,
-      },
-    },
-    profile: {
-      common: {
-        bgColor: '#1A1A1A',
-        color: '#fff',
-        primaryBtnBgColor: '#fff',
-        primaryBtnColor: '#1A1A1A',
-      },
-      card: {
-        bgColor: '#1A1A1A',
-        color: '#fff',
-        borderRadius: 8,
-        titleColor: '#fff',
-        descriptionColor: '#fff',
-        borderWidth: 0,
-        borderStyle: 'solid',
-        borderColor: '#fff',
-      },
-    },
-  },
-  {
-    name: 'Yahoo 360',
-    global: {
-      common: {
-        bgColor: '#f7ea33',
-        color: '#000801',
-        primaryBtnBgColor: '#fff',
-        primaryBtnColor: '#f72528',
-      },
-      card: {
-        bgColor: '#f72528',
-        color: '#fff',
-        borderRadius: 8,
-      },
-    },
-    profile: {
-      common: {
-        bgColor: '#f72528',
-        color: '#fff',
-        primaryBtnBgColor: '#fff',
-        primaryBtnColor: '#f72528',
-      },
-      card: {
-        bgColor: '#f72528',
-        color: '#fffc25',
-        borderRadius: 12,
-        titleColor: '#06ff00',
-        descriptionColor: '#ffee78',
-        borderWidth: 5,
-        borderStyle: 'dashed',
-        borderColor: '#1ffc98',
-      },
-    },
-  },
-];
+import { themesList } from '@/services/theme/theme-list.mock';
+import { effectsList } from '@/services/effect/effects-list.mock';
+import { EffectConfig } from '@/services/effect';
+import { useEffectsStore } from '@/hooks/use-local-config';
+import { useGetRandomImage } from '@/queries/misc';
 
 const PageContainer = styled.div`
   .card-theme {
@@ -183,19 +81,10 @@ const Client: React.FC<Props> = ({}: Props) => {
   const { updateAppConfig } = useUpdateAppConfig();
 
   const { theme, onSetTheme, onSetCommonGlobalTheme, onSetCardProfileTheme } = useThemeStore();
+  const { onSetEffects } = useEffectsStore();
   const { global: globalTheme, profile: profileTheme } = theme;
-  const [imageUrl, setImageUrl] = useState<string>('');
 
-  const fetchRandomImage = async () => {
-    const randomImage = await getRandomImage({ numberOfImages: 1 });
-    if (!!randomImage) {
-      setImageUrl(randomImage[0]?.urls?.regular);
-    }
-  };
-
-  useEffect(() => {
-    fetchRandomImage();
-  }, []);
+  const { randomImage } = useGetRandomImage();
 
   if (!profile) return null;
 
@@ -216,11 +105,15 @@ const Client: React.FC<Props> = ({}: Props) => {
     updateAppConfig({ configs: theme });
   };
 
+  const handleUpdateEffect = (effects: EffectConfig) => {
+    onSetEffects(effects);
+  };
+
   return (
     <div
       className="p-4 min-h-[92vh]"
       style={{
-        backgroundImage: `url('${imageUrl || profile?.imgUrl}')`,
+        backgroundImage: `url('${randomImage?.[0]?.urls?.regular || profile?.imgUrl}')`,
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
@@ -432,6 +325,25 @@ const Client: React.FC<Props> = ({}: Props) => {
               <Button onClick={handleSaveTheme} className="primary-button mt-4">
                 Save Theme
               </Button>
+            </div>
+          </div>
+
+          <div className="card-theme w-[80%] min-w-[600px] mx-auto p-4 opacity-90 my-4">
+            <div className="mb-4 flex flex-col sm:flex-row md:justify-between">
+              <Heading title="Effects" />
+              <div className="mt-2 sm:mt-0"></div>
+            </div>
+
+            <div className="flex gap-2 mt-2 mb-4">
+              {effectsList.map((theme, index) => {
+                return (
+                  <div key={`${theme.name}-${index}`}>
+                    <Button onClick={() => handleUpdateEffect(theme)} className="primary-button">
+                      {theme.name}
+                    </Button>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

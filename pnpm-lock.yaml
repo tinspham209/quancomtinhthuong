@@ -85,7 +85,7 @@ dependencies:
     version: 0.258.0(react@18.2.0)
   next:
     specifier: 13.4.8
-    version: 13.4.8(@babel/core@7.22.20)(react-dom@18.2.0)(react@18.2.0)
+    version: 13.4.8(@babel/core@7.22.20)(react-dom@18.2.0)(react@18.2.0)(sass@1.68.0)
   next-cloudinary:
     specifier: ^4.13.1
     version: 4.13.1(next@13.4.8)(react@18.2.0)
@@ -110,6 +110,9 @@ dependencies:
   react-json-view:
     specifier: ^1.21.3
     version: 1.21.3(@types/react@18.2.14)(react-dom@18.2.0)(react@18.2.0)
+  sass:
+    specifier: ^1.68.0
+    version: 1.68.0
   styled-components:
     specifier: ^6.0.8
     version: 6.0.8(react-dom@18.2.0)(react@18.2.0)
@@ -4224,6 +4227,10 @@ packages:
     engines: {node: '>= 4'}
     dev: false
 
+  /immutable@4.3.4:
+    resolution: {integrity: sha512-fsXeu4J4i6WNWSikpI88v/PcVflZz+6kMhUfIwc5SY+poQRPnaf5V7qds6SUyUN3cVxEzuCab7QIoLOQ+DQ1wA==}
+    dev: false
+
   /import-fresh@3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
     engines: {node: '>=6'}
@@ -4619,11 +4626,11 @@ packages:
       '@cloudinary-util/url-loader': 3.10.0
       '@cloudinary-util/util': 2.2.1
       '@cloudinary/url-gen': 1.11.1
-      next: 13.4.8(@babel/core@7.22.20)(react-dom@18.2.0)(react@18.2.0)
+      next: 13.4.8(@babel/core@7.22.20)(react-dom@18.2.0)(react@18.2.0)(sass@1.68.0)
       react: 18.2.0
     dev: false
 
-  /next@13.4.8(@babel/core@7.22.20)(react-dom@18.2.0)(react@18.2.0):
+  /next@13.4.8(@babel/core@7.22.20)(react-dom@18.2.0)(react@18.2.0)(sass@1.68.0):
     resolution: {integrity: sha512-lxUjndYKjZHGK3CWeN2RI+/6ni6EUvjiqGWXAYPxUfGIdFGQ5XoisrqAJ/dF74aP27buAfs8MKIbIMMdxjqSBg==}
     engines: {node: '>=16.8.0'}
     hasBin: true
@@ -4648,6 +4655,7 @@ packages:
       postcss: 8.4.14
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
+      sass: 1.68.0
       styled-jsx: 5.1.1(@babel/core@7.22.20)(react@18.2.0)
       watchpack: 2.4.0
       zod: 3.21.4
@@ -5272,6 +5280,16 @@ packages:
       call-bind: 1.0.2
       get-intrinsic: 1.2.1
       is-regex: 1.1.4
+    dev: false
+
+  /sass@1.68.0:
+    resolution: {integrity: sha512-Lmj9lM/fef0nQswm1J2HJcEsBUba4wgNx2fea6yJHODREoMFnwRpZydBnX/RjyXw2REIwdkbqE4hrTo4qfDBUA==}
+    engines: {node: '>=14.0.0'}
+    hasBin: true
+    dependencies:
+      chokidar: 3.5.3
+      immutable: 4.3.4
+      source-map-js: 1.0.2
     dev: false
 
   /scheduler@0.23.0:

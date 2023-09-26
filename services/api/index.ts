@@ -292,6 +292,19 @@ const create = (baseURL = '/api') => {
     return api.get(`/app/user/notifications/${userName}`, {}, newCancelToken());
   };
 
+  // Misc
+  const getRandomImage = (numberOfImages: string) => {
+    const ACCESS_UNSPLASH_KEY = process.env.NEXT_PUBLIC_ACCESS_UNSPLASH_KEY;
+
+    return api.get(
+      `https://api.unsplash.com/photos/random/?client_id=${ACCESS_UNSPLASH_KEY}&count=${
+        numberOfImages || 1
+      }`,
+      {},
+      newCancelToken(),
+    );
+  };
+
   return {
     getRoot,
 
@@ -352,6 +365,9 @@ const create = (baseURL = '/api') => {
 
     // Notifications
     getUserNotifications,
+
+    // misc
+    getRandomImage,
   };
 };
 
