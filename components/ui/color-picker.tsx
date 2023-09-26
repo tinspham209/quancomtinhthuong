@@ -33,7 +33,7 @@ export const ColorPicker = ({
       <p>{label}</p>
       <div
         className={
-          'p-2 bg-white rounded-1 shadow-1 inline-block cursor-pointer border-2 border-gray-300 my-1'
+          'p-2 bg-white rounded-1 shadow-1 inline-block cursor-pointer border-2 border-gray-300 my-1 '
         }
         onClick={handleClick}
       >
@@ -45,7 +45,7 @@ export const ColorPicker = ({
         />
       </div>
       {state.displayColorPicker ? (
-        <div className={'absolute z-2 '}>
+        <div className={'absolute z-20'}>
           <div className={'fixed top-0 right-0 bottom-0 left-0'} onClick={handleClose} />
           <SketchPicker
             color={value}

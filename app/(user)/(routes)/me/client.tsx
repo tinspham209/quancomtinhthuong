@@ -164,7 +164,7 @@ const Client: React.FC<Props> = ({}: Props) => {
             </div>
           </div>
 
-          <div className="card-theme w-[80%] min-w-[600px] my-0 mx-auto p-4 opacity-90">
+          <div className="card-theme w-[80%] min-w-[600px] my-0 mx-auto p-4 opacity-90 z-10 relative">
             <div className="mb-4 flex flex-col sm:flex-row md:justify-between">
               <Heading title="Custom theme" />
               <div className="mt-2 sm:mt-0"></div>
@@ -328,7 +328,7 @@ const Client: React.FC<Props> = ({}: Props) => {
             </div>
           </div>
 
-          <div className="card-theme w-[80%] min-w-[600px] mx-auto p-4 opacity-90 my-4">
+          <div className="card-theme w-[80%] min-w-[600px] mx-auto p-4 opacity-90 my-4 z-0 relative">
             <div className="mb-4 flex flex-col sm:flex-row md:justify-between">
               <Heading title="Effects" />
               <div className="mt-2 sm:mt-0"></div>
