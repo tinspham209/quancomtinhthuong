@@ -37,6 +37,8 @@ const OrdersOfGroupOrders: React.FC<Props> = ({}) => {
         amount: order.amount,
         total: order.Dish.price * order.amount,
         note: order.note,
+        additionalPrice: order.additionalPrice,
+        additionalNote: order.additionalNote,
         paymentStatus: order.status,
 
         createdAt: order.createdAt,

@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@/components/ui';
+import { Badge, Button } from '@/components/ui';
 import { GroupOrderDetail } from '@/queries/group-orders/types';
 import { useGetOrdersByGroupOrderId } from '@/queries/orders';
 import { BOOMBOX_URL } from '@/utils';
@@ -45,7 +45,7 @@ const OrdersHeader: React.FC<Props> = ({ groupOrder }) => {
           </p>
           <p className="text-md text-muted-foreground">Limit: {groupOrder?.limit || 'Unlimited'}</p>
           <p className="text-md text-muted-foreground">
-            Finalized: {groupOrder?.finalized ? 'Yes' : 'No'}
+            Finalized: <Badge>{groupOrder?.finalized ? 'Yes' : 'No'}</Badge>
           </p>
         </div>
         <div className="flex flex-row gap-2 mt-2 sm:mt-0">

@@ -40,9 +40,10 @@ import {
 interface Props {
   order: OrderDetail;
   restaurantId: string;
+  isOwner?: boolean;
 }
 
-const UpdateOrder: React.FC<Props> = ({ order, restaurantId }) => {
+const UpdateOrder: React.FC<Props> = ({ order, restaurantId, isOwner }) => {
   const form = useForm<CreateOrderPayload>({
     resolver: zodResolver(CreateOrderSchema),
     defaultValues: {
@@ -53,6 +54,8 @@ const UpdateOrder: React.FC<Props> = ({ order, restaurantId }) => {
       amount: 1,
       note: '',
       orderNumber: order.orderNumber,
+      additionalPrice: 0,
+      additionalNote: '',
     },
   });
 
@@ -66,6 +69,8 @@ const UpdateOrder: React.FC<Props> = ({ order, restaurantId }) => {
         amount: order.amount,
         note: order.note || '',
         orderNumber: order.orderNumber,
+        additionalPrice: order.additionalPrice || 0,
+        additionalNote: order.additionalNote || '',
       });
     }
   }, [form, order]);
@@ -73,9 +78,9 @@ const UpdateOrder: React.FC<Props> = ({ order, restaurantId }) => {
   const { createOrder, isLoading } = useCreateOrder({
     onSuccess(data) {
       toast.success(`Update order successfully.`);
-      setTimeout(() => {
-        window.location.reload();
-      }, 500);
+      // setTimeout(() => {
+      //   window.location.reload();
+      // }, 500);
     },
     onError(error) {
       toast.error(error.message);
@@ -88,14 +93,17 @@ const UpdateOrder: React.FC<Props> = ({ order, restaurantId }) => {
       userId: values.userId,
       groupOrderId: values.groupOrderId,
       dishId: values.dishId,
-      amount: values.amount,
+      amount: Number(values.amount),
       note: values.note,
       orderNumber: values.orderNumber,
+      additionalPrice: Number(values.additionalPrice),
+      additionalNote: values.additionalNote,
     });
   };
 
   const dishId = form.watch('dishId');
   const amount = form.watch('amount');
+  const additionalPrice = form.watch('additionalPrice');
   const { dishes } = useGetDishesByRestaurantId({
     restaurantId: restaurantId,
   });
@@ -233,7 +241,45 @@ const UpdateOrder: React.FC<Props> = ({ order, restaurantId }) => {
               )}
             />
 
-            <h1>Total: {new Intl.NumberFormat().format(order.Dish.price * amount)}d</h1>
+            {isOwner && (
+              <>
+                <FormField
+                  control={form.control}
+                  name="additionalPrice"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Additional Price *</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Additional Price" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="additionalNote"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Owner Note</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Owner Note" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </>
+            )}
+
+            <h1>
+              Total:{' '}
+              {new Intl.NumberFormat().format(
+                order.Dish.price * amount + Number(additionalPrice || 0),
+              )}{' '}
+              VND
+            </h1>
             <Button type="submit" disabled={isLoading}>
               Update
             </Button>

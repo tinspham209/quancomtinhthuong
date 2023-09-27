@@ -14,6 +14,7 @@ import {
 } from '@/components/ui';
 import { GroupOrderDetail } from '@/queries/group-orders/types';
 import { OrderDetail, OrderStatus } from '@/queries/orders/types';
+import { formatMoney } from '@/utils';
 import { ColumnDef } from '@tanstack/react-table';
 import dayjs from 'dayjs';
 import { MoreHorizontal } from 'lucide-react';
@@ -31,6 +32,8 @@ export type OrderRow = {
   amount: number;
   total: number;
   note: string;
+  additionalPrice: number;
+  additionalNote: string;
   paymentStatus: OrderStatus;
   createdAt: string;
   updatedAt: string;
@@ -86,11 +89,29 @@ export const orderColumns = ({
   },
   {
     accessorKey: 'note',
-    header: 'Note',
+    header: 'User Note',
     cell: ({ row }) => {
       const order = row.original.order;
 
       return <div className="max-w-[300px]">{order.note}</div>;
+    },
+  },
+  {
+    accessorKey: 'additionalPrice',
+    header: 'Additional Price',
+    cell: ({ row }) => {
+      const order = row.original.order;
+
+      return <div className="max-w-[300px]">{formatMoney(order.additionalPrice)} VND</div>;
+    },
+  },
+  {
+    accessorKey: 'additionalNote',
+    header: 'Owner Note',
+    cell: ({ row }) => {
+      const order = row.original.order;
+
+      return <div className="max-w-[300px]">{order.additionalNote}</div>;
     },
   },
   {
@@ -143,7 +164,11 @@ export const orderColumns = ({
                     Edit Order
                   </DropdownMenuLabel>
                 </SheetTrigger>
-                <UpdateOrder order={order} restaurantId={groupOrder?.restaurantId || ''} />
+                <UpdateOrder
+                  isOwner={true}
+                  order={order}
+                  restaurantId={groupOrder?.restaurantId || ''}
+                />
               </Sheet>
 
               {/* Delete */}

@@ -8,6 +8,7 @@ import React, { useMemo } from 'react';
 import { OrderRow, orderColumns } from './components/columns';
 import OrdersHeader from './components/group-order-header';
 import { useProfileStore } from '@/hooks';
+import NoSsr from '@/components/no-ssr';
 
 interface Props {}
 
@@ -38,6 +39,8 @@ const OrdersOfGroupOrders: React.FC<Props> = ({}) => {
         amount: order.amount,
         total: order.Dish.price * order.amount,
         note: order.note,
+        additionalPrice: order.additionalPrice,
+        additionalNote: order.additionalNote,
         paymentStatus: order.status,
 
         createdAt: order.createdAt,
@@ -58,11 +61,13 @@ const OrdersOfGroupOrders: React.FC<Props> = ({}) => {
 
   return (
     <div className="p-4 pt-8">
-      <OrdersHeader groupOrder={groupOrder} />
+      <NoSsr>
+        <OrdersHeader groupOrder={groupOrder} />
 
-      <div className="my-6">
-        <DataTable columns={allColumns} data={formattedOrders} />
-      </div>
+        <div className="my-6">
+          <DataTable columns={allColumns} data={formattedOrders} />
+        </div>
+      </NoSsr>
     </div>
   );
 };

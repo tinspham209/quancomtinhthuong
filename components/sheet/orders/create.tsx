@@ -49,6 +49,8 @@ const CreateOrder: React.FC<Props> = ({ groupOrderId, dish }) => {
       dishId: dish.id,
       amount: 1,
       note: '',
+      additionalPrice: 0,
+      additionalNote: '',
     },
   });
 
@@ -80,8 +82,10 @@ const CreateOrder: React.FC<Props> = ({ groupOrderId, dish }) => {
       userId: values.userId,
       groupOrderId: values.groupOrderId,
       dishId: values.dishId,
-      amount: values.amount,
+      amount: Number(values.amount),
       note: values.note,
+      additionalPrice: Number(values.additionalPrice),
+      additionalNote: values.additionalNote,
     });
   };
 

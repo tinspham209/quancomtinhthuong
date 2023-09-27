@@ -17,6 +17,8 @@ export type OrderDetail = {
   note: string;
   Dish: Dish;
   User: { name: string; userName: string; imgUrl: string; id: string };
+  additionalNote: string;
+  additionalPrice: number;
 };
 
 export enum OrderStatus {
