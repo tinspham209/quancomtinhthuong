@@ -13,6 +13,7 @@ export interface EffectProps {
 
 export interface EffectConfig {
   name?: string;
+  version?: number;
   enable: boolean;
   config: Array<EffectProps>;
 }

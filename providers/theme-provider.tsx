@@ -1,9 +1,10 @@
 import Effects from '@/components/effects';
 import { useEffectsStore } from '@/hooks/use-local-config';
 import { useThemeStore } from '@/hooks/use-local-theme';
+import { defaultEffects, setEffectsLocalStorage } from '@/services/effect';
 import { GlobalStyles, ThemeConfig, defaultTheme, setThemeLocalStorage } from '@/services/theme';
 import { getThemeClasses } from '@/services/theme/global-class.config';
-import { createContext, useMemo, useState } from 'react';
+import { createContext, useEffect, useMemo, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 
 export const ThemeContext = createContext<{
@@ -14,6 +15,10 @@ export const ThemeContext = createContext<{
 export const ThemeContextProvider = ({ children }: { children: React.ReactNode }) => {
   const { theme, onSetTheme } = useThemeStore();
   const { effects } = useEffectsStore();
+
+  useEffect(() => {
+    setEffectsLocalStorage(defaultEffects);
+  }, []);
 
   const themeClasses = useMemo(() => getThemeClasses(theme), [theme]);
 
