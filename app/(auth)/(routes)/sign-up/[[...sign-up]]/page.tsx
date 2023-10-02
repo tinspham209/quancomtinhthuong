@@ -8,6 +8,7 @@ import {
   CardTitle,
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -62,7 +63,7 @@ export default function Page() {
   };
 
   return (
-    <div className="min-w-[400px]">
+    <div className="min-w-[400px] max-w-[600px]">
       <Card>
         <CardHeader>
           <CardTitle>Sign up</CardTitle>
@@ -79,6 +80,12 @@ export default function Page() {
                     <FormControl>
                       <Input placeholder="Username" {...field} />
                     </FormControl>
+                    <FormDescription>
+                      <strong>Format:</strong>
+                      <br /> characters lowercase, number, <br />
+                      underscore (_), dot (.), hyphen (-),
+                      <br /> length: 3-20
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -114,10 +121,13 @@ export default function Page() {
                 name="slackId"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Your Slack Id</FormLabel>
+                    <FormLabel>Your Slack ID</FormLabel>
                     <FormControl>
-                      <Input placeholder="Your Slack Id" {...field} />
+                      <Input placeholder="Your Slack ID" {...field} />
                     </FormControl>
+                    <FormDescription>
+                      If u get correct value, We will appreciate for your effort ha
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
