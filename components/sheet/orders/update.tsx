@@ -78,9 +78,9 @@ const UpdateOrder: React.FC<Props> = ({ order, restaurantId, isOwner }) => {
   const { createOrder, isLoading } = useCreateOrder({
     onSuccess(data) {
       toast.success(`Update order successfully.`);
-      // setTimeout(() => {
-      //   window.location.reload();
-      // }, 500);
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
     },
     onError(error) {
       toast.error(error.message);
