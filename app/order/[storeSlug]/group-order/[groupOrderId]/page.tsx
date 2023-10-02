@@ -6,6 +6,7 @@ import { useGetStoreBySlug } from '@/queries/stores';
 import { useParams } from 'next/navigation';
 import React from 'react';
 import { OrderDishesCtn, OrderHeader } from './components';
+import AnimationOrderHeader from './components/animation';
 
 interface Props {}
 
@@ -23,7 +24,8 @@ const OrderCtn: React.FC<Props> = ({}) => {
   });
 
   return (
-    <div className="p-4 pt-8">
+    <div className="p-4 pt-8 relative">
+      <AnimationOrderHeader />
       <OrderHeader order={groupOrder} />
       <OrderDishesCtn
         dishes={dishes}

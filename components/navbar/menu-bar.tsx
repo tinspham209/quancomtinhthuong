@@ -18,6 +18,7 @@ import {
   Skeleton,
 } from '../ui';
 import { cn } from '@/lib/utils';
+import { Menu } from 'lucide-react';
 
 export type RouteItemNav = {
   href: string;
@@ -32,9 +33,9 @@ type Props = {
 const MenuBar: React.FC<Props> = ({ routes }) => {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
+      <DropdownMenuTrigger asChild>
         <Button variant={'ghost'} className="text-md font-medium">
-          Menu
+          <Menu className="w-5 h-5" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>

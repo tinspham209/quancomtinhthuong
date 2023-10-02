@@ -1,0 +1,56 @@
+.content {
+  transform: scale(0.5);
+}
+.texts {
+  position: relative;
+  height: 40px;
+  line-height: 40px;
+  font-weight: 700;
+  overflow: hidden;
+  font-size: 48px;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.texts:nth-child(odd) {
+  transform: skew(60deg, -30deg);
+}
+
+.texts:nth-child(even) {
+  transform: skew(0deg, -30deg) scaleY(1.5);
+}
+
+.texts:nth-child(1) {
+  left: -50px;
+}
+
+.texts:nth-child(2) {
+  top: 10px;
+  left: -15px;
+}
+
+.texts:nth-child(3) {
+  top: 19px;
+  left: 20px;
+}
+
+.texts:nth-child(4) {
+  top: 29px;
+  left: 55px;
+}
+
+.texts:nth-child(5) {
+  top: 38px;
+  left: 90px;
+}
+
+.texts p {
+  transition: 0.5s ease-in-out;
+  animation: climbing 1s linear infinite;
+}
+
+@keyframes climbing {
+  100% {
+    transform: translate(0, -40px);
+  }
+}
