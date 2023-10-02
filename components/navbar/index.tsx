@@ -96,7 +96,7 @@ const Navbar = ({}: NavbarProps) => {
   };
 
   return (
-    <nav className="border-b fixed top-0 left-0 w-full z-50 py-1 bg-white">
+    <nav className="border-b fixed top-0 left-0 w-full z-50 py-1 ">
       <div className="flex items-center px-4">
         {isAdmin ? (
           <AdminNav className="mr-6" />
