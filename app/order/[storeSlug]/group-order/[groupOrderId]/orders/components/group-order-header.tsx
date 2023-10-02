@@ -44,9 +44,9 @@ const OrdersHeader: React.FC<Props> = ({ groupOrder }) => {
             Date: {dayjs(groupOrder?.createdAt).format('DD-MMM-YYYY')}
           </p>
           <p className="text-md text-muted-foreground">Limit: {groupOrder?.limit || 'Unlimited'}</p>
-          <p className="text-md text-muted-foreground">
+          <div className="text-md text-muted-foreground">
             Finalized: <Badge>{groupOrder?.finalized ? 'Yes' : 'No'}</Badge>
-          </p>
+          </div>
         </div>
         <div className="flex flex-row gap-2 mt-2 sm:mt-0">
           <div>

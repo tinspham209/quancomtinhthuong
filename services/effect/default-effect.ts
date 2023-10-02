@@ -5,27 +5,48 @@ export const defaultEffects: EffectConfig = {
   // enable: false,
   // config: [],
 
-  name: 'TuyenTran',
+  name: 'Dongky',
   enable: true,
   config: [
     {
-      content: '/tuyentran/tuyentran1.jpg',
-      amount: 15,
+      content: '/dongky/pic-1.png',
+      amount: 3,
       isImgUrl: true,
     },
     {
-      content: '/tuyentran/tuyentran2.jpg',
-      amount: 15,
+      content: '/dongky/pic-2.png',
+      amount: 3,
       isImgUrl: true,
     },
     {
-      content: '/tuyentran/tuyentran3.jpg',
-      amount: 15,
+      content: '/dongky/pic-3.png',
+      amount: 3,
       isImgUrl: true,
     },
     {
-      content: 'Cầm nhầm đồ',
-      amount: 4,
+      content: '/dongky/pic-4.png',
+      amount: 3,
+      isImgUrl: true,
+    },
+    {
+      content: '/dongky/pic-5.png',
+      amount: 3,
+      isImgUrl: true,
+    },
+    {
+      content: '/dongky/pic-6.png',
+      amount: 3,
+      isImgUrl: true,
+    },
+    {
+      content: '/dongky/gif-1.gif',
+      amount: 3,
+      isImgUrl: true,
+    },
+    {
+      content: '/dongky/gif-2.gif',
+      amount: 3,
+      isImgUrl: true,
     },
   ],
 };

@@ -17,7 +17,7 @@ interface Props {}
 const GameDropdown: React.FC<Props> = () => {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
+      <DropdownMenuTrigger asChild>
         <Button variant={'outline'}>
           Play Game
           <ChevronDown className="w-4 h-4 ml-1" />

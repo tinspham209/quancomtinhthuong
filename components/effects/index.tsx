@@ -1,6 +1,8 @@
 import { EffectProps } from '@/services/effect';
 import { memo } from 'react';
 import './styles.scss';
+import Image from 'next/image';
+import { getRandomId } from '@/utils';
 
 function Effects({
   hide = false,
@@ -14,19 +16,20 @@ function Effects({
   return (
     <div className="fall-effect">
       {effectProps.map((effectProp, index) => {
-        return (
-          <>
-            {Array.from({ length: effectProp.amount || 1 }).map(() => (
-              <div className="flake" key={`effect-item-${index}`}>
-                {effectProp.isImgUrl ? (
-                  <img src={effectProp.content as string} />
-                ) : (
-                  <span>{effectProp.content}</span>
-                )}
-              </div>
-            ))}
-          </>
-        );
+        return Array.from({ length: effectProp.amount || 1 }).map(() => (
+          <div className="flake" key={`effect-item-${index}-${getRandomId()}`}>
+            {effectProp.isImgUrl ? (
+              <Image
+                alt={effectProp.content as string}
+                width={30}
+                height={30}
+                src={effectProp.content as string}
+              />
+            ) : (
+              <span className="text-sm">{effectProp.content}</span>
+            )}
+          </div>
+        ));
       })}
     </div>
   );

@@ -24,6 +24,7 @@ import { effectsList } from '@/services/effect/effects-list.mock';
 import { EffectConfig } from '@/services/effect';
 import { useEffectsStore } from '@/hooks/use-local-config';
 import { useGetRandomImage } from '@/queries/misc';
+import Image from 'next/image';
 
 const PageContainer = styled.div`
   .card-theme {
@@ -129,18 +130,26 @@ const Client: React.FC<Props> = ({}: Props) => {
                 className="w-[200px] h-[200px] rounded-full mb-5 object-cover"
               />
               <h2 className={`text-3xl font-bold mb-2 test card-title`}>{name}</h2>
-              <p className="text-lg mb-4 card-desc">@{userName}</p>
-              <p className="text-x text-center">{description}</p>
+              <p className="text-lg mb-2 card-desc">@{userName}</p>
+              <p className="text-md text-center">Role: {description}</p>
             </div>
             <div className="reverse-card w-[25%] p-4 opacity-90">
-              <img src="/kiss.png" />
+              <Image
+                src="/kiss.png"
+                alt="kiss"
+                width={122}
+                height={105}
+                style={{
+                  objectFit: 'contain',
+                }}
+              />
             </div>
           </div>
           <div className="card-theme w-[60%] max-w-[800px] min-w-[150px] my-4 mx-auto p-4 flex flex-col items-center opacity-90">
             <p className="card-title text-3xl font-bold">3 words about me</p>
             <p className="text-3xl text-purple-800 font-bold my-1">Purple</p>
             <p className="text-2xl text-violet-500 font-bold">Obsequious</p>
-            <p className="text-2xl font-bold my-1">Clairvoyant</p>
+            <p className="text-2xl text-cyan-500 font-bold my-1">Clairvoyant</p>
           </div>
         </div>
 

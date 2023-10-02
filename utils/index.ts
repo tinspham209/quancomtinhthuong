@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 /* eslint-disable use-isnan */
 export const isEmpty = (value: any): boolean =>
   value === undefined ||
@@ -40,3 +42,5 @@ export const stringify = (
 };
 
 export const BOOMBOX_URL = 'https://boombox.quanantinhthuong.store/';
+
+export const getRandomId = (): string => uuidv4();
