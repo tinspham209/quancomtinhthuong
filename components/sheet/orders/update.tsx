@@ -184,7 +184,7 @@ const UpdateOrder: React.FC<Props> = ({ order, restaurantId, isOwner }) => {
                         <CommandGroup>
                           <ScrollArea className="max-h-[300px] overflow-y-auto">
                             {dishes
-                              .filter((dish) => dish.disable)
+                              .filter((dish) => !dish.disable)
                               .map((dish) => (
                                 <CommandItem
                                   value={dish.id}
