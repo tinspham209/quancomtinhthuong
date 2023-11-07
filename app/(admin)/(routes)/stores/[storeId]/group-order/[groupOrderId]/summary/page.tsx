@@ -35,6 +35,45 @@ const OrdersOfGroupOrders: React.FC<Props> = ({}) => {
     return orders;
   }, [groupOrderSummary]);
 
+  const total: {
+    amount: number;
+    orders: number;
+    price: number;
+    discount: number;
+    users: number;
+  } = useMemo(() => {
+    let amount = 0,
+      orders = 0,
+      price = 0,
+      discount = 0,
+      users = 0;
+    if (!groupOrderSummary)
+      return {
+        amount,
+        orders,
+        price,
+        discount,
+        users,
+      };
+
+    amount = formattedOrders.reduce((acc, order) => {
+      return acc + order.amount;
+    }, 0);
+    orders = formattedOrders.length;
+    price = groupOrderSummary.totalPrice;
+    discount = groupOrderSummary.discount;
+    users = formattedOrders.reduce((acc, order) => {
+      return acc + order.users.length;
+    }, 0);
+    return {
+      amount,
+      orders,
+      price,
+      discount,
+      users,
+    };
+  }, [formattedOrders, groupOrderSummary]);
+
   const allColumns = useMemo(() => dishColumns, []);
 
   const router = useRouter();
@@ -54,9 +93,9 @@ const OrdersOfGroupOrders: React.FC<Props> = ({}) => {
       <div className="my-6">
         <div className="mb-3">
           <h2 className="text-2xl font-bold leading-none tracking-tight mb-1">
-            Total Order: {groupOrderSummary?._count.Orders} - Total Price:{' '}
-            {formatMoney(groupOrderSummary?.totalPrice || 0)} VND - Discount:{' '}
-            {formatMoney(groupOrderSummary?.discount || 0)} VND
+            Total Dishes: {total.orders} - Total Amount: {total.amount} - Total Users: {total.users}{' '}
+            - Total Price: {formatMoney(total.price || 0)} VND - Discount:{' '}
+            {formatMoney(total.discount || 0)} VND
           </h2>
         </div>
         <DataTable columns={allColumns} data={formattedOrders} />
