@@ -13,9 +13,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-  Input,
+  Input
 } from '@/components/ui';
-import { LoginPayload, LoginSchema, SignupPayload, SignupSchema } from '@/lib/validators/auth';
+import { SignupPayload, SignupSchema } from '@/lib/validators/auth';
 import { useSignup } from '@/queries/auth';
 import TokenServices from '@/services/token';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -37,6 +37,8 @@ export default function Page() {
       userName: '',
       password: '',
       name: '',
+      email: '',
+      phoneNumber: '',
       slackId: '',
       roleId: 2,
     },
@@ -57,6 +59,8 @@ export default function Page() {
       name: values.name,
       userName: values.userName,
       password: values.password,
+      email: values.email,
+      phoneNumber: values.phoneNumber,
       slackId: values.slackId,
       roleId: values.roleId,
     });
@@ -111,6 +115,32 @@ export default function Page() {
                     <FormLabel>Your name *</FormLabel>
                     <FormControl>
                       <Input placeholder="Your name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email *</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter your email ha" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="phoneNumber"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Phone number</FormLabel>
+                    <FormControl>
+                      <Input placeholder="0915834617" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

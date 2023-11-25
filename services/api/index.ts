@@ -3,6 +3,7 @@ import {
   CreateStorePayload,
   GetStoresByUserName,
   UpdateStorePayload,
+  UpdateUserPayload,
 } from '@/lib/validators';
 import { ChangePasswordPayload, LoginPayload, SignupPayload } from '@/lib/validators/auth';
 import {
@@ -122,6 +123,10 @@ const create = (baseURL = '/api') => {
 
   const changePassword = (payload: ChangePasswordPayload) => {
     return api.post(`/app/user/change-p`, payload, newCancelToken());
+  };
+
+  const resetPassword = (username: string) => {
+    return api.patch(`/app/user/reset/${username}`, newCancelToken());
   };
 
   const signUp = (payload: SignupPayload) => {
@@ -305,6 +310,11 @@ const create = (baseURL = '/api') => {
     );
   };
 
+  //user
+  const updateUser = (payload: UpdateUserPayload) => {
+    return api.put(`/app/user`, payload, newCancelToken());
+  };
+
   return {
     getRoot,
 
@@ -322,6 +332,7 @@ const create = (baseURL = '/api') => {
     // Auth
     login,
     changePassword,
+    resetPassword,
     signUp,
     getMyProfile,
 
@@ -368,6 +379,9 @@ const create = (baseURL = '/api') => {
 
     // misc
     getRandomImage,
+
+    //user
+    updateUser,
   };
 };
 

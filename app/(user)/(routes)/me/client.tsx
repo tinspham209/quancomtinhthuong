@@ -11,20 +11,21 @@ import {
   SelectValue,
 } from '@/components/ui';
 import { ColorPicker } from '@/components/ui/color-picker';
-import { useProfileStore } from '@/hooks';
+import { useProfileStore, useUserUpdateModal } from '@/hooks';
+import { useEffectsStore } from '@/hooks/use-local-config';
 import { useThemeStore } from '@/hooks/use-local-theme';
 import { useUpdateAppConfig } from '@/queries/config';
-import { ThemeConfigProps, setThemeLocalStorage } from '@/services/theme';
-import React, { useEffect, useState } from 'react';
+import { useGetRandomImage } from '@/queries/misc';
+import { EffectConfig } from '@/services/effect';
+import { effectsList } from '@/services/effect/effects-list.mock';
+import { setThemeLocalStorage, ThemeConfigProps } from '@/services/theme';
+import { themesList } from '@/services/theme/theme-list.mock';
+import { UserCog } from 'lucide-react';
+import Image from 'next/image';
+import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import styled from 'styled-components';
 import { CSS } from 'styled-components/dist/types';
-import { themesList } from '@/services/theme/theme-list.mock';
-import { effectsList } from '@/services/effect/effects-list.mock';
-import { EffectConfig } from '@/services/effect';
-import { useEffectsStore } from '@/hooks/use-local-config';
-import { useGetRandomImage } from '@/queries/misc';
-import Image from 'next/image';
 
 const PageContainer = styled.div`
   .card-theme {
@@ -78,6 +79,7 @@ const ProfileImage = styled.img`
 interface Props {}
 
 const Client: React.FC<Props> = ({}: Props) => {
+  const userEditModal = useUserUpdateModal();
   const { profile } = useProfileStore();
   const { updateAppConfig } = useUpdateAppConfig();
 
@@ -86,6 +88,13 @@ const Client: React.FC<Props> = ({}: Props) => {
   const { global: globalTheme, profile: profileTheme } = theme;
 
   const { randomImage } = useGetRandomImage();
+
+  const [openCreateStore, setOpenCreateStore] = useState(false);
+  const handleOpenCreateStore = (open: boolean) => {
+    setOpenCreateStore(open);
+  };
+
+  const [openPopover, setOpenPopover] = useState(false);
 
   if (!profile) return null;
 
@@ -133,16 +142,31 @@ const Client: React.FC<Props> = ({}: Props) => {
               <p className="text-lg mb-2 card-desc">@{userName}</p>
               <p className="text-md text-center">Role: {description}</p>
             </div>
-            <div className="reverse-card w-[25%] p-4 opacity-90">
-              <Image
-                src="/kiss.png"
-                alt="kiss"
-                width={122}
-                height={105}
-                style={{
-                  objectFit: 'contain',
-                }}
-              />
+            <div className="w-[25%] flex flex-col space-y-2">
+              <div className="reverse-card p-4 opacity-90 flex justify-center">
+                <UserCog
+                  width={122}
+                  height={105}
+                  cursor="pointer"
+                  onClick={() => {
+                    userEditModal.onOpen();
+                  }}
+                  onAbort={() => {
+                    userEditModal.onClose();
+                  }}
+                />
+              </div>
+              <div className="reverse-card p-4 opacity-90">
+                <Image
+                  src="/kiss.png"
+                  alt="kiss"
+                  width={122}
+                  height={105}
+                  style={{
+                    objectFit: 'contain',
+                  }}
+                />
+              </div>
             </div>
           </div>
           <div className="card-theme w-[60%] max-w-[800px] min-w-[150px] my-4 mx-auto p-4 flex flex-col items-center opacity-90">

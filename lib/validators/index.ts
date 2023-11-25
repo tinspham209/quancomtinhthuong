@@ -1,4 +1,5 @@
+export * from './auth';
+export * from './dishes';
 export * from './restaurants';
 export * from './store';
-export * from './dishes';
-export * from './auth';
+export * from './user';

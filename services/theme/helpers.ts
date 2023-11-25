@@ -5,8 +5,12 @@ export const getLocalTheme = () => {
   if (typeof window !== 'undefined') {
     const themeLocalStorage = localStorage.getItem('theme');
     if (themeLocalStorage !== null) {
-      const localTheme = JSON.parse(themeLocalStorage);
-      return localTheme;
+      try {
+        const localTheme = JSON.parse(themeLocalStorage);
+        return localTheme;
+      } catch (error) {
+        console.error(error);
+      }
     }
     return defaultTheme;
   }

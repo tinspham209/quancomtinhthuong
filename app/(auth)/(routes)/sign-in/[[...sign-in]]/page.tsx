@@ -129,7 +129,7 @@ export default function Page() {
             <Button
               variant={'ghost'}
               onClick={() => {
-                toast.error('Relax and try to remember your password.');
+                route.push('/reset-password');
               }}
             >
               Forgot your password?

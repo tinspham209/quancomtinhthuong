@@ -11,6 +11,8 @@ export type MyProfile = {
   role: Role;
   iat: number;
   exp: number;
+  email: string;
+  phoneNumber: string;
 };
 
 export type Role = {
