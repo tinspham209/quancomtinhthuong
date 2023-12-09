@@ -9,7 +9,7 @@ import { OrderRow, orderColumns } from './components/columns';
 import OrdersHeader from './components/group-order-header';
 import { useProfileStore } from '@/hooks';
 import NoSsr from '@/components/no-ssr';
-
+import './components/styles.css'
 interface Props {}
 
 const OrdersOfGroupOrders: React.FC<Props> = ({}) => {

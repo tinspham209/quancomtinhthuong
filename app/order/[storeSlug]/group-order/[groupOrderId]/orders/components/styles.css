@@ -1,0 +1,52 @@
+p.additional-notes {
+  font-family: 'Mountains of Christmas', cursive;
+  animation: colors infinite ease-in-out 2s;
+  font-weight: bold;
+  font-style: italic;
+}
+@keyframes colors {
+  0% {
+    color: red;
+    text-shadow: 0 0 50px red;
+  }
+  10% {
+    color: green;
+    text-shadow: 0 0 50px green;
+  }
+  20% {
+    color: yellow;
+    text-shadow: 0 0 50px yellow;
+  }
+  30% {
+    color: blue;
+    text-shadow: 0 0 50px blue;
+  }
+  40% {
+    color: orangered;
+    text-shadow: 0 0 50px orangered;
+  }
+  50% {
+    color: skyblue;
+    text-shadow: 0 0 50px skyblue;
+  }
+  60% {
+    color: pink;
+    text-shadow: 0 0 50px pink;
+  }
+  70% {
+    color: chartreuse;
+    text-shadow: 0 0 50px chartreuse;
+  }
+  80% {
+    color: maroon;
+    text-shadow: 0 0 50px maroon;
+  }
+  90% {
+    color: lime;
+    text-shadow: 0 0 50px lime;
+  }
+  100% {
+    color: red;
+    text-shadow: 0 0 50px red;
+  }
+}

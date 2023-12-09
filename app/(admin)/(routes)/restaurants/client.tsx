@@ -9,11 +9,12 @@ import {
   CardHeader,
   CardTitle,
   Sheet,
-  SheetTrigger,
+  SheetTrigger
 } from '@/components/ui';
 import useCopyToClipboard from '@/hooks/use-copy-to-clipboard';
+import { useFetchCache } from '@/queries/cache';
 import { useGetRestaurants } from '@/queries/restaurants';
-import { Copy, PlusCircle } from 'lucide-react';
+import { Copy, FolderSync, PlusCircle } from 'lucide-react';
 import Link from 'next/link';
 import { FC, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -25,24 +26,45 @@ const RestaurantsPage: FC<Props> = ({}) => {
 
   const { restaurants } = useGetRestaurants();
   const [openCreateRestaurant, setOpenCreateRestaurant] = useState(false);
+  const { fetchCache, loading } = useFetchCache({
+    onSuccess(data) {
+      toast.success(`Fetched successfully !`);
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
+    },
+    onError(error) {
+      toast.error(error.message);
+    },
+  });
+
+  const onFetch = async () => {
+    fetchCache();
+  };
   return (
     <div className="p-4 pt-8">
       <div className="flex flex-col sm:flex-row md:justify-between">
         <h1 className="text-3xl font-bold leading-none tracking-tight">Restaurants</h1>
         <div className="mt-4 sm:mt-0">
-          <Sheet open={openCreateRestaurant} onOpenChange={setOpenCreateRestaurant}>
-            <SheetTrigger asChild>
-              <Button>
-                <PlusCircle className="mr-2 h-5 w-5" />
-                Create Restaurant
-              </Button>
-            </SheetTrigger>
-            <CreateRestaurant
-              onClose={() => {
-                setOpenCreateRestaurant(false);
-              }}
-            />
-          </Sheet>
+          <div className="flex space-x-2">
+            <Button disabled={loading} onClick={() => onFetch()}>
+              <FolderSync className="mr-2 h-5 w-5" />
+              Fetch
+            </Button>
+            <Sheet open={openCreateRestaurant} onOpenChange={setOpenCreateRestaurant}>
+              <SheetTrigger asChild>
+                <Button>
+                  <PlusCircle className="mr-2 h-5 w-5" />
+                  Create Restaurant
+                </Button>
+              </SheetTrigger>
+              <CreateRestaurant
+                onClose={() => {
+                  setOpenCreateRestaurant(false);
+                }}
+              />
+            </Sheet>
+          </div>
         </div>
       </div>
       <div className="mt-2">

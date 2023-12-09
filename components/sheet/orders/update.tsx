@@ -5,7 +5,7 @@ import { useCreateOrder } from '@/queries/orders';
 import { OrderDetail, OrderStatus } from '@/queries/orders/types';
 import { noImageUrl } from '@/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Check, ChevronsUpDown } from 'lucide-react';
+import { Check, ChevronsUpDown, Trash } from 'lucide-react';
 import Image from 'next/image';
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -101,6 +101,21 @@ const UpdateOrder: React.FC<Props> = ({ order, restaurantId, isOwner }) => {
     });
   };
 
+  const onDeleteAdditionalOrder = async (dishId: string) => {
+    const body = {
+      status: order.status,
+      userId: order.userId,
+      groupOrderId: order.groupOrderId,
+      dishId,
+      amount: 0,
+      note: order.note,
+      orderNumber: order.orderNumber,
+      additionalPrice: Number(order.additionalPrice),
+      additionalNote: order.additionalNote,
+    };
+    createOrder(body);
+  };
+
   const dishId = form.watch('dishId');
   const amount = form.watch('amount');
   const additionalPrice = form.watch('additionalPrice');
@@ -149,7 +164,6 @@ const UpdateOrder: React.FC<Props> = ({ order, restaurantId, isOwner }) => {
             </p>
           </CardContent>
         </Card>
-
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="flex gap-3 flex-col pt-8">
             <FormField
@@ -285,6 +299,29 @@ const UpdateOrder: React.FC<Props> = ({ order, restaurantId, isOwner }) => {
             </Button>
           </form>
         </Form>
+
+        <div className="pt-10 flex gap-3 flex-col">
+          <h3 className="font-semibold">Additional Orders: {order.AdditionalOrders.length}</h3>
+          <>
+            {order.AdditionalOrders.map((o) => {
+              return (
+                <Button
+                  key={o.Dish.id}
+                  variant={'destructive'}
+                  title="Delete"
+                  onClick={() => onDeleteAdditionalOrder(o.Dish.id!)}
+                >
+                  <div className="flex justify-between">
+                    <Trash className="h-6 w-6 pr-2 pb-1.5" />
+                    <p>
+                      {o.Dish.name}, amount: {o.amount}
+                    </p>
+                  </div>
+                </Button>
+              );
+            })}
+          </>
+        </div>
       </div>
     </SheetContent>
   );

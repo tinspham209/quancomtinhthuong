@@ -12,6 +12,7 @@ import {
   Sheet,
   SheetTrigger,
 } from '@/components/ui';
+import MyTooltip from '@/components/ui/my-tooltip';
 import { GroupOrderDetail } from '@/queries/group-orders/types';
 import { OrderDetail, OrderStatus } from '@/queries/orders/types';
 import { formatMoney } from '@/utils';
@@ -39,6 +40,25 @@ export type OrderRow = {
   updatedAt: string;
 
   order: OrderDetail;
+};
+
+const getNote = (order: OrderDetail) => {
+  return (
+    <>
+      <ul className="list-decimal pr-4 pl-4">
+        {order.AdditionalOrders.map((o) => (
+          <li key={o.Dish.id}>
+            Name: {o.Dish.name}, amount: {o.amount}, price: {o.Dish.price}
+          </li>
+        ))}
+      </ul>
+      {order.additionalNote && (
+        <p className="italic font-normal">
+          *Note: {order.additionalNote}, price: {order.additionalPrice}
+        </p>
+      )}
+    </>
+  );
 };
 
 export const orderColumns = ({
@@ -93,7 +113,14 @@ export const orderColumns = ({
       accessorKey: 'total',
       header: 'Total sum',
       cell: ({ row }) => {
-        const total = parseFloat(row.getValue('total'));
+        const order = row.original.order;
+        const additionalOrdersSum = order.AdditionalOrders.reduce((curr, next) => {
+          const amount = next.amount;
+          const price = next.Dish.price;
+
+          return curr + amount * price;
+        }, 0);
+        const total = parseFloat(row.getValue('total')) + additionalOrdersSum;
         const formatted = new Intl.NumberFormat().format(total);
 
         return <div>{formatted} VND</div>;
@@ -113,15 +140,33 @@ export const orderColumns = ({
       header: 'Additional Price',
       cell: ({ row }) => {
         const order = row.original.order;
+        const sum = order.AdditionalOrders.reduce((curr, next) => {
+          const amount = next.amount;
+          const price = next.Dish.price;
 
-        return <div className="max-w-[300px]">{formatMoney(order.additionalPrice)} VND</div>;
+          return curr + amount * price;
+        }, 0);
+
+        return <div className="max-w-[300px]">{formatMoney(sum)} VND</div>;
       },
     },
     {
       accessorKey: 'additionalNote',
-      header: 'Owner Note',
+      header: '* Note',
       cell: ({ row }) => {
         const order = row.original.order;
+        const additionalOrdersLength = order.AdditionalOrders.length;
+        if (additionalOrdersLength > 0) {
+          return (
+            <div className="max-w-[300px]">
+              <MyTooltip advancedTitle={getNote(order)}>
+                <p className="additional-notes">
+                  {additionalOrdersLength} {additionalOrdersLength === 1 ? 'item' : 'items'}
+                </p>
+              </MyTooltip>
+            </div>
+          );
+        }
 
         return <div className="max-w-[300px]">{order.additionalNote}</div>;
       },
