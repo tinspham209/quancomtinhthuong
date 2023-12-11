@@ -168,6 +168,26 @@ export function useUpdateDish(options?: UseMutationOptions<Dish, Error, Dish>) {
   };
 }
 
+export function useEnableDisableDishes(
+  options?: UseMutationOptions<Dish, Error, { restaurantId: string; ids: string[] }>,
+) {
+  const { mutate: enableDisableDishes, isLoading } = useMutation<
+    Dish,
+    Error,
+    { restaurantId: string; ids: string[] }
+  >({
+    mutationFn: async (payload: { restaurantId: string; ids: string[] }) => {
+      return responseWrapper(apiClient.enableDisableDishes, [payload]);
+    },
+    ...options,
+  });
+
+  return {
+    enableDisableDishes,
+    isLoading,
+  };
+}
+
 export function useDeleteDish(options?: UseMutationOptions<any, Error, { dishId: string }>) {
   const { mutate: deleteDish, isLoading } = useMutation<any, Error, { dishId: string }>({
     mutationFn: async (payload: { dishId: string }) => {

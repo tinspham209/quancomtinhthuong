@@ -193,6 +193,18 @@ const create = (baseURL = '/api') => {
     return api.put(`/app/dish/${dishId}`, { ...formattedPayload }, newCancelToken());
   };
 
+  const enableDisableDishes = (payload: { restaurantId: string; ids: string[] }) => {
+    const formattedPayload = {
+      ids: payload.ids,
+    };
+
+    return api.patch(
+      `/app/dish/mass-update/${payload.restaurantId}`,
+      { ...formattedPayload },
+      newCancelToken(),
+    );
+  };
+
   const deleteDish = (dishId: string) => {
     return api.delete(`/app/dish/${dishId}`, {}, newCancelToken());
   };
@@ -348,6 +360,7 @@ const create = (baseURL = '/api') => {
     getDishByDishId,
     createDishes,
     updateDish,
+    enableDisableDishes,
     deleteDish,
 
     // Group order
