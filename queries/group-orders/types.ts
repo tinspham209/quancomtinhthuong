@@ -1,3 +1,4 @@
+import { Dish } from '../dishes/types';
 import { Restaurant } from '../restaurants/types';
 
 export type GroupOrderDetail = {
@@ -63,7 +64,7 @@ export type GroupOrderSummary = {
       name: string;
       id: string;
       amount: number;
-      additionalOrders: any[];
+      additionalOrders: { id: string; amount: number; Dish: Dish }[];
     }[];
     usersLength: number;
   }[];

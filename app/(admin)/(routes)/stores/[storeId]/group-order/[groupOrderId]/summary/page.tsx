@@ -2,17 +2,16 @@
 
 import { DataTable } from '@/components/ui';
 import { useGetGroupOrderSummary } from '@/queries/group-orders';
-import { useParams, useRouter } from 'next/navigation';
-import React, { useEffect, useMemo } from 'react';
-import { DishRow, dishColumns } from './columns';
-import SummaryHeader from './summary-header';
 import { formatMoney } from '@/utils';
-import toast from 'react-hot-toast';
+import { useParams } from 'next/navigation';
+import React, { useMemo } from 'react';
+import { AdditionalDishRow, DishRow, additionalDishColumns, dishColumns } from './columns';
+import SummaryHeader from './summary-header';
 
 interface Props {}
 
 const OrdersOfGroupOrders: React.FC<Props> = ({}) => {
-  const { groupOrderId, storeId } = useParams();
+  const { groupOrderId } = useParams();
 
   const { groupOrderSummary } = useGetGroupOrderSummary({
     groupOrderId: groupOrderId,
@@ -29,11 +28,61 @@ const OrdersOfGroupOrders: React.FC<Props> = ({}) => {
         numberOfUsers: order.usersLength,
         total: order.price * order.amount,
         users: order.users,
+        additionalOrders: order.users[0].additionalOrders || [],
       };
     });
 
     return orders;
   }, [groupOrderSummary]);
+
+  const formattedAdditionalOrders = useMemo(() => {
+    if (!groupOrderSummary) return [];
+    const result: AdditionalDishRow[] = [];
+    groupOrderSummary.orders.forEach((order) => {
+      order.users[0].additionalOrders.forEach((additionalOrder) => {
+        result.push({
+          ...additionalOrder,
+          user: order.users,
+        });
+      });
+    });
+
+    return result;
+  }, [groupOrderSummary]);
+
+  const additionalTotal: {
+    additionalOrders: number;
+    additionalAmount: number;
+    additionalPrice: number;
+  } = useMemo(() => {
+    let additionalOrders = 0,
+      additionalAmount = 0,
+      additionalPrice = 0;
+    if (!groupOrderSummary)
+      return {
+        additionalOrders,
+        additionalAmount,
+        additionalPrice,
+      };
+
+    additionalOrders = formattedOrders.reduce((acc, order) => {
+      return acc + order.additionalOrders.length;
+    }, 0);
+
+    additionalAmount = formattedOrders.reduce((acc, order) => {
+      return acc + order.additionalOrders.reduce((c, n) => c + n.amount, 0);
+    }, 0);
+
+    additionalPrice = formattedOrders.reduce((acc, order) => {
+      return acc + order.additionalOrders.reduce((c, n) => c + n.Dish.price, 0);
+    }, 0);
+
+    return {
+      additionalOrders,
+      additionalAmount,
+      additionalPrice,
+    };
+  }, [formattedOrders, groupOrderSummary]);
 
   const total: {
     amount: number;
@@ -47,6 +96,7 @@ const OrdersOfGroupOrders: React.FC<Props> = ({}) => {
       price = 0,
       discount = 0,
       users = 0;
+
     if (!groupOrderSummary)
       return {
         amount,
@@ -65,6 +115,7 @@ const OrdersOfGroupOrders: React.FC<Props> = ({}) => {
     users = formattedOrders.reduce((acc, order) => {
       return acc + order.users.length;
     }, 0);
+
     return {
       amount,
       orders,
@@ -75,16 +126,7 @@ const OrdersOfGroupOrders: React.FC<Props> = ({}) => {
   }, [formattedOrders, groupOrderSummary]);
 
   const allColumns = useMemo(() => dishColumns, []);
-
-  const router = useRouter();
-
-  useEffect(() => {
-    if (groupOrderSummary && !groupOrderSummary.finalized) {
-      toast.error('This group order is not finalized yet!');
-      router.push(`/stores/${storeId}/group-order/${groupOrderId}`);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [groupOrderSummary]);
+  const allAdditionalColumns = useMemo(() => additionalDishColumns, []);
 
   return (
     <div className="p-4 pt-8">
@@ -100,6 +142,19 @@ const OrdersOfGroupOrders: React.FC<Props> = ({}) => {
         </div>
         <DataTable columns={allColumns} data={formattedOrders} />
       </div>
+
+      {additionalTotal.additionalOrders > 0 && (
+        <div className="my-6">
+          <div className="mb-3">
+            <h2 className="text-2xl font-bold leading-none tracking-tight mb-1">
+              Total Additional Dishes: {additionalTotal.additionalOrders} - Total Amount:{' '}
+              {additionalTotal.additionalAmount} - Total Price:{' '}
+              {formatMoney(additionalTotal.additionalPrice || 0)} VND
+            </h2>
+          </div>
+          <DataTable columns={allAdditionalColumns} data={formattedAdditionalOrders} />
+        </div>
+      )}
     </div>
   );
 };

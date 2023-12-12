@@ -51,13 +51,11 @@ const GroupOrderHeader: React.FC<Props> = ({ order, store }) => {
           </p>
         </div>
         <div className="flex flex-row gap-2">
-          {isFinalizedOrder && (
-            <div>
-              <Link href={`/stores/${order?.storeId}/group-order/${order?.id}/summary`}>
-                <Button variant={'outline'}>View Order Summary</Button>
-              </Link>
-            </div>
-          )}
+          <div>
+            <Link href={`/stores/${order?.storeId}/group-order/${order?.id}/summary`}>
+              <Button variant={'outline'}>View Order Summary</Button>
+            </Link>
+          </div>
           <div>
             <Button variant={'secondary'} onClick={handleGetLinkOrder}>
               Get Link Order
