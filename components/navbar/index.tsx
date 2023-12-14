@@ -130,7 +130,8 @@ const Navbar = ({}: NavbarProps) => {
                         <div className="animate-bounce animate-infinite animate-duration-1000 animate-ease-in-out">
                           <Avatar className="border-none cursor-pointer animate-spin animate-infinite animate-duration-[2000ms] animate-ease-in-out">
                             <AvatarImage
-                              src={'/no-noti.gif'}
+                              // src={'/no-noti.gif'}
+                              src={'/xmas/santa-claus.png'}
                               alt="notification"
                               title="Đây là thông báo"
                               className="border-none"

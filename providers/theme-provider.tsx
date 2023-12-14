@@ -4,7 +4,7 @@ import { useThemeStore } from '@/hooks/use-local-theme';
 import { defaultEffects, setEffectsLocalStorage } from '@/services/effect';
 import { GlobalStyles, ThemeConfig, defaultTheme, setThemeLocalStorage } from '@/services/theme';
 import { getThemeClasses } from '@/services/theme/global-class.config';
-import { createContext, useEffect, useLayoutEffect, useMemo } from 'react';
+import { createContext, useCallback, useEffect, useLayoutEffect, useMemo } from 'react';
 import { ThemeProvider } from 'styled-components';
 
 export const ThemeContext = createContext<{
@@ -16,16 +16,20 @@ export const ThemeContextProvider = ({ children }: { children: React.ReactNode }
   const { theme, onSetTheme } = useThemeStore();
   const { effects } = useEffectsStore();
 
-  useLayoutEffect(() => {
-    setEffectsLocalStorage(defaultEffects);
-  }, []);
-
   const themeClasses = useMemo(() => getThemeClasses(theme), [theme]);
 
-  const setLocalTheme = (updatedTheme: ThemeConfig) => {
-    setThemeLocalStorage(updatedTheme);
-    onSetTheme(updatedTheme);
-  };
+  const setLocalTheme = useCallback(
+    (updatedTheme: ThemeConfig) => {
+      setThemeLocalStorage(updatedTheme);
+      onSetTheme(updatedTheme);
+    },
+    [onSetTheme],
+  );
+
+  useLayoutEffect(() => {
+    setEffectsLocalStorage(defaultEffects);
+    setLocalTheme(defaultTheme);
+  }, [setLocalTheme]);
 
   return (
     <ThemeContext.Provider value={{ setLocalTheme, theme, themeClasses }}>

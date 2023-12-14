@@ -19,15 +19,13 @@ const OrderHeader: React.FC<Props> = ({ order }) => {
             {order?.title || 'Unknown'}
           </h1>
           {order?.description && (
-            <p className="text-xl text-muted-foreground mb-1">{order.description}</p>
+            <p className="text-xl text-yellow-100 mb-1">{order.description}</p>
           )}
-          <p className="text-md text-muted-foreground">
+          <p className="text-md text-yellow-100">
             Date: {dayjs(order?.createdAt).format('DD-MMM-YYYY')}
           </p>
-          <p className="text-md text-muted-foreground">Limit: {order?.limit || 'Unlimited'}</p>
-          <p className="text-md text-muted-foreground">
-            Finalized: {order?.finalized ? 'Yes' : 'No'}
-          </p>
+          <p className="text-md text-yellow-100">Limit: {order?.limit || 'Unlimited'}</p>
+          <p className="text-md text-yellow-100">Finalized: {order?.finalized ? 'Yes' : 'No'}</p>
 
           <h2 className="text-2xl font-bold leading-none tracking-tight mt-4">
             {order?.restaurant.name || 'Restaurant'}

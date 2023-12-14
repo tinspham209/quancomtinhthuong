@@ -40,11 +40,11 @@ const OrdersHeader: React.FC<Props> = ({ groupOrder }) => {
           {groupOrder?.description && (
             <p className="text-xl text-muted-foreground mb-1">{groupOrder.description}</p>
           )}
-          <p className="text-md text-muted-foreground">
+          <p className="text-md text-yellow-100">
             Date: {dayjs(groupOrder?.createdAt).format('DD-MMM-YYYY')}
           </p>
-          <p className="text-md text-muted-foreground">Limit: {groupOrder?.limit || 'Unlimited'}</p>
-          <div className="text-md text-muted-foreground">
+          <p className="text-md text-yellow-100">Limit: {groupOrder?.limit || 'Unlimited'}</p>
+          <div className="text-md text-yellow-100">
             Finalized: <Badge>{groupOrder?.finalized ? 'Yes' : 'No'}</Badge>
           </div>
         </div>
