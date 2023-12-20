@@ -42,7 +42,7 @@ export type OrderRow = {
   order: OrderDetail;
 };
 
-const getNote = (order: OrderDetail) => {
+export const getNote = (order: OrderDetail) => {
   return (
     <>
       <ul className="list-decimal pr-4 pl-4">

@@ -12,12 +12,15 @@ import {
   Sheet,
   SheetTrigger,
 } from '@/components/ui';
+import MyTooltip from '@/components/ui/my-tooltip';
 import { GroupOrderDetail } from '@/queries/group-orders/types';
 import { OrderDetail, OrderStatus } from '@/queries/orders/types';
 import { formatMoney } from '@/utils';
 import { ColumnDef } from '@tanstack/react-table';
 import dayjs from 'dayjs';
 import { MoreHorizontal } from 'lucide-react';
+import { getNote } from '@/app/order/[storeSlug]/group-order/[groupOrderId]/orders/components/columns';
+import '@/app/order/[storeSlug]/group-order/[groupOrderId]/orders/components/styles.css';
 
 export type OrderRow = {
   id: number;
@@ -107,9 +110,21 @@ export const orderColumns = ({
   },
   {
     accessorKey: 'additionalNote',
-    header: 'Owner Note',
+    header: '* Note',
     cell: ({ row }) => {
       const order = row.original.order;
+      const additionalOrdersLength = order.AdditionalOrders.length;
+      if (additionalOrdersLength > 0) {
+        return (
+          <div className="max-w-[300px]">
+            <MyTooltip advancedTitle={getNote(order)}>
+              <p className="additional-notes">
+                {additionalOrdersLength} {additionalOrdersLength === 1 ? 'item' : 'items'}
+              </p>
+            </MyTooltip>
+          </div>
+        );
+      }
 
       return <div className="max-w-[300px]">{order.additionalNote}</div>;
     },

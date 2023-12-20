@@ -58,17 +58,19 @@ export type GroupOrderSummary = {
     name: string;
     imgUrl: string;
     amount: number;
-    users: {
-      userName: string;
-      imgUrl: string;
-      name: string;
-      id: string;
-      amount: number;
-      additionalOrders: { id: string; amount: number; Dish: Dish }[];
-    }[];
+    users: User[];
     usersLength: number;
   }[];
   totalPrice: number;
+};
+
+export type User = {
+  userName: string;
+  imgUrl: string;
+  name: string;
+  id: string;
+  amount: number;
+  additionalOrders: { id: string; amount: number; Dish: Dish }[];
 };
 
 export type GroupOrder = {

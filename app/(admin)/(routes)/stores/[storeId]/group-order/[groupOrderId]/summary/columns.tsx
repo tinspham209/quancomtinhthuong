@@ -1,7 +1,7 @@
 'use client';
 
 import { Dish } from '@/queries/dishes/types';
-import { GroupOrderSummary } from '@/queries/group-orders/types';
+import { GroupOrderSummary, User } from '@/queries/group-orders/types';
 import { formatMoney } from '@/utils';
 import { ColumnDef } from '@tanstack/react-table';
 
@@ -17,10 +17,8 @@ export type DishRow = {
 };
 
 export type AdditionalDishRow = {
-  id: string;
-  amount: number;
   Dish: Dish;
-  user: GroupOrderSummary['orders'][0]['users'];
+  users?: User[];
 };
 
 export const dishColumns: ColumnDef<DishRow>[] = [
@@ -115,13 +113,30 @@ export const additionalDishColumns: ColumnDef<AdditionalDishRow>[] = [
   {
     accessorKey: 'amount',
     header: 'Amount',
+    cell: ({ row }) => {
+      const additionalOrders = [];
+      row.original.users?.map((user) => {
+        additionalOrders.push(user.additionalOrders);
+      });
+
+      return <div>{additionalOrders.length}</div>;
+    },
   },
   {
     accessorKey: 'user',
     header: 'User',
     cell: ({ row }) => {
-      const user = row.original.user[0].name;
-      return <div>{user}</div>;
+      let text: string[] = [];
+      row.original.users?.forEach((user) => {
+        const id = user.id;
+        const amount = row.original.users?.reduce((curr, next) => {
+          if (next.id === id) curr++;
+          return curr;
+        }, 0);
+
+        return text.push(`${user.name} (${amount})`);
+      });
+      return <div>{text.join(', ')}</div>;
     },
   },
 ];

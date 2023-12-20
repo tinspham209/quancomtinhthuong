@@ -7,6 +7,7 @@ import { useParams } from 'next/navigation';
 import React, { useMemo } from 'react';
 import { AdditionalDishRow, DishRow, additionalDishColumns, dishColumns } from './columns';
 import SummaryHeader from './summary-header';
+import { Dish } from '@/queries/dishes/types';
 
 interface Props {}
 
@@ -28,7 +29,7 @@ const OrdersOfGroupOrders: React.FC<Props> = ({}) => {
         numberOfUsers: order.usersLength,
         total: order.price * order.amount,
         users: order.users,
-        additionalOrders: order.users[0].additionalOrders || [],
+        additionalOrders: order.users.map((user) => user.additionalOrders).flat() || [],
       };
     });
 
@@ -37,17 +38,43 @@ const OrdersOfGroupOrders: React.FC<Props> = ({}) => {
 
   const formattedAdditionalOrders = useMemo(() => {
     if (!groupOrderSummary) return [];
-    const result: AdditionalDishRow[] = [];
-    groupOrderSummary.orders.forEach((order) => {
-      order.users[0].additionalOrders.forEach((additionalOrder) => {
-        result.push({
-          ...additionalOrder,
-          user: order.users,
+    const results: AdditionalDishRow[] = [];
+
+    // group by dish id of additional orders.
+    const availableAdditionalDishes: Dish[] = groupOrderSummary.orders.reduce((dishes, next) => {
+      for (const user of next.users) {
+        if (user.additionalOrders.length !== 0) {
+          for (const additionalOrder of user.additionalOrders) {
+            const currIds = dishes.map((dish) => dish.id);
+            if (currIds.includes(additionalOrder.Dish.id!)) {
+              continue;
+            } else {
+              dishes.push(additionalOrder.Dish!);
+            }
+          }
+        }
+      }
+
+      return dishes;
+    }, [] as Dish[]);
+
+    for (const dish of availableAdditionalDishes) {
+      const users = groupOrderSummary.orders.map((order) => {
+        return order.users.filter((user) => {
+          if (user.additionalOrders.length === 0) return false;
+          return user.additionalOrders.some(
+            (additionalOrder) => additionalOrder.Dish.id === dish.id,
+          );
         });
       });
-    });
 
-    return result;
+      results.push({
+        Dish: dish,
+        users: users.flat(),
+      });
+    }
+
+    return results;
   }, [groupOrderSummary]);
 
   const additionalTotal: {
@@ -147,7 +174,7 @@ const OrdersOfGroupOrders: React.FC<Props> = ({}) => {
         <div className="my-6">
           <div className="mb-3">
             <h2 className="text-2xl font-bold leading-none tracking-tight mb-1">
-              Total Additional Dishes: {additionalTotal.additionalOrders} - Total Amount:{' '}
+              Total Additional Dishes: {formattedAdditionalOrders.length} - Total Amount:{' '}
               {additionalTotal.additionalAmount} - Total Price:{' '}
               {formatMoney(additionalTotal.additionalPrice || 0)} VND
             </h2>
