@@ -13,7 +13,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-  Input
+  Input,
 } from '@/components/ui';
 import { SignupPayload, SignupSchema } from '@/lib/validators/auth';
 import { useSignup } from '@/queries/auth';
@@ -67,14 +67,18 @@ export default function Page() {
   };
 
   return (
-    <div className="min-w-[400px] max-w-[600px]">
+    <div className="min-w-[360px] max-w-[460px]">
       <Card>
         <CardHeader>
           <CardTitle>Sign up</CardTitle>
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="gap-2 flex flex-col">
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              autoComplete={'off'}
+              className="gap-2 flex flex-col"
+            >
               <FormField
                 control={form.control}
                 name="userName"
@@ -82,12 +86,10 @@ export default function Page() {
                   <FormItem>
                     <FormLabel>Username *</FormLabel>
                     <FormControl>
-                      <Input placeholder="Username" {...field} />
+                      <Input placeholder="Enter your username ha" {...field} />
                     </FormControl>
                     <FormDescription>
-                      <strong>Format:</strong>
-                      <br /> characters lowercase, number, <br />
-                      underscore (_), dot (.), hyphen (-),
+                      Characters lowercase, number, underscore (_), dot (.), hyphen (-),
                       <br /> length: 3-20
                     </FormDescription>
                     <FormMessage />
@@ -101,8 +103,12 @@ export default function Page() {
                   <FormItem>
                     <FormLabel>Password *</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="Password" {...field} />
+                      <Input type="password" placeholder="Enter your password ha" {...field} />
                     </FormControl>
+                    <FormDescription>
+                      Don&apos;t reuse your bank password, <br />
+                      We didn&apos;t spend a lot on security for this app. <br />
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -114,7 +120,7 @@ export default function Page() {
                   <FormItem>
                     <FormLabel>Your name *</FormLabel>
                     <FormControl>
-                      <Input placeholder="Your name" {...field} />
+                      <Input placeholder="Enter your name ha" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -133,6 +139,13 @@ export default function Page() {
                   </FormItem>
                 )}
               />
+
+              <p className="text-md font-semibold mt-2">Additional Information</p>
+              <p className="text-sm text-muted-foreground">
+                You can skip this step,
+                <br />
+                But If u get correct value, We will appreciate for your effort ha
+              </p>
               <FormField
                 control={form.control}
                 name="phoneNumber"
@@ -140,7 +153,7 @@ export default function Page() {
                   <FormItem>
                     <FormLabel>Phone number</FormLabel>
                     <FormControl>
-                      <Input placeholder="0915834617" {...field} />
+                      <Input placeholder="Enter your phone number ha" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -153,11 +166,9 @@ export default function Page() {
                   <FormItem>
                     <FormLabel>Your Slack ID</FormLabel>
                     <FormControl>
-                      <Input placeholder="Your Slack ID" {...field} />
+                      <Input placeholder="Enter your Slack ID ha" {...field} />
                     </FormControl>
-                    <FormDescription>
-                      If u get correct value, We will appreciate for your effort ha
-                    </FormDescription>
+
                     <FormMessage />
                   </FormItem>
                 )}
