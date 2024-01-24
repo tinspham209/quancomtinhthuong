@@ -16,7 +16,7 @@ import { UpdateUserPayload, UpdateUserSchema } from '@/lib/validators';
 import { useUpdateUser } from '@/queries/user';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AxiosError } from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 
@@ -32,6 +32,8 @@ export const UserUpdateModal = () => {
       onSetProfile({ ...profile, email: data.email, phoneNumber: data.phoneNumber });
       toast.success('Update successfully');
       userUpdateModal.onClose();
+
+      window.location.reload();
     },
     onError(error) {
       if (error instanceof AxiosError) {
@@ -45,6 +47,8 @@ export const UserUpdateModal = () => {
   const form = useForm<UpdateUserPayload>({
     resolver: zodResolver(UpdateUserSchema),
     defaultValues: {
+      name: '',
+      imgUrl: '',
       email: '',
       phoneNumber: '',
     },
@@ -57,6 +61,8 @@ export const UserUpdateModal = () => {
   useEffect(() => {
     if (profile) {
       form.reset({
+        name: profile?.name || '',
+        imgUrl: profile?.imgUrl || '',
         email: profile?.email || '',
         phoneNumber: profile?.phoneNumber || '',
       });
@@ -69,7 +75,7 @@ export const UserUpdateModal = () => {
       description={
         !profile?.email || !profile?.phoneNumber
           ? 'Required missing email and phone number'
-          : `Update your user's infos`
+          : `Update your information, ${profile?.name}!`
       }
       isOpen={userUpdateModal.isOpen}
       onClose={userUpdateModal.onClose}
@@ -77,7 +83,33 @@ export const UserUpdateModal = () => {
       <div>
         <div className="space-y-4 py-2 pb-4">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="gap-4 flex flex-col">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Name</FormLabel>
+                    <FormControl>
+                      <Input disabled={isLoading} placeholder="Name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="imgUrl"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Avatar URL</FormLabel>
+                    <FormControl>
+                      <Input disabled={isLoading} placeholder="Avatar URL" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="email"
