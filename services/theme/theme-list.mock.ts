@@ -1,40 +1,40 @@
 import { ThemeConfig } from './types';
 
 export const themesList: Array<ThemeConfig> = [
-  // {
-  //   name: 'Light',
-  //   global: {
-  //     common: {
-  //       bgColor: '#fff',
-  //       color: '#000',
-  //       primaryBtnBgColor: '#000',
-  //       primaryBtnColor: '#fff',
-  //     },
-  //     card: {
-  //       bgColor: '#fff',
-  //       color: '#000',
-  //       borderRadius: 8,
-  //     },
-  //   },
-  //   profile: {
-  //     common: {
-  //       bgColor: '#fff',
-  //       color: '#000',
-  //       primaryBtnBgColor: '#000',
-  //       primaryBtnColor: '#fff',
-  //     },
-  //     card: {
-  //       bgColor: '#fff',
-  //       color: '#000',
-  //       borderRadius: 8,
-  //       titleColor: '#000',
-  //       descriptionColor: '#000',
-  //       borderWidth: 0,
-  //       borderStyle: 'solid',
-  //       borderColor: '#000',
-  //     },
-  //   },
-  // },
+  {
+    name: 'Light',
+    global: {
+      common: {
+        bgColor: '#fff',
+        color: '#000',
+        primaryBtnBgColor: '#000',
+        primaryBtnColor: '#fff',
+      },
+      card: {
+        bgColor: '#fff',
+        color: '#000',
+        borderRadius: 8,
+      },
+    },
+    profile: {
+      common: {
+        bgColor: '#fff',
+        color: '#000',
+        primaryBtnBgColor: '#000',
+        primaryBtnColor: '#fff',
+      },
+      card: {
+        bgColor: '#fff',
+        color: '#000',
+        borderRadius: 8,
+        titleColor: '#000',
+        descriptionColor: '#000',
+        borderWidth: 0,
+        borderStyle: 'solid',
+        borderColor: '#000',
+      },
+    },
+  },
   {
     name: 'Dark',
     global: {
