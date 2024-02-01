@@ -42,6 +42,15 @@ export type OrderRow = {
   order: OrderDetail;
 };
 
+const getAdditionalOrdersSum = (order: OrderDetail) => {
+  return order.AdditionalOrders.reduce((curr, next) => {
+    const amount = next.amount;
+    const price = next.Dish.price;
+
+    return curr + amount * price;
+  }, 0);
+};
+
 export const getNote = (order: OrderDetail) => {
   return (
     <>
@@ -94,6 +103,18 @@ export const orderColumns = ({
     {
       accessorKey: 'dishName',
       header: 'Dish name',
+      cell: ({ row }) => {
+        const value: string = row.getValue('dishName');
+        return <div className="max-w-[200px]">{value}</div>;
+      },
+    },
+    {
+      accessorKey: 'note',
+      header: 'Note',
+      cell: ({ row }) => {
+        const value: string = row.getValue('note');
+        return <div className="max-w-[200px]">{value}</div>;
+      },
     },
     {
       accessorKey: 'dishPrice',
@@ -110,29 +131,24 @@ export const orderColumns = ({
       header: 'Amount',
     },
     {
-      accessorKey: 'total',
-      header: 'Total sum',
+      accessorKey: 'additionalNote',
+      header: 'Additional dishes',
       cell: ({ row }) => {
         const order = row.original.order;
-        const additionalOrdersSum = order.AdditionalOrders.reduce((curr, next) => {
-          const amount = next.amount;
-          const price = next.Dish.price;
-
-          return curr + amount * price;
-        }, 0);
-        const total = parseFloat(row.getValue('total')) + additionalOrdersSum;
-        const formatted = new Intl.NumberFormat().format(total);
-
-        return <div>{formatted} VND</div>;
-      },
-    },
-    {
-      accessorKey: 'note',
-      header: 'Note',
-      cell: ({ row }) => {
-        const order = row.original.order;
-
-        return <div className="max-w-[300px]">{order.note}</div>;
+        const additionalOrdersLength = order.AdditionalOrders.length;
+        if (additionalOrdersLength > 0) {
+          return (
+            <div className="max-w-[300px]">
+              <MyTooltip title={getNote(order)}>
+                <p className="additional-notes">
+                  {additionalOrdersLength} {additionalOrdersLength === 1 ? 'item' : 'items'}
+                </p>
+              </MyTooltip>
+              {order.additionalNote}
+            </div>
+          );
+        }
+        return <div className="max-w-[300px]">{order.additionalNote}</div>;
       },
     },
     {
@@ -140,35 +156,24 @@ export const orderColumns = ({
       header: 'Additional Price',
       cell: ({ row }) => {
         const order = row.original.order;
-        const sum = order.AdditionalOrders.reduce((curr, next) => {
-          const amount = next.amount;
-          const price = next.Dish.price;
+        const sum = getAdditionalOrdersSum(order);
 
-          return curr + amount * price;
-        }, 0);
-
-        return <div className="max-w-[300px]">{formatMoney(sum)} VND</div>;
+        return <div className="max-w-[300px]">{sum === 0 ? '' : formatMoney(sum)}</div>;
       },
     },
+
     {
-      accessorKey: 'additionalNote',
-      header: '* Note',
+      accessorKey: 'total',
+      header: 'Total sum',
       cell: ({ row }) => {
         const order = row.original.order;
-        const additionalOrdersLength = order.AdditionalOrders.length;
-        if (additionalOrdersLength > 0) {
-          return (
-            <div className="max-w-[300px]">
-              <MyTooltip advancedTitle={getNote(order)}>
-                <p className="additional-notes">
-                  {additionalOrdersLength} {additionalOrdersLength === 1 ? 'item' : 'items'}
-                </p>
-              </MyTooltip>
-            </div>
-          );
-        }
+        const dishSum = parseFloat(row.getValue('total'));
+        const additionalOrdersSum = getAdditionalOrdersSum(order);
 
-        return <div className="max-w-[300px]">{order.additionalNote}</div>;
+        const total = dishSum + additionalOrdersSum;
+        const formatted = new Intl.NumberFormat().format(total);
+
+        return <div>{formatted} VND</div>;
       },
     },
     {

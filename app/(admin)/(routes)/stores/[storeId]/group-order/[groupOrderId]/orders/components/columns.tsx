@@ -60,11 +60,23 @@ export const orderColumns = ({
   },
   {
     accessorKey: 'userFullName',
-    header: 'Username',
+    header: 'User Name',
   },
   {
     accessorKey: 'dishName',
     header: 'Dish name',
+    cell: ({ row }) => {
+      const value: string = row.getValue('dishName');
+      return <div className="max-w-[200px]">{value}</div>;
+    },
+  },
+  {
+    accessorKey: 'note',
+    header: 'User Note',
+    cell: ({ row }) => {
+      const value: string = row.getValue('note');
+      return <div className="max-w-[200px]">{value}</div>;
+    },
   },
   {
     accessorKey: 'dishPrice',
@@ -80,6 +92,36 @@ export const orderColumns = ({
     accessorKey: 'amount',
     header: 'Amount',
   },
+
+  {
+    accessorKey: 'additionalNote',
+    header: 'Additional dishes',
+    cell: ({ row }) => {
+      const order = row.original.order;
+      const additionalOrdersLength = order.AdditionalOrders.length;
+      if (additionalOrdersLength > 0) {
+        return (
+          <div className="max-w-[300px]">
+            <MyTooltip title={getNote(order)}>
+              <p className="additional-notes">
+                {additionalOrdersLength} {additionalOrdersLength === 1 ? 'item' : 'items'}
+              </p>
+            </MyTooltip>
+            {order.additionalNote}
+          </div>
+        );
+      }
+      return <div className="max-w-[300px]">{order.additionalNote}</div>;
+    },
+  },
+  {
+    accessorKey: 'additionalPrice',
+    header: 'Additional Price',
+    cell: ({ row }) => {
+      const order = row.original.order;
+      return <div className="max-w-[300px]">{formatMoney(order.additionalPrice)} VND</div>;
+    },
+  },
   {
     accessorKey: 'total',
     header: 'Total sum',
@@ -88,45 +130,6 @@ export const orderColumns = ({
       const formatted = new Intl.NumberFormat().format(total);
 
       return <div>{formatted} VND</div>;
-    },
-  },
-  {
-    accessorKey: 'note',
-    header: 'User Note',
-    cell: ({ row }) => {
-      const order = row.original.order;
-
-      return <div className="max-w-[300px]">{order.note}</div>;
-    },
-  },
-  {
-    accessorKey: 'additionalPrice',
-    header: 'Additional Price',
-    cell: ({ row }) => {
-      const order = row.original.order;
-
-      return <div className="max-w-[300px]">{formatMoney(order.additionalPrice)} VND</div>;
-    },
-  },
-  {
-    accessorKey: 'additionalNote',
-    header: '* Note',
-    cell: ({ row }) => {
-      const order = row.original.order;
-      const additionalOrdersLength = order.AdditionalOrders.length;
-      if (additionalOrdersLength > 0) {
-        return (
-          <div className="max-w-[300px]">
-            <MyTooltip advancedTitle={getNote(order)}>
-              <p className="additional-notes">
-                {additionalOrdersLength} {additionalOrdersLength === 1 ? 'item' : 'items'}
-              </p>
-            </MyTooltip>
-          </div>
-        );
-      }
-
-      return <div className="max-w-[300px]">{order.additionalNote}</div>;
     },
   },
   {

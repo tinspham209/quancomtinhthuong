@@ -1,18 +1,17 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './tooltip';
 
 interface MyTooltipProps {
-  title?: string;
+  title?: React.ReactNode;
   children: React.ReactNode;
-  advancedTitle?: React.ReactNode;
 }
 
-const MyTooltip: React.FC<MyTooltipProps> = ({ children, title, advancedTitle, ...props }) => {
+const MyTooltip: React.FC<MyTooltipProps> = ({ children, title, ...props }) => {
   return (
     <TooltipProvider>
       <Tooltip {...props}>
         <TooltipTrigger>{children}</TooltipTrigger>
-        <TooltipContent>{title ? <p>{title}</p> : advancedTitle}</TooltipContent>
+        <TooltipContent>{typeof title === 'string' ? <p>{title}</p> : title}</TooltipContent>
       </Tooltip>
     </TooltipProvider>
   );
