@@ -24,3 +24,5 @@ export * from './data-tables';
 export * from './scroll-area';
 export * from './menubar';
 export * from './calendar';
+export * from './carousel';
+export * from './progress';
