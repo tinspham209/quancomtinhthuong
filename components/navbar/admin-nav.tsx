@@ -28,6 +28,11 @@ const MainNav = ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => 
       active: pathname.includes('/restaurants'),
     },
     {
+      href: `/a-donations`,
+      label: 'Donations',
+      active: pathname.includes('/a-donations'),
+    },
+    {
       href: `/history-orders`,
       label: 'Orders History',
       active: pathname.includes('/history-orders'),

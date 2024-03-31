@@ -23,6 +23,9 @@ import axios, { AxiosError } from 'axios';
 import { toast } from 'react-hot-toast';
 import TokenServices from '../token';
 import { UpdateAppConfigPayload } from '@/queries/config/types';
+import { UpdateGroupDonationPayload } from '@/queries/donations/types';
+import _ from 'lodash';
+import { CreateGroupDonationPayload } from '@/lib/validators/donations';
 
 const AXIOS_CONFIG = {
   CONNECTION_TIMEOUT: 30000,
@@ -327,6 +330,41 @@ const create = (baseURL = '/api') => {
     return api.put(`/app/user`, payload, newCancelToken());
   };
 
+  // Donations
+  const getListDonations = () => {
+    return api.get(`/app/donation/donations`, {}, newCancelToken());
+  };
+  const getDonationById = (donationId: string) => {
+    return api.get(`/app/donation/${donationId}`, {}, newCancelToken());
+  };
+  const createGroupDonation = (payload: CreateGroupDonationPayload) => {
+    return api.post(
+      `/app/donation`,
+      {
+        ...payload,
+        imgUrls: payload.imgUrls.map((url) => url.url),
+      },
+      newCancelToken(),
+    );
+  };
+  const updateGroupDonation = (payload: UpdateGroupDonationPayload) => {
+    const donationId = payload.donationId;
+    const formattedPayload = _.omit(payload, 'donationId');
+
+    return api.put(
+      `/app/donation/${donationId}`,
+      {
+        ...formattedPayload,
+        imgUrls: formattedPayload.imgUrls.map((url) => url.url),
+      },
+      newCancelToken(),
+    );
+  };
+
+  const deleteGroupDonation = (donationId: string) => {
+    return api.delete(`/app/donation/${donationId}`, {}, newCancelToken());
+  };
+
   return {
     getRoot,
 
@@ -395,6 +433,13 @@ const create = (baseURL = '/api') => {
 
     //user
     updateUser,
+
+    // Donations
+    getListDonations,
+    getDonationById,
+    createGroupDonation,
+    updateGroupDonation,
+    deleteGroupDonation,
   };
 };
 
