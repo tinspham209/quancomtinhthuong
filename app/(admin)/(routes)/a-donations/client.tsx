@@ -78,7 +78,8 @@ const Client: React.FC<Props> = ({}: Props) => {
                 <CardDescription>
                   {donation.description}
                   <br />
-                  Donation Target: {formatMoney(donation.donationTarget)} VND
+                  Donation Target:
+                  {formatMoney(donation.donationTarget)} VND
                 </CardDescription>
               </CardHeader>
               <CardFooter className="flex justify-end">

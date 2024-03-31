@@ -11,6 +11,7 @@ export type Donation = {
   DonationPayments: any[];
   storeSlug: string;
   dueDate: number;
+  donated: number;
 };
 
 export type Fundraiser = {
