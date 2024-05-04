@@ -8,7 +8,7 @@ export type Donation = {
   imgUrls: string[];
   Fundraiser: Fundraiser;
   finalized: boolean;
-  DonationPayments: any[];
+  DonationPayments: DonationPayment[];
   storeSlug: string;
   dueDate: number;
   donated: number;
@@ -26,3 +26,38 @@ export type Fundraiser = {
 export type UpdateGroupDonationPayload = CreateGroupDonationPayload & {
   donationId: Donation['id'];
 };
+
+export type MakeDonationResponse = {
+  id: number;
+  donationLink: string;
+  donationAmount: number;
+  donationStatus: string;
+  userId: string;
+  donationItemId: number;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type DonationPayment = {
+  comment: string;
+  createdAt: string;
+  donationAmount: number;
+  donationLink: string;
+  donationStatus: DonationStatus;
+  id?: number;
+  updatedAt: string;
+  User: {
+    email: string;
+    id: string;
+    imgUrl: string;
+    name: string;
+    phoneNumber: string;
+    slackId: string;
+    userName: string;
+  };
+};
+
+export enum DonationStatus {
+  NOPE = 'NOPE',
+  PAID = 'PAID',
+}

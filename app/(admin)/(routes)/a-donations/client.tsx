@@ -42,11 +42,6 @@ const Client: React.FC<Props> = ({}: Props) => {
                   Create New Group Donation
                 </Button>
               </SheetTrigger>
-              {/* <CreateStore
-                onClose={() => {
-                  handleOpenCreateStore(false);
-                }}
-              /> */}
               <CreateGroupDonation
                 onClose={() => {
                   handleOpenCreateGroupDonation(false);

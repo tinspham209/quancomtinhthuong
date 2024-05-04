@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { ImageResponse } from 'next/server';
 import getGroupDonationInfo from './actions';
 import { formatMoney } from '@/utils';
@@ -16,12 +17,13 @@ export default async function LocationOG({ params }: { params: { donationId: str
   const info = await getGroupDonationInfo(params);
 
   const formatInfo = {
-    title: info?.title,
-    description: info?.description,
-    donated: info?.donated,
-    donationTarget: info?.donationTarget,
+    title: info?.title || 'Group donation title',
+    description: info?.description || 'description',
+    donated: info?.donated || 0,
+    donationTarget: info?.donationTarget || 0,
     donators: info?.DonationPayments?.length || 0,
     dueDate: dayjs().add(info?.dueDate, 'milliseconds').format('DD/MM/YYYY HH:mm'),
+    thumbnail: info?.imgUrls?.[0] || '',
   };
 
   return new ImageResponse(
@@ -47,23 +49,33 @@ export default async function LocationOG({ params }: { params: { donationId: str
         <div tw="flex flex-col items-center justify-center mt-10">
           <b
             style={{
-              fontSize: 48,
+              fontSize: 40,
               color: 'black',
               lineHeight: 1.8,
               marginBottom: '24px',
             }}
           >
-            {formatInfo.title || 'Group donation title'}
+            {formatInfo.title}
           </b>
           <b
             style={{
-              fontSize: 48,
-              color: 'black',
+              fontSize: 28,
+              color: '#54545a',
               lineHeight: 1,
             }}
           >
-            {formatInfo.description || 'Description'}
+            {formatInfo.description}
           </b>
+          <img
+            src={formatInfo.thumbnail}
+            alt=""
+            width={400}
+            height={100}
+            style={{
+              objectFit: 'contain',
+              marginTop: '24px',
+            }}
+          />
           <div
             tw="flex"
             style={{
@@ -101,7 +113,13 @@ export default async function LocationOG({ params }: { params: { donationId: str
                 >
                   {item.title} {item.icon}
                 </p>
-                <p>{item.value}</p>
+                <p
+                  style={{
+                    fontSize: 28,
+                  }}
+                >
+                  {item.value}
+                </p>
               </div>
             ))}
           </div>

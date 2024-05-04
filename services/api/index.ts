@@ -25,7 +25,7 @@ import TokenServices from '../token';
 import { UpdateAppConfigPayload } from '@/queries/config/types';
 import { UpdateGroupDonationPayload } from '@/queries/donations/types';
 import _ from 'lodash';
-import { CreateGroupDonationPayload } from '@/lib/validators/donations';
+import { CreateGroupDonationPayload, MakeDonationPayload } from '@/lib/validators/donations';
 
 const AXIOS_CONFIG = {
   CONNECTION_TIMEOUT: 30000,
@@ -365,6 +365,19 @@ const create = (baseURL = '/api') => {
     return api.delete(`/app/donation/${donationId}`, {}, newCancelToken());
   };
 
+  const makeDonation = (payload: MakeDonationPayload) => {
+    const donationId = payload.donationId;
+    const formattedPayload = _.omit(payload, 'donationId');
+
+    return api.post(
+      `/app/donation/makeDonation/${donationId}`,
+      {
+        ...formattedPayload,
+      },
+      newCancelToken(),
+    );
+  };
+
   return {
     getRoot,
 
@@ -440,6 +453,7 @@ const create = (baseURL = '/api') => {
     createGroupDonation,
     updateGroupDonation,
     deleteGroupDonation,
+    makeDonation,
   };
 };
 

@@ -45,6 +45,7 @@ const Client: React.FC<Props> = ({}: Props) => {
     userId: profile?.id || '',
     status: paymentStatusParam === ALL_ORDER_STATUS_OPTION_VALUE ? undefined : paymentStatusParam,
   });
+  console.log('ordersHistory: ', ordersHistory);
 
   useEffect(() => {
     if (profile) {

@@ -26,3 +26,6 @@ export * from './menubar';
 export * from './calendar';
 export * from './carousel';
 export * from './progress';
+export * from './aspect-ratio';
+export * from './breadcrumb';
+export * from './badge';

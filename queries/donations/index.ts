@@ -6,10 +6,10 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
-import { Donation, UpdateGroupDonationPayload } from './types';
+import { Donation, MakeDonationResponse, UpdateGroupDonationPayload } from './types';
 import apiClient from '../apiClient';
 import { responseWrapper } from '../auth/helpers';
-import { CreateGroupDonationPayload } from '@/lib/validators/donations';
+import { CreateGroupDonationPayload, MakeDonationPayload } from '@/lib/validators/donations';
 import { isEmpty } from '@/utils';
 
 export function useGetListDonations(options?: UseQueryOptions<Donation[], Error>) {
@@ -146,6 +146,26 @@ export function useDeleteGroupDonation(
 
   return {
     deleteGroupDonation,
+    isLoading,
+  };
+}
+
+export function useMakeDonation(
+  options?: UseMutationOptions<MakeDonationResponse, Error, MakeDonationPayload>,
+) {
+  const { mutate: makeDonation, isLoading } = useMutation<
+    MakeDonationResponse,
+    Error,
+    MakeDonationPayload
+  >({
+    mutationFn: async (payload: MakeDonationPayload) => {
+      return responseWrapper(apiClient.makeDonation, [payload]);
+    },
+    ...options,
+  });
+
+  return {
+    makeDonation,
     isLoading,
   };
 }

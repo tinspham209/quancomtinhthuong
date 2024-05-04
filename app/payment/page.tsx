@@ -14,11 +14,12 @@ interface Props {}
 
 const OrderCtn: React.FC<Props> = ({}) => {
   const searchParams = useSearchParams();
-  const { status, groupOrderId } = useMemo(() => {
+  const { status, groupOrderId, donationId } = useMemo(() => {
     const status = searchParams.get('status') as OrderStatus;
     const groupOrderId = searchParams.get('groupOrderId');
+    const donationId = searchParams.get('donationId');
 
-    return { status, groupOrderId };
+    return { status, groupOrderId, donationId };
   }, [searchParams]);
   const [quote, setQuote] = useState<RandomQuote | null>(null);
 
@@ -96,9 +97,15 @@ const OrderCtn: React.FC<Props> = ({}) => {
           <div className="absolute rounded-full w-5 h-5 bg-orange-200 -mt-3 -left-2"></div>
           <div className="absolute rounded-full w-5 h-5 bg-orange-200 -mt-3 -right-2"></div>
         </div>
-        <Link href={'/history-orders'}>
-          <Button>Go to Order History</Button>
-        </Link>
+        {donationId ? (
+          <Link href={`/donation/${donationId}`}>
+            <Button>Go to Group Donation</Button>
+          </Link>
+        ) : (
+          <Link href="/history-orders">
+            <Button>Go to Order History</Button>
+          </Link>
+        )}
       </div>
     </div>
   );

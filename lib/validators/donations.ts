@@ -19,3 +19,13 @@ export const CreateGroupDonationSchema = z.object({
 });
 
 export type CreateGroupDonationPayload = z.infer<typeof CreateGroupDonationSchema>;
+
+export const MakeDonationSchema = z.object({
+  donationId: z.string().min(1),
+  userId: z.string().min(1),
+  donationAmount: z.number().min(2000),
+  storeSlug: z.string().min(1),
+  comment: z.string().optional(),
+});
+
+export type MakeDonationPayload = z.infer<typeof MakeDonationSchema>;
