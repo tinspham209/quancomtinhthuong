@@ -1,3 +1,4 @@
+import { Donation, DonationPayment, DonationStatus } from '../donations/types';
 import { OrderStatus } from '../orders/types';
 
 export interface GetUserOrdersHistoryParams {
@@ -5,6 +6,7 @@ export interface GetUserOrdersHistoryParams {
   to: string;
   userId: string;
   status?: OrderStatus;
+  historyType?: HistoryType;
 }
 export interface OrdersHistoryDetail {
   discount: number;
@@ -20,6 +22,17 @@ export interface OrdersHistoryDetail {
   paymentLink: string;
   status: OrderStatus;
   total: number;
+
+  DonationItem?: {
+    Store: {
+      name: string;
+      storeSlug: string;
+    };
+    title: string;
+  };
+  donationAmount?: DonationPayment['donationAmount'];
+  donationLink: DonationPayment['donationLink'];
+  donationStatus: DonationStatus;
 }
 
 export interface Store {
@@ -37,4 +50,9 @@ export interface Dish {
   name: string;
   price: number;
   imgUrl: string;
+}
+
+export enum HistoryType {
+  ORDER = 'ORDER',
+  DONATION = 'DONATION',
 }

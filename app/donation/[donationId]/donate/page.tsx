@@ -71,10 +71,8 @@ const OrdersOfGroupOrders: React.FC<Props> = ({}) => {
   const { makeDonation, isLoading: loadingMakeDonation } = useMakeDonation();
 
   const onSubmit = (values: MakeDonationPayload) => {
-    console.log('values: ', values);
     makeDonation(values, {
       onSuccess(data, variables, context) {
-        console.log('data: ', data);
         const paymentLink = data?.donationLink;
         if (paymentLink) {
           window.open(paymentLink, '_self');

@@ -75,16 +75,19 @@ export function useGetOrdersHistory(
     isSuccess,
     isFetching,
     refetch: getOrdersHistory,
-  } = useQuery<OrdersHistoryDetail[], ErrorResponse>([`/user/history`], {
-    queryFn: handleGet,
-    refetchOnMount: false,
-    enabled: false,
-    notifyOnChangeProps: ['data', 'isFetching'],
-    staleTime: 10000,
-    refetchOnWindowFocus: true,
-    select: (data) => data,
-    ...options,
-  });
+  } = useQuery<OrdersHistoryDetail[], ErrorResponse>(
+    [`/user/history`, { historyType: params?.historyType }],
+    {
+      queryFn: handleGet,
+      refetchOnMount: false,
+      enabled: false,
+      notifyOnChangeProps: ['data', 'isFetching'],
+      staleTime: 10000,
+      refetchOnWindowFocus: true,
+      select: (data) => data,
+      ...options,
+    },
+  );
 
   useEffect(() => {
     if (data && isSuccess) {

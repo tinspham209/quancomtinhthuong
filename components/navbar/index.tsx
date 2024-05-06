@@ -191,8 +191,7 @@ const Navbar = ({}: NavbarProps) => {
                             <DropdownMenuItem className="cursor-pointer" asChild>
                               <Link href={`/history-orders`} className="flex flex-col">
                                 <p className="text-sm">
-                                  Bạn có 1 khoản nợ chưa trả của group-order:{' '}
-                                  <b>{notification.title}</b> tại store:{' '}
+                                  Bạn có 1 khoản nợ chưa trả: <b>{notification.title}</b> tại store:{' '}
                                   <b>{notification.Store.name}</b> vào ngày{' '}
                                   <b>
                                     {dayjs(new Date(notification.createdAt)).format(

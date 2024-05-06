@@ -4,7 +4,6 @@ export interface IGroupOrderInfoParams {
 
 export default async function getGroupOrderInfo(params: IGroupOrderInfoParams) {
   const { groupOrderId } = params;
-  console.log('groupOrderId: ', groupOrderId);
 
   return await fetch(`${process.env.API_URL}/app/group-order/${groupOrderId}`, {
     next: {

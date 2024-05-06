@@ -1,6 +1,7 @@
 'use client';
 
 import { OrderHistoryRow, orderHistoryColumns } from '@/app/history-orders/components/columns';
+import { donationColumns } from '@/app/history-orders/components/donationColumns';
 import {
   DataTable,
   Heading,
@@ -13,6 +14,7 @@ import {
 import { useProfileStore } from '@/hooks';
 import { OrderStatus } from '@/queries/orders/types';
 import { useGetOrdersHistory } from '@/queries/ordersHistory';
+import { HistoryType, OrdersHistoryDetail } from '@/queries/ordersHistory/type';
 import dayjs from 'dayjs';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
@@ -44,12 +46,24 @@ const Client: React.FC<Props> = ({}: Props) => {
     to: dayjs().format('MM/DD/YYYY'),
     userId: profile?.id || '',
     status: paymentStatusParam === ALL_ORDER_STATUS_OPTION_VALUE ? undefined : paymentStatusParam,
+    historyType: HistoryType.ORDER,
   });
-  console.log('ordersHistory: ', ordersHistory);
+
+  const { ordersHistory: donationHistory, getOrdersHistory: getDonationHistory } =
+    useGetOrdersHistory({
+      from: dayjs().subtract(DAY_FROM_NOW_DEFAULT, 'days').format('MM/DD/YYYY'),
+      to: dayjs().format('MM/DD/YYYY'),
+      userId: profile?.id || '',
+      status: paymentStatusParam === ALL_ORDER_STATUS_OPTION_VALUE ? undefined : paymentStatusParam,
+      historyType: HistoryType.DONATION,
+    });
 
   useEffect(() => {
     if (profile) {
       getOrdersHistory();
+      setTimeout(() => {
+        getDonationHistory();
+      }, 100);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profile, paymentStatusParam]);
@@ -70,7 +84,24 @@ const Client: React.FC<Props> = ({}: Props) => {
     return formattedOrders;
   }, [ordersHistory]);
 
+  const formattedDonationHistory = useMemo(() => {
+    if (!donationHistory) return [];
+
+    const formattedOrders = donationHistory.map((order) => ({
+      storeTitle: order.DonationItem?.Store.name,
+      donationAmount: order.donationAmount,
+      donationLink: order.donationLink,
+      donationStatus: order.donationStatus,
+      createdAt: order.createdAt,
+      id: order.id,
+    }));
+
+    return formattedOrders;
+  }, [donationHistory]);
+
   const allColumns = useMemo(() => orderHistoryColumns(), []);
+
+  const donationAllColumns = useMemo(() => donationColumns(), []);
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
@@ -93,32 +124,44 @@ const Client: React.FC<Props> = ({}: Props) => {
 
   return (
     <div className="p-4 pt-8">
-      <div className="flex flex-col sm:flex-row md:justify-between">
-        <Heading title="Orders History" />
-        <div className="mt-2 sm:mt-0">
-          <div>
-            <p className="font-light mb-2 text-sm">Payment Status</p>
-            <Select
-              onValueChange={(value: OrderStatus | AllOrderStatusType) =>
-                handleChangePaymentStatus(value)
-              }
-              value={paymentStatus}
-            >
-              <SelectTrigger className="w-[100px]">
-                <SelectValue placeholder="Select a verified email to display" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value={ALL_ORDER_STATUS_OPTION_VALUE}>ALL</SelectItem>
-                <SelectItem value={OrderStatus.NOPE}>NOPE</SelectItem>
-                <SelectItem value={OrderStatus.PAID}>PAID</SelectItem>
-              </SelectContent>
-            </Select>
+      <div className="pt-8">
+        <div className="flex flex-col sm:flex-row md:justify-between">
+          <Heading title="Orders History" />
+          <div className="mt-2 sm:mt-0">
+            <div>
+              <p className="font-light mb-2 text-sm">Payment Status</p>
+              <Select
+                onValueChange={(value: OrderStatus | AllOrderStatusType) =>
+                  handleChangePaymentStatus(value)
+                }
+                value={paymentStatus}
+              >
+                <SelectTrigger className="w-[100px]">
+                  <SelectValue placeholder="Select a verified email to display" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value={ALL_ORDER_STATUS_OPTION_VALUE}>ALL</SelectItem>
+                  <SelectItem value={OrderStatus.NOPE}>NOPE</SelectItem>
+                  <SelectItem value={OrderStatus.PAID}>PAID</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
+        </div>
+
+        <div className="my-6">
+          <DataTable columns={allColumns} data={formattedOrdersHistory} />
         </div>
       </div>
 
-      <div className="my-6">
-        <DataTable columns={allColumns} data={formattedOrdersHistory} />
+      <div className="pt-8">
+        <div className="flex flex-col sm:flex-row md:justify-between">
+          <Heading title="Donation History" />
+        </div>
+
+        <div className="my-6">
+          <DataTable columns={donationAllColumns} data={formattedDonationHistory || []} />
+        </div>
       </div>
     </div>
   );
