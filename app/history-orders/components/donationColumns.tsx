@@ -27,9 +27,13 @@ export const donationColumns = (): ColumnDef<any>[] => {
       },
     },
     {
-      accessorKey: 'storeTitle',
-      header: 'Store',
+      accessorKey: 'donationTitle',
+      header: 'Group Donation',
     },
+    // {
+    //   accessorKey: 'storeTitle',
+    //   header: 'Store',
+    // },
     {
       accessorKey: 'donationAmount',
       header: 'Amount',

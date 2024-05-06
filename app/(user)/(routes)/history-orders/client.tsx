@@ -88,10 +88,11 @@ const Client: React.FC<Props> = ({}: Props) => {
     if (!donationHistory) return [];
 
     const formattedOrders = donationHistory.map((order) => ({
-      storeTitle: order.DonationItem?.Store.name,
-      donationAmount: order.donationAmount,
-      donationLink: order.donationLink,
-      donationStatus: order.donationStatus,
+      storeTitle: order?.DonationItem?.Store?.name || '',
+      donationTitle: order?.DonationItem?.title || '',
+      donationAmount: order?.donationAmount || 0,
+      donationLink: order?.donationLink || '',
+      donationStatus: order?.donationStatus || '',
       createdAt: order.createdAt,
       id: order.id,
     }));

@@ -45,7 +45,6 @@ const Navbar = ({}: NavbarProps) => {
   const { notifications } = useGetNotifications({
     userName: profile?.userName,
   });
-  console.log('notifications: ', notifications);
 
   const getUsernameAvatar = useCallback(() => {
     if (profile) {
