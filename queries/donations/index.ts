@@ -169,3 +169,23 @@ export function useMakeDonation(
     isLoading,
   };
 }
+
+export function useTriggerDonation(
+  options?: UseMutationOptions<Donation, Error, { donationId: Donation['id'] }>,
+) {
+  const { mutate: triggerGroupDonation, isLoading } = useMutation<
+    Donation,
+    Error,
+    { donationId: Donation['id'] }
+  >({
+    mutationFn: async (payload: { donationId: Donation['id'] }) => {
+      return responseWrapper(apiClient.triggerDonation, [payload]);
+    },
+    ...options,
+  });
+
+  return {
+    triggerGroupDonation,
+    isLoading,
+  };
+}

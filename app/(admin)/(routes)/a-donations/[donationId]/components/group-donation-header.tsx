@@ -2,6 +2,7 @@
 
 import CreateGroupDonation from '@/components/sheet/donations/create';
 import DeleteGroupDonation from '@/components/sheet/donations/delete';
+import TriggerGroupDonation from '@/components/sheet/donations/trigger';
 import { Button, Sheet, SheetTrigger } from '@/components/ui';
 import { useOrigin } from '@/hooks';
 import useCopyToClipboard from '@/hooks/use-copy-to-clipboard';
@@ -17,6 +18,7 @@ type Props = {
 const GroupOrderHeader = ({ donationDetail }: Props) => {
   const [openCreateGroupDonation, setOpenCreateGroupDonation] = useState(false);
   const [openDeleteGroupDonation, setOpenDeleteGroupDonation] = useState(false);
+  const [openTriggerGroupDonation, setOpenTriggerGroupDonation] = useState(false);
 
   const handleOpenCreateGroupDonation = (open: boolean) => {
     setOpenCreateGroupDonation(open);
@@ -43,6 +45,14 @@ const GroupOrderHeader = ({ donationDetail }: Props) => {
           >
             Get Link
           </Button>
+
+          <Sheet open={openTriggerGroupDonation} onOpenChange={setOpenTriggerGroupDonation}>
+            <SheetTrigger asChild>
+              <Button variant="outline">Trigger</Button>
+            </SheetTrigger>
+            <TriggerGroupDonation donationDetail={donationDetail} />
+          </Sheet>
+
           <Sheet open={openDeleteGroupDonation} onOpenChange={setOpenDeleteGroupDonation}>
             <SheetTrigger asChild>
               <Button variant="destructive">Delete</Button>

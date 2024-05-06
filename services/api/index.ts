@@ -378,6 +378,11 @@ const create = (baseURL = '/api') => {
     );
   };
 
+  const triggerDonation = (payload: { donationId: string }) => {
+    const { donationId } = payload;
+    return api.get(`/app/trigger/donation/${donationId}`, {}, newCancelToken());
+  };
+
   return {
     getRoot,
 
@@ -454,6 +459,7 @@ const create = (baseURL = '/api') => {
     updateGroupDonation,
     deleteGroupDonation,
     makeDonation,
+    triggerDonation,
   };
 };
 
