@@ -125,7 +125,7 @@ const DonationDetail: React.FC<DonationDetailProps> = ({}) => {
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 my-3">
-                  <Progress value={getProgress()} />
+                  <Progress value={getProgress() > 99 ? 100 : getProgress()} />
                   <p className="text-lg text-muted-foreground">
                     Đã đạt được:{' '}
                     <strong className="text-black">

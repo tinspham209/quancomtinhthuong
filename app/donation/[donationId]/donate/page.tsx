@@ -138,7 +138,7 @@ const OrdersOfGroupOrders: React.FC<Props> = ({}) => {
                   </strong>
                 </p>
                 <div className="flex flex-col gap-2">
-                  <Progress value={getProgress()} className="bg-slate-500" />
+                  <Progress value={getProgress() > 99 ? 100 : getProgress()} />
                   <p className="text-lg text-muted-foreground">
                     Đã đạt được:{' '}
                     <strong className="text-black">
