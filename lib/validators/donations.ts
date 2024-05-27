@@ -23,7 +23,7 @@ export type CreateGroupDonationPayload = z.infer<typeof CreateGroupDonationSchem
 export const MakeDonationSchema = z.object({
   donationId: z.string().min(1),
   userId: z.string().min(1),
-  donationAmount: z.number().min(2000),
+  donationAmount: z.number().min(5000),
   storeSlug: z.string().min(1),
   comment: z.string().optional(),
 });
