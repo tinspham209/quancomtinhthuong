@@ -37,7 +37,7 @@ const DonationDetail: React.FC<DonationDetailProps> = ({}) => {
       const diff = dueDate.diff(dayjs(), 'day');
       return `${diff} ngày (${dueDate.format('DD/MM/YYYY')})`;
     }
-    return 'Unknown';
+    return 'Vô hạn';
   };
 
   const getProgress = () => {

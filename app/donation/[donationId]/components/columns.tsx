@@ -1,9 +1,11 @@
 'use client';
 
-import { DonationPayment } from '@/queries/donations/types';
+import { DonationPayment, DonationStatus } from '@/queries/donations/types';
 import { ColumnDef } from '@tanstack/react-table';
 import dayjs from 'dayjs';
 import ColumnsAction from './columnsAction';
+import BadgeStatus from '@/components/badge-status';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui';
 
 export const donationColumns = (): ColumnDef<DonationPayment>[] => {
   return [
@@ -22,8 +24,12 @@ export const donationColumns = (): ColumnDef<DonationPayment>[] => {
         const user: DonationPayment['User'] = row.getValue('User');
 
         return (
-          <div>
-            {user?.name || '--'} ({user?.userName})
+          <div className="flex items-center gap-2">
+            <Avatar className="w-7 h-7">
+              <AvatarImage src={user?.imgUrl} alt={`${user?.name}`} title={user?.name} />
+              <AvatarFallback title={user?.name}>{user?.name.charAt(0)}</AvatarFallback>
+            </Avatar>
+            {user?.name || '--'} ({user?.userName || '--'})
           </div>
         );
       },
@@ -50,6 +56,19 @@ export const donationColumns = (): ColumnDef<DonationPayment>[] => {
         const formatted = dayjs(createdAt).format('DD/MM HH:mm:ss');
 
         return <div>{formatted}</div>;
+      },
+    },
+    {
+      accessorKey: 'donationStatus',
+      header: 'Status',
+      cell: ({ row }) => {
+        const status = (row.getValue('donationStatus') as DonationStatus) || '';
+
+        return (
+          <div className="flex justify-center -translate-x-9">
+            <BadgeStatus status={status as any} isShowAnimation />
+          </div>
+        );
       },
     },
     {
