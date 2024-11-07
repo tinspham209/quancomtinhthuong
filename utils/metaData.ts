@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-export const DOMAIN_PRODUCT = 'https://quanantinhthuong.store';
+export const DOMAIN_PRODUCT = 'https://quancomtinhthuong.vercel.app';
 
 type SafeMetaData = {
   title?: string;
