@@ -26,6 +26,7 @@ export type GroupOrderList = {
 export type TriggerFinalizedGroupOrderPayload = {
   storeId: string;
   groupOrderId: string;
+  slackWebhookId?: string | null;
 };
 
 export type GroupOrderSummary = {

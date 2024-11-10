@@ -8,6 +8,7 @@ import React, { useMemo } from 'react';
 import { AdditionalDishRow, DishRow, additionalDishColumns, dishColumns } from './columns';
 import SummaryHeader from './summary-header';
 import { Dish } from '@/queries/dishes/types';
+import { useGetSlackWebhooks } from '@/queries/slack';
 
 interface Props {}
 
@@ -17,6 +18,8 @@ const OrdersOfGroupOrders: React.FC<Props> = ({}) => {
   const { groupOrderSummary } = useGetGroupOrderSummary({
     groupOrderId: groupOrderId,
   });
+
+  const { slackWebhooks } = useGetSlackWebhooks();
 
   const formattedOrders = useMemo(() => {
     if (!groupOrderSummary) return [];
@@ -157,7 +160,7 @@ const OrdersOfGroupOrders: React.FC<Props> = ({}) => {
 
   return (
     <div className="p-4 pt-8">
-      <SummaryHeader summary={groupOrderSummary} />
+      <SummaryHeader summary={groupOrderSummary} slackWebhooks={slackWebhooks} />
 
       <div className="my-6">
         <div className="mb-3">

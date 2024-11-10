@@ -1,14 +1,28 @@
 import { TriggerDebtGroupOrder, TriggerFinalizedGroupOrder } from '@/components/sheet';
-import { Button, Sheet, SheetTrigger } from '@/components/ui';
+import {
+  Button, Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue, Sheet, SheetTrigger
+} from '@/components/ui';
 import { GroupOrderSummary } from '@/queries/group-orders/types';
+import { SlackWebhook } from '@/queries/slack/types';
 import Link from 'next/link';
-import React from 'react';
-
+import React, { useCallback, useState } from 'react';
 interface Props {
   summary: GroupOrderSummary | undefined;
+  slackWebhooks: SlackWebhook[];
 }
 
-const SummaryHeader: React.FC<Props> = ({ summary }) => {
+const SummaryHeader: React.FC<Props> = ({ summary, slackWebhooks }) => {
+  const [slackWebhookId, setSlackWebhookId] = useState<string | null>(null);
+  const handleChangeSlackWebhook = useCallback(
+    (value: string) => {
+      setSlackWebhookId(value);
+    },
+    [setSlackWebhookId],
+  );
   const isFinalizedOrder = summary?.finalized;
 
   return (
@@ -62,7 +76,7 @@ const SummaryHeader: React.FC<Props> = ({ summary }) => {
                 <SheetTrigger asChild>
                   <Button variant={'secondary'}>Trigger Finalize</Button>
                 </SheetTrigger>
-                <TriggerFinalizedGroupOrder />
+                <TriggerFinalizedGroupOrder slackWebhookId={slackWebhookId} />
               </Sheet>
             </div>
           </>
@@ -74,10 +88,28 @@ const SummaryHeader: React.FC<Props> = ({ summary }) => {
                 <SheetTrigger asChild>
                   <Button>Trigger Debt</Button>
                 </SheetTrigger>
-                <TriggerDebtGroupOrder />
+                <TriggerDebtGroupOrder slackWebhookId={slackWebhookId} />
               </Sheet>
             </div>
           </>
+        )}
+        {isFinalizedOrder && (
+          <div className="mt-2 sm:mt-0">
+            <div>
+              <Select onValueChange={(value: string) => handleChangeSlackWebhook(value)}>
+                <SelectTrigger className="w-[200px]">
+                  <SelectValue placeholder="Select channel to post *" />
+                </SelectTrigger>
+                <SelectContent>
+                  {slackWebhooks.map((slackWebhook) => (
+                    <SelectItem key={slackWebhook.id} value={slackWebhook.id}>
+                      {slackWebhook.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
         )}
       </div>
     </div>

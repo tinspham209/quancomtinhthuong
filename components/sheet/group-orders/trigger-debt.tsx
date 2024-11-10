@@ -4,9 +4,11 @@ import { useParams } from 'next/navigation';
 import React from 'react';
 import { toast } from 'react-hot-toast';
 
-interface Props {}
+interface Props {
+  slackWebhookId: string | null;
+}
 
-const TriggerDebtGroupOrder: React.FC<Props> = () => {
+const TriggerDebtGroupOrder: React.FC<Props> = ({ slackWebhookId }) => {
   const { storeId, groupOrderId } = useParams();
 
   const { triggerDebtGroupOrder, isLoading } = useTriggerDebtGroupOrder({
@@ -22,6 +24,7 @@ const TriggerDebtGroupOrder: React.FC<Props> = () => {
     triggerDebtGroupOrder({
       storeId,
       groupOrderId,
+      slackWebhookId,
     });
   };
 

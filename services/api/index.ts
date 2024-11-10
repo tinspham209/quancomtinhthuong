@@ -265,16 +265,25 @@ const create = (baseURL = '/api') => {
   const triggerFinalizedGroupOrder = ({
     storeId,
     groupOrderId,
+    slackWebhookId,
   }: TriggerFinalizedGroupOrderPayload) => {
     return api.get(
-      `/app/trigger/finalizeOrder/${storeId}/groupOrderId/${groupOrderId}`,
+      `/app/trigger/finalizeOrder?storeId=${storeId}&groupOrderId=${groupOrderId}${
+        slackWebhookId ? `&slackWebhookId=${slackWebhookId}` : ''
+      }`,
       {},
       newCancelToken(),
     );
   };
-  const triggerDebtGroupOrder = ({ storeId, groupOrderId }: TriggerFinalizedGroupOrderPayload) => {
+  const triggerDebtGroupOrder = ({
+    storeId,
+    groupOrderId,
+    slackWebhookId,
+  }: TriggerFinalizedGroupOrderPayload) => {
     return api.get(
-      `/app/trigger/debt/${storeId}/groupOrderId/${groupOrderId}`,
+      `/app/trigger/debt?storeId=${storeId}&groupOrderId=${groupOrderId}${
+        slackWebhookId ? `&slackWebhookId=${slackWebhookId}` : ''
+      }`,
       {},
       newCancelToken(),
     );
@@ -383,6 +392,11 @@ const create = (baseURL = '/api') => {
     return api.get(`/app/trigger/donation/${donationId}`, {}, newCancelToken());
   };
 
+  //
+  const getSlackWebhooks = () => {
+    return api.get(`/app/config/slack-webhooks`, {}, newCancelToken());
+  };
+
   return {
     getRoot,
 
@@ -460,6 +474,9 @@ const create = (baseURL = '/api') => {
     deleteGroupDonation,
     makeDonation,
     triggerDonation,
+
+    //SlackWebhook
+    getSlackWebhooks,
   };
 };
 

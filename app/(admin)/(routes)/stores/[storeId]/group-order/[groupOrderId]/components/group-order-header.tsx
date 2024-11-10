@@ -1,25 +1,38 @@
 import {
   FinalizedGroupOrder,
-  TriggerFinalizedGroupOrder,
   TriggerDebtGroupOrder,
+  TriggerFinalizedGroupOrder,
 } from '@/components/sheet';
-import { Button, Sheet, SheetTrigger } from '@/components/ui';
+import {
+  Button,
+  Heading,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Sheet,
+  SheetTrigger,
+} from '@/components/ui';
 import { useOrigin } from '@/hooks';
 import useCopyToClipboard from '@/hooks/use-copy-to-clipboard';
 import { Store } from '@/queries/auth/types';
 import { GroupOrderDetail } from '@/queries/group-orders/types';
+import { SlackWebhook } from '@/queries/slack/types';
 import dayjs from 'dayjs';
 import Link from 'next/link';
-import React from 'react';
+import { useParams } from 'next/navigation';
+import React, { useCallback, useState } from 'react';
 import toast from 'react-hot-toast';
-
 interface Props {
   order: GroupOrderDetail | undefined;
   store: Store | undefined;
+  slackWebhooks: SlackWebhook[];
 }
 
-const GroupOrderHeader: React.FC<Props> = ({ order, store }) => {
+const GroupOrderHeader: React.FC<Props> = ({ order, store, slackWebhooks }) => {
   const origin = useOrigin();
+  const [slackWebhookId, setSlackWebhookId] = useState<string | null>(null);
   const [value, copy] = useCopyToClipboard();
 
   const handleGetLinkOrder = () => {
@@ -29,6 +42,13 @@ const GroupOrderHeader: React.FC<Props> = ({ order, store }) => {
       'Copy Order URL to clipboard successfully. You can post it in your slack channel to start ordering',
     );
   };
+
+  const handleChangeSlackWebhook = useCallback(
+    (value: string) => {
+      setSlackWebhookId(value);
+    },
+    [setSlackWebhookId],
+  );
 
   const isFinalizedOrder = order?.finalized;
 
@@ -85,7 +105,7 @@ const GroupOrderHeader: React.FC<Props> = ({ order, store }) => {
                 <SheetTrigger asChild>
                   <Button variant={'secondary'}>Trigger Finalize</Button>
                 </SheetTrigger>
-                <TriggerFinalizedGroupOrder />
+                <TriggerFinalizedGroupOrder slackWebhookId={slackWebhookId} />
               </Sheet>
             </div>
           </>
@@ -97,10 +117,28 @@ const GroupOrderHeader: React.FC<Props> = ({ order, store }) => {
                 <SheetTrigger asChild>
                   <Button variant={'outline'}>Trigger Debt</Button>
                 </SheetTrigger>
-                <TriggerDebtGroupOrder />
+                <TriggerDebtGroupOrder slackWebhookId={slackWebhookId} />
               </Sheet>
             </div>
           </>
+        )}
+        {isFinalizedOrder && (
+          <div className="mt-2 sm:mt-0">
+            <div>
+              <Select onValueChange={(value: string) => handleChangeSlackWebhook(value)}>
+                <SelectTrigger className="w-[200px]">
+                  <SelectValue placeholder="Select channel to post *" />
+                </SelectTrigger>
+                <SelectContent>
+                  {slackWebhooks.map((slackWebhook) => (
+                    <SelectItem key={slackWebhook.id} value={slackWebhook.id}>
+                      {slackWebhook.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
         )}
       </div>
     </div>
