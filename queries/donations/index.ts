@@ -171,14 +171,18 @@ export function useMakeDonation(
 }
 
 export function useTriggerDonation(
-  options?: UseMutationOptions<Donation, Error, { donationId: Donation['id'] }>,
+  options?: UseMutationOptions<
+    Donation,
+    Error,
+    { donationId: Donation['id']; slackWebhookId?: string }
+  >,
 ) {
   const { mutate: triggerGroupDonation, isLoading } = useMutation<
     Donation,
     Error,
-    { donationId: Donation['id'] }
+    { donationId: Donation['id']; slackWebhookId?: string }
   >({
-    mutationFn: async (payload: { donationId: Donation['id'] }) => {
+    mutationFn: async (payload: { donationId: Donation['id']; slackWebhookId?: string }) => {
       return responseWrapper(apiClient.triggerDonation, [payload]);
     },
     ...options,

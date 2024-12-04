@@ -1,6 +1,5 @@
 'use client';
 
-import JsonView from '@/components/json-view';
 import {
   AspectRatio,
   Button,

@@ -3,14 +3,23 @@
 import CreateGroupDonation from '@/components/sheet/donations/create';
 import DeleteGroupDonation from '@/components/sheet/donations/delete';
 import TriggerGroupDonation from '@/components/sheet/donations/trigger';
-import { Button, Sheet, SheetTrigger } from '@/components/ui';
+import {
+  Button,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Sheet,
+  SheetTrigger,
+} from '@/components/ui';
 import { useOrigin } from '@/hooks';
 import useCopyToClipboard from '@/hooks/use-copy-to-clipboard';
 import { Donation } from '@/queries/donations/types';
-import { Copy, PlusCircle } from 'lucide-react';
-import React, { useState } from 'react';
+import { useGetSlackWebhooks } from '@/queries/slack';
+import Link from 'next/link';
+import { useCallback, useState } from 'react';
 import toast from 'react-hot-toast';
-
 type Props = {
   donationDetail: Donation;
 };
@@ -19,6 +28,14 @@ const GroupOrderHeader = ({ donationDetail }: Props) => {
   const [openCreateGroupDonation, setOpenCreateGroupDonation] = useState(false);
   const [openDeleteGroupDonation, setOpenDeleteGroupDonation] = useState(false);
   const [openTriggerGroupDonation, setOpenTriggerGroupDonation] = useState(false);
+  const { slackWebhooks } = useGetSlackWebhooks();
+  const [slackWebhookId, setSlackWebhookId] = useState<string | null>(null);
+  const handleChangeSlackWebhook = useCallback(
+    (value: string) => {
+      setSlackWebhookId(value);
+    },
+    [setSlackWebhookId],
+  );
 
   const handleOpenCreateGroupDonation = (open: boolean) => {
     setOpenCreateGroupDonation(open);
@@ -46,12 +63,35 @@ const GroupOrderHeader = ({ donationDetail }: Props) => {
             Get Link
           </Button>
 
+          <Link href={`/donation/${donationDetail?.id}`}>
+            <Button className="w-full" variant="outline">
+              Go to Donation
+            </Button>
+          </Link>
+
           <Sheet open={openTriggerGroupDonation} onOpenChange={setOpenTriggerGroupDonation}>
             <SheetTrigger asChild>
               <Button variant="outline">Trigger</Button>
             </SheetTrigger>
-            <TriggerGroupDonation donationDetail={donationDetail} />
+            <TriggerGroupDonation donationDetail={donationDetail} slackWebhookId={slackWebhookId || ''} />
           </Sheet>
+
+          <div className="mt-2 sm:mt-0">
+            <div>
+              <Select onValueChange={(value: string) => handleChangeSlackWebhook(value)}>
+                <SelectTrigger className="w-[200px]">
+                  <SelectValue placeholder="Select channel to post *" />
+                </SelectTrigger>
+                <SelectContent>
+                  {slackWebhooks.map((slackWebhook) => (
+                    <SelectItem key={slackWebhook.id} value={slackWebhook.id}>
+                      {slackWebhook.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
 
           <Sheet open={openDeleteGroupDonation} onOpenChange={setOpenDeleteGroupDonation}>
             <SheetTrigger asChild>

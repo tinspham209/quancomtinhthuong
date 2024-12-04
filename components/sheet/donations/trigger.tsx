@@ -9,9 +9,10 @@ import { Button, SheetContent, SheetHeader, SheetTitle } from '../../ui';
 
 interface Props {
   donationDetail: Donation;
+  slackWebhookId?: string;
 }
 
-const TriggerGroupDonation: React.FC<Props> = ({ donationDetail }) => {
+const TriggerGroupDonation: React.FC<Props> = ({ donationDetail, slackWebhookId }) => {
   const { triggerGroupDonation, isLoading } = useTriggerDonation({
     onSuccess() {
       toast.success('Trigger Group Donation successfully.');
@@ -26,7 +27,7 @@ const TriggerGroupDonation: React.FC<Props> = ({ donationDetail }) => {
 
   const handleTrigger = () => {
     if (donationDetail) {
-      triggerGroupDonation({ donationId: donationDetail.id });
+      triggerGroupDonation({ donationId: donationDetail.id, slackWebhookId });
     } else {
       toast.error(`Can't get group donation id.`);
     }

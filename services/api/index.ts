@@ -388,9 +388,9 @@ const create = (baseURL = '/api') => {
     );
   };
 
-  const triggerDonation = (payload: { donationId: string }) => {
+  const triggerDonation = (payload: { donationId: string, slackWebhookId?: string }) => {
     const { donationId } = payload;
-    return api.get(`/app/trigger/donation/${donationId}`, {}, newCancelToken());
+    return api.get(`/app/trigger/donation/${donationId}/slackWebhook/${payload.slackWebhookId}`, {}, newCancelToken());
   };
 
   //
