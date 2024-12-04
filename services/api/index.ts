@@ -26,6 +26,7 @@ import { UpdateAppConfigPayload } from '@/queries/config/types';
 import { UpdateGroupDonationPayload } from '@/queries/donations/types';
 import _ from 'lodash';
 import { CreateGroupDonationPayload, MakeDonationPayload } from '@/lib/validators/donations';
+import { CreateInvoicePayload, UpdateInvoicePayload } from '@/queries/invoices/types';
 
 const AXIOS_CONFIG = {
   CONNECTION_TIMEOUT: 30000,
@@ -397,6 +398,35 @@ const create = (baseURL = '/api') => {
     return api.get(`/app/config/slack-webhooks`, {}, newCancelToken());
   };
 
+  //Invoices
+  const getInvoices = (donationItemId: string) => {
+    return api.get(`/app/invoice/invoices/${donationItemId}`, {}, newCancelToken());
+  };
+
+  const createInvoice = (payload: CreateInvoicePayload) => {
+    return api.post(
+      `/app/invoice/${payload.donationItemId}`,
+      { ...payload, imgUrls: payload.imgUrls.map((url) => url.url) },
+      newCancelToken(),
+    );
+  };
+
+  const updateInvoice = (payload: UpdateInvoicePayload) => {
+    return api.put(
+      `/app/invoice/${payload.invoiceId}`,
+      {
+        ...payload,
+        invoiceId: undefined,
+        imgUrls: payload.imgUrls.map((url) => url.url),
+      },
+      newCancelToken(),
+    );
+  };
+
+  const deleteInvoice = (invoiceId: number) => {
+    return api.delete(`/app/invoice/${invoiceId}`, {}, newCancelToken());
+  };
+
   return {
     getRoot,
 
@@ -477,6 +507,12 @@ const create = (baseURL = '/api') => {
 
     //SlackWebhook
     getSlackWebhooks,
+
+    // Invoices
+    getInvoices,
+    createInvoice,
+    updateInvoice,
+    deleteInvoice,
   };
 };
 

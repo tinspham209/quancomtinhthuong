@@ -17,3 +17,6 @@ export { default as DeleteRestaurant } from './restaurants/delete-restaurant';
 export { default as CreateStore } from './stores/create-store';
 export { default as DeleteStore } from './stores/delete-store';
 export { default as UpdateStore } from './stores/update-store';
+export { default as DeleteInvoice } from './invoices/delete-invoice';
+export { default as CreateInvoice } from './invoices/create-invoice';
+export { default as UpdateInvoice } from './invoices/update-invoice';

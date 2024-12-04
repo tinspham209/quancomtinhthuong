@@ -134,10 +134,13 @@ const DonationDetail: React.FC<DonationDetailProps> = ({}) => {
                   </p>
                 </div>
                 <div className="flex gap-3">
-                  <Button className="basis-1/2" variant="outline">
+                  <Button className="basis-1/3" variant="outline">
                     Chia sẻ
                   </Button>
-                  <Link className="basis-1/2" href={`/donation/${donationId}/donate`}>
+                  <Link className="basis-1/3" href={`/donation/invoice/${donationId}`}>
+                    <Button className="w-full" variant="outline">Chi List</Button>
+                  </Link>
+                  <Link className="basis-1/3" href={`/donation/${donationId}/donate`}>
                     <Button className="w-full">Ủng hộ</Button>
                   </Link>
                 </div>
