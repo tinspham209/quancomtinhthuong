@@ -12,6 +12,7 @@ export type Donation = {
   storeSlug: string;
   dueDate: number;
   donated: number;
+  slackWebhookId?: string;
 };
 
 export type Fundraiser = {

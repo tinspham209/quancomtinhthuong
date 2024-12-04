@@ -23,10 +23,16 @@ import {
   FormMessage,
   Input,
   Progress,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from '@/components/ui';
 import { useProfileStore } from '@/hooks';
 import { MakeDonationPayload, MakeDonationSchema } from '@/lib/validators/donations';
 import { useGetDonationById, useMakeDonation } from '@/queries/donations';
+import { useGetSlackWebhooks } from '@/queries/slack';
 import { formatMoney } from '@/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
@@ -34,6 +40,7 @@ import { useParams } from 'next/navigation';
 import React, { useEffect, useMemo } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
+
 interface Props {}
 
 const OrdersOfGroupOrders: React.FC<Props> = ({}) => {
@@ -53,6 +60,7 @@ const OrdersOfGroupOrders: React.FC<Props> = ({}) => {
       storeSlug: 'dongkyorder',
       donationAmount: 0,
       comment: '',
+      slackWebhookId: undefined,
     },
   });
 
@@ -64,11 +72,13 @@ const OrdersOfGroupOrders: React.FC<Props> = ({}) => {
         storeSlug: donationDetail.storeSlug,
         donationAmount: 0,
         comment: '',
+        slackWebhookId: donationDetail?.slackWebhookId || undefined,
       });
     }
   }, [donationDetail, donationId, form, profile?.id]);
 
   const { makeDonation, isLoading: loadingMakeDonation } = useMakeDonation();
+  const { slackWebhooks } = useGetSlackWebhooks();
 
   const onSubmit = (values: MakeDonationPayload) => {
     makeDonation(values, {
@@ -154,6 +164,34 @@ const OrdersOfGroupOrders: React.FC<Props> = ({}) => {
                   onSubmit={form.handleSubmit(onSubmit, onInvalidSubmit)}
                   className="gap-4 flex flex-col"
                 >
+                  <FormField
+                    control={form.control}
+                    name="slackWebhookId"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Kênh thông báo</FormLabel>
+                        <FormControl ref={field.ref}>
+                          {/* <Input placeholder="Kênh thông báo" {...field} /> */}
+                        </FormControl>
+                        <Select onValueChange={field.onChange} required value={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder={'Chọn kênh'} />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent ref={field.ref}>
+                            {slackWebhooks.map((item, index) => (
+                              <SelectItem key={`${item.id}-${index}`} value={item.id}>
+                                {item.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
                   <FormField
                     control={form.control}
                     name="donationAmount"

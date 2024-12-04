@@ -23,49 +23,47 @@ import { PlusCircle } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { invoiceColumns } from './components/columns';
 
-interface DonationDetailProps {}
-
-const DonationDetail: React.FC<DonationDetailProps> = ({}) => {
+const DonationDetail: React.FC = () => {
+  const { donationId } = useParams();
   const [openCreateInvoice, setOpenCreateInvoice] = useState(false);
 
-  const { donationId } = useParams();
+  // Prevent unnecessary API calls if donationId is undefined
   const { donationInvoice, loading } = useGetInvoicesById({
-    onSuccessCallback: () => {
-      setInvoiceDetail(invoiceList.at(0) || null);
-    },
-    onErrorCallback: () => {},
     donationItemId: donationId,
   });
 
-  const invoiceList = useMemo(() => {
-    if (donationInvoice?.Invoices) {
-      return donationInvoice.Invoices;
-    }
-    return [];
-  }, [donationInvoice]);
-
+  const invoiceList = useMemo(() => donationInvoice?.Invoices || [], [donationInvoice]);
   const [invoiceDetail, setInvoiceDetail] = useState<Invoice | null>(null);
+
+  // Update the selected invoice detail when donation data changes
+  useEffect(() => {
+    if (invoiceList.length > 0) {
+      setInvoiceDetail(invoiceList[0]); // Default to the first invoice
+    } else {
+      setInvoiceDetail(null);
+    }
+  }, [invoiceList]);
 
   const handleNextInvoice = () => {
     if (!invoiceDetail) return;
     const currentIndex = invoiceList.findIndex((invoice) => invoice.id === invoiceDetail.id);
     const nextInvoice = invoiceList[currentIndex + 1];
-    if (nextInvoice) {
-      setInvoiceDetail(nextInvoice);
-    }
+    if (nextInvoice) setInvoiceDetail(nextInvoice);
   };
 
   const handlePreviousInvoice = () => {
     if (!invoiceDetail) return;
     const currentIndex = invoiceList.findIndex((invoice) => invoice.id === invoiceDetail.id);
     const previousInvoice = invoiceList[currentIndex - 1];
-    if (previousInvoice) {
-      setInvoiceDetail(previousInvoice);
-    }
+    if (previousInvoice) setInvoiceDetail(previousInvoice);
   };
+
+  if (!donationId) {
+    return <div className="p-4">Invalid donation ID</div>;
+  }
 
   if (loading) {
     return <Skeleton className="w-[40px] h-[40px] rounded-full" />;
@@ -73,19 +71,15 @@ const DonationDetail: React.FC<DonationDetailProps> = ({}) => {
 
   return (
     <div className="p-4 pt-8">
+      {/* Main content */}
       <div className="flex flex-col-reverse md:flex-row gap-3">
+        {/* Invoice Images */}
         <div className="basis-0 md:basis-3/5 flex flex-col gap-5">
           <div className="my-10">
             {invoiceDetail?.imgUrls?.length === 0 ? (
               <div className="">Không có hình ảnh để xem</div>
             ) : (
-              <Carousel
-                opts={{
-                  align: 'start',
-                }}
-                orientation="vertical"
-                className="w-full"
-              >
+              <Carousel opts={{ align: 'start' }} orientation="vertical" className="w-full">
                 <CarouselContent className="h-[200px] md:h-[460px]">
                   {invoiceDetail?.imgUrls.map((img, index) => (
                     <CarouselItem key={index} className="pt-1 md:basis-1/2">
@@ -118,6 +112,7 @@ const DonationDetail: React.FC<DonationDetailProps> = ({}) => {
             )}
           </div>
         </div>
+        {/* Invoice Details */}
         <div className="basis-0 md:basis-2/5">
           <Card className="p-2">
             <CardContent>
@@ -181,7 +176,8 @@ const DonationDetail: React.FC<DonationDetailProps> = ({}) => {
           </Card>
         </div>
       </div>
-      <div className="">
+      {/* Summary */}
+      <div>
         <p className="text-lg font-bold">
           Những thứ đã chi tiền ({invoiceList?.length}) - Tổng{' '}
           {formatMoney(donationInvoice?.donated!)} - Đã Chi {formatMoney(donationInvoice?.spent!)} -
@@ -191,8 +187,6 @@ const DonationDetail: React.FC<DonationDetailProps> = ({}) => {
           <DataTable columns={invoiceColumns()} data={invoiceList} />
         </div>
       </div>
-
-      <div className="mt-10" />
     </div>
   );
 };

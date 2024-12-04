@@ -26,6 +26,7 @@ export const MakeDonationSchema = z.object({
   donationAmount: z.number().min(5000),
   storeSlug: z.string().min(1),
   comment: z.string().optional(),
+  slackWebhookId: z.string().optional(),
 });
 
 export type MakeDonationPayload = z.infer<typeof MakeDonationSchema>;
